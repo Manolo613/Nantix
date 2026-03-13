@@ -1,448 +1,315 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
  
-const PLATFORMS = [
-  {
-    name: 'Nexo',
-    ltv: 50,
-    apr: 13.9,
-    liquidation: 83,
-    color: '#1B5E8C',
-    badge: 'CeFi',
-    link: 'https://nexo.com',
-  },
-  {
-    name: 'Ledn',
-    ltv: 50,
-    apr: 11.9,
-    liquidation: 80,
-    color: '#0D4A45',
-    badge: 'CeFi',
-    link: 'https://ledn.io',
-    best: true,
-  },
-  {
-    name: 'Aave',
-    ltv: 70,
-    apr: 4.2,
-    liquidation: 82.5,
-    color: '#B6509E',
-    badge: 'DeFi',
-    link: 'https://aave.com',
-  },
-  {
-    name: 'Compound',
-    ltv: 65,
-    apr: 5.1,
-    liquidation: 80,
-    color: '#00D395',
-    badge: 'DeFi',
-    link: 'https://compound.finance',
-  },
+const CRYPTOS = [
+  { id: 'bitcoin',  symbol: 'BTC', name: 'Bitcoin',  coingeckoId: 'bitcoin',  color: '#F7931A', logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png' },
+  { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', coingeckoId: 'ethereum', color: '#627EEA', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png' },
 ]
  
+const PLATFORMS = {
+  bitcoin: [
+    { name: 'Nexo',     ltv: 50, apr: 13.9, liquidationThreshold: 83,   type: 'CeFi', color: '#0ea5e9', link: 'https://nexo.com',           best: false },
+    { name: 'Ledn',     ltv: 50, apr: 11.9, liquidationThreshold: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',             best: true  },
+    { name: 'Aave',     ltv: 70, apr: 4.2,  liquidationThreshold: 82.5, type: 'DeFi', color: '#B6509E', link: 'https://aave.com',            best: false },
+    { name: 'Compound', ltv: 65, apr: 5.1,  liquidationThreshold: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance',    best: false },
+  ],
+  ethereum: [
+    { name: 'Nexo',     ltv: 50, apr: 13.9, liquidationThreshold: 83,   type: 'CeFi', color: '#0ea5e9', link: 'https://nexo.com',            best: false },
+    { name: 'Aave',     ltv: 80, apr: 3.8,  liquidationThreshold: 82.5, type: 'DeFi', color: '#B6509E', link: 'https://aave.com',            best: true  },
+    { name: 'Compound', ltv: 75, apr: 4.5,  liquidationThreshold: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance',    best: false },
+    { name: 'Spark',    ltv: 74, apr: 4.1,  liquidationThreshold: 79,   type: 'DeFi', color: '#FF6B35', link: 'https://spark.fi',            best: false },
+  ],
+}
+ 
 export default function Home() {
-  const [btcPrice, setBtcPrice] = useState(85000)
-  const [btcAmount, setBtcAmount] = useState(1)
+  const [selectedCrypto, setSelectedCrypto] = useState('bitcoin')
+  const [prices, setPrices]   = useState({})
+  const [amount, setAmount]   = useState(1)
   const [mounted, setMounted] = useState(false)
+  const [sortBy, setSortBy]   = useState('apr')
+  const [filter, setFilter]   = useState('all')
  
   useEffect(() => {
     setMounted(true)
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur')
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=eur')
       .then(r => r.json())
-      .then(d => d?.bitcoin?.eur && setBtcPrice(d.bitcoin.eur))
+      .then(d => setPrices(d))
       .catch(() => {})
   }, [])
  
-  const collateral = btcAmount * btcPrice
+  const crypto     = CRYPTOS.find(c => c.id === selectedCrypto)
+  const price      = prices[crypto.coingeckoId]?.eur || 0
+  const collateral = amount * price
+ 
+  const filtered = (PLATFORMS[selectedCrypto] || [])
+    .filter(p => filter === 'all' || p.type === filter)
+    .sort((a, b) => sortBy === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
+ 
+  const fmt = n => Math.round(n).toLocaleString('fr-FR')
  
   return (
     <>
       <Head>
-        <title>Nantix — Comparez les prêts Bitcoin en France</title>
-        <meta name="description" content="Empruntez en euros en nantissant votre Bitcoin. Comparez les taux, LTV et prix de liquidation de Nexo, Ledn, Aave et Compound." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Nantix — Comparez les prêts Bitcoin & Ethereum</title>
+        <meta name="description" content="Le seul comparateur francophone de prêts crypto collatéralisés. Comparez Nexo, Ledn, Aave, Compound en temps réel." />
       </Head>
  
       <Navbar />
  
-      <main>
-        {/* HERO */}
-        <section style={{
-          background: 'var(--cream)',
-          padding: '140px 40px 80px',
-          minHeight: '80vh',
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-            <div style={{ maxWidth: '720px' }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'var(--cream-dark)',
-                border: '1px solid var(--cream-border)',
-                borderRadius: '100px',
-                padding: '6px 14px',
-                marginBottom: '32px',
-              }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#2ECC71' }} />
-                <span style={{ fontSize: '13px', color: 'var(--ink-light)', fontWeight: '500' }}>
-                  Données mises à jour en temps réel
-                </span>
-              </div>
+      <main style={{ paddingTop: '56px', background: 'var(--cream)' }}>
  
+        {/* Tagline */}
+        <section style={{
+          background: 'var(--white)',
+          borderBottom: '1px solid var(--cream-border)',
+          padding: '28px 60px',
+        }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
               <h1 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(42px, 6vw, 72px)',
+                fontSize: '26px',
                 fontWeight: '500',
-                lineHeight: '1.1',
                 color: 'var(--ink)',
-                letterSpacing: '-1.5px',
-                marginBottom: '24px',
+                letterSpacing: '-0.5px',
+                marginBottom: '4px',
               }}>
-                Empruntez en euros,<br />
-                <em style={{ fontStyle: 'italic', color: 'var(--teal)' }}>gardez votre Bitcoin.</em>
+                Empruntez en euros. Gardez votre crypto.
               </h1>
- 
-              <p style={{
-                fontSize: '18px',
-                color: 'var(--ink-muted)',
-                lineHeight: '1.7',
-                maxWidth: '520px',
-                marginBottom: '40px',
-              }}>
-                Comparez les meilleurs taux de prêt collatéralisé BTC en France. Nexo, Ledn, Aave, Compound — tout en un coup d'œil.
+              <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>
+                Comparez les meilleures offres de prêt sur Bitcoin et Ethereum — sans vendre, sans impôt sur les plus-values.
               </p>
- 
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
-                <Link href="/comparateur" style={{
-                  background: 'var(--teal)',
-                  color: 'white',
-                  padding: '16px 32px',
-                  borderRadius: '10px',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  display: 'inline-block',
-                  transition: 'background 0.2s, transform 0.2s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'var(--teal-hover)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'var(--teal)'; e.currentTarget.style.transform = 'translateY(0)' }}
-                >Comparer les plateformes →</Link>
- 
-                <Link href="/faq" style={{
-                  background: 'transparent',
-                  color: 'var(--ink)',
-                  padding: '16px 32px',
-                  borderRadius: '10px',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  border: '1px solid var(--cream-border)',
-                  display: 'inline-block',
-                }}>Comment ça marche ?</Link>
-              </div>
- 
-              {/* Trust stats */}
-              <div style={{
-                display: 'flex',
-                gap: '40px',
-                marginTop: '60px',
-                flexWrap: 'wrap',
-              }}>
-                {[
-                  { value: '4', label: 'plateformes comparées' },
-                  { value: '100%', label: 'indépendant' },
-                  { value: 'FR', label: 'marché francophone' },
-                ].map(stat => (
-                  <div key={stat.label}>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '28px',
-                      fontWeight: '500',
-                      color: 'var(--ink)',
-                    }}>{stat.value}</div>
-                    <div style={{ fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{stat.label}</div>
-                  </div>
-                ))}
-              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#22C55E' }} />
+              <span style={{ fontSize: '12px', color: 'var(--ink-muted)', fontWeight: '500' }}>Prix en temps réel</span>
             </div>
           </div>
         </section>
  
-        {/* CALCULATOR STRIP */}
-        <section style={{
-          background: 'var(--teal)',
-          padding: '60px 40px',
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <p style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '13px',
-              color: 'rgba(255,255,255,0.6)',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              marginBottom: '24px',
-            }}>Calculateur rapide</p>
- 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr auto',
-              gap: '40px',
-              alignItems: 'center',
-            }}>
-              <div>
-                <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', display: 'block', marginBottom: '8px' }}>
-                  Vous nantissez
-                </label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <input
-                    type="number"
-                    value={btcAmount}
-                    onChange={e => setBtcAmount(Math.max(0.001, parseFloat(e.target.value) || 0))}
-                    step="0.1"
-                    style={{
-                      background: 'rgba(255,255,255,0.1)',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      borderRadius: '8px',
-                      padding: '14px 18px',
-                      color: 'white',
-                      fontSize: '24px',
-                      fontFamily: 'var(--font-display)',
-                      width: '180px',
-                      outline: 'none',
-                    }}
-                  />
-                  <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', fontWeight: '600' }}>BTC</span>
-                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '16px' }}>
-                    ≈ {mounted ? collateral.toLocaleString('fr-FR') : '—'} €
-                  </span>
-                </div>
-              </div>
- 
-              <div style={{ textAlign: 'right' }}>
-                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px', marginBottom: '6px' }}>Meilleur taux disponible</p>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '48px', color: 'white', fontWeight: '400', lineHeight: 1 }}>4.2%</p>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', marginTop: '4px' }}>APR via Aave</p>
-              </div>
-            </div>
-          </div>
-        </section>
- 
-        {/* COMPARISON TABLE */}
+        {/* Barre de contrôles */}
         <section style={{
           background: 'var(--cream-dark)',
-          padding: '80px 40px',
+          borderBottom: '1px solid var(--cream-border)',
+          padding: '20px 60px',
         }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
-              <div>
-                <h2 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '36px',
-                  fontWeight: '500',
-                  color: 'var(--ink)',
-                  letterSpacing: '-0.5px',
-                }}>Comparatif des plateformes</h2>
-                <p style={{ color: 'var(--ink-muted)', marginTop: '8px', fontSize: '15px' }}>
-                  Pour {btcAmount} BTC nantis ({mounted ? collateral.toLocaleString('fr-FR') : '—'} €)
-                </p>
-              </div>
-              <Link href="/comparateur" style={{
-                color: 'var(--teal)',
-                fontSize: '14px',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}>Voir le comparateur complet →</Link>
-            </div>
+          <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
  
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
-              {PLATFORMS.map(platform => {
-                const maxBorrow = (collateral * platform.ltv) / 100
-                const liquidationPrice = (collateral * (platform.liquidation / 100)) / btcAmount
- 
-                return (
-                  <div key={platform.name} style={{
-                    background: 'var(--white)',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    border: platform.best ? '2px solid var(--teal)' : '1px solid var(--cream-border)',
-                    position: 'relative',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+            {/* Sélecteur crypto */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {CRYPTOS.map(c => (
+                <button
+                  key={c.id}
+                  onClick={() => { setSelectedCrypto(c.id); setAmount(c.id === 'bitcoin' ? 1 : 1); setFilter('all') }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '8px 18px',
+                    borderRadius: '100px',
+                    border: selectedCrypto === c.id ? `2px solid ${c.color}` : '1px solid var(--cream-border)',
+                    background: selectedCrypto === c.id ? `${c.color}15` : 'var(--white)',
+                    cursor: 'pointer',
+                    fontSize: '14px', fontWeight: '600',
+                    color: selectedCrypto === c.id ? c.color : 'var(--ink-muted)',
+                    transition: 'all 0.15s',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.1)' }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
-                  >
-                    {platform.best && (
-                      <div style={{
-                        background: 'var(--teal)',
-                        color: 'white',
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        textAlign: 'center',
-                        padding: '5px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase',
-                      }}>⭐ Meilleur taux</div>
-                    )}
- 
-                    <div style={{ padding: '24px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <div style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '8px',
-                            background: platform.color,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'white',
-                            fontWeight: '700',
-                            fontSize: '14px',
-                          }}>{platform.name[0]}</div>
-                          <span style={{ fontWeight: '600', fontSize: '16px' }}>{platform.name}</span>
-                        </div>
-                        <span style={{
-                          fontSize: '11px',
-                          fontWeight: '600',
-                          padding: '3px 8px',
-                          borderRadius: '4px',
-                          background: platform.badge === 'DeFi' ? '#F0FAF4' : '#EEF4FF',
-                          color: platform.badge === 'DeFi' ? '#1A7F4B' : '#2D5BE3',
-                        }}>{platform.badge}</span>
-                      </div>
- 
-                      <div style={{ marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                          <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Taux annuel (APR)</span>
-                          <span style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: '500', color: 'var(--ink)' }}>{platform.apr}%</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                          <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>LTV maximum</span>
-                          <span style={{ fontSize: '16px', fontWeight: '600' }}>{platform.ltv}%</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                          <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Emprunt max</span>
-                          <span style={{ fontSize: '16px', fontWeight: '600', color: 'var(--teal)' }}>
-                            {mounted ? maxBorrow.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) : '—'} €
-                          </span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Prix liquidation BTC</span>
-                          <span style={{ fontSize: '14px', fontWeight: '600', color: '#E53E3E' }}>
-                            {mounted ? liquidationPrice.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) : '—'} €
-                          </span>
-                        </div>
-                      </div>
- 
-                      <a href={platform.link} target="_blank" rel="noopener noreferrer" style={{
-                        display: 'block',
-                        textAlign: 'center',
-                        padding: '12px',
-                        background: platform.best ? 'var(--teal)' : 'var(--cream)',
-                        color: platform.best ? 'white' : 'var(--ink)',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        border: platform.best ? 'none' : '1px solid var(--cream-border)',
-                        transition: 'opacity 0.2s',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-                      onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                      >Emprunter chez {platform.name} →</a>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
- 
-        {/* HOW IT WORKS */}
-        <section style={{ background: 'var(--cream)', padding: '80px 40px' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '36px',
-              fontWeight: '500',
-              color: 'var(--ink)',
-              letterSpacing: '-0.5px',
-              marginBottom: '12px',
-            }}>Comment ça marche ?</h2>
-            <p style={{ color: 'var(--ink-muted)', fontSize: '16px', marginBottom: '48px' }}>
-              Emprunter sur votre Bitcoin en 3 étapes simples.
-            </p>
- 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
-              {[
-                { step: '01', title: 'Déposez votre BTC', desc: 'Vous nantissez votre Bitcoin comme garantie. Vous le gardez — il continue de prendre de la valeur.' },
-                { step: '02', title: 'Choisissez votre plateforme', desc: 'Comparez les taux, LTV et conditions. Nantix vous montre tout pour prendre la meilleure décision.' },
-                { step: '03', title: 'Recevez vos euros', desc: 'La plateforme vous verse des euros sur votre compte. Pas de vente de BTC, pas d\'impôt sur les plus-values.' },
-              ].map(item => (
-                <div key={item.step} style={{
-                  padding: '32px',
-                  background: 'var(--cream-dark)',
-                  borderRadius: '16px',
-                  border: '1px solid var(--cream-border)',
-                }}>
-                  <div style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '48px',
-                    fontWeight: '300',
-                    color: 'var(--cream-border)',
-                    marginBottom: '16px',
-                    lineHeight: 1,
-                  }}>{item.step}</div>
-                  <h3 style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '20px',
-                    fontWeight: '500',
-                    marginBottom: '12px',
-                    color: 'var(--ink)',
-                  }}>{item.title}</h3>
-                  <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: '1.6' }}>{item.desc}</p>
-                </div>
+                >
+                  <img src={c.logo} alt={c.symbol} style={{ width: '20px', height: '20px', borderRadius: '50%' }} />
+                  {c.name}
+                  <span style={{ fontSize: '12px', opacity: 0.6 }}>{c.symbol}</span>
+                </button>
               ))}
             </div>
+ 
+            {/* Input montant */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{
+                display: 'flex', alignItems: 'center',
+                background: 'var(--white)',
+                border: '1px solid var(--cream-border)',
+                borderRadius: '8px', overflow: 'hidden',
+              }}>
+                <div style={{
+                  width: '32px', height: '32px', margin: '4px',
+                  borderRadius: '6px', background: crypto.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <img src={crypto.logo} alt={crypto.symbol} style={{ width: '20px', height: '20px', borderRadius: '50%' }} />
+                </div>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))}
+                  step="0.1"
+                  style={{
+                    border: 'none', padding: '8px 12px',
+                    fontSize: '18px', fontFamily: 'var(--font-display)',
+                    width: '110px', outline: 'none',
+                    color: 'var(--ink)', background: 'transparent',
+                  }}
+                />
+                <span style={{ padding: '0 12px', fontWeight: '600', color: 'var(--ink-muted)', fontSize: '14px' }}>{crypto.symbol}</span>
+              </div>
+              <span style={{ fontSize: '14px', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+                = {mounted && price > 0 ? fmt(collateral) : '—'} €
+              </span>
+            </div>
+ 
+            {/* Filtres et tri */}
+            <div style={{ display: 'flex', gap: '10px', marginLeft: 'auto' }}>
+              <div style={{
+                display: 'flex', background: 'var(--white)',
+                borderRadius: '8px', border: '1px solid var(--cream-border)', overflow: 'hidden',
+              }}>
+                {['all', 'CeFi', 'DeFi'].map(f => (
+                  <button key={f} onClick={() => setFilter(f)} style={{
+                    padding: '8px 16px', fontSize: '13px', fontWeight: '600',
+                    background: filter === f ? 'var(--teal)' : 'transparent',
+                    color: filter === f ? 'white' : 'var(--ink-muted)',
+                    border: 'none', cursor: 'pointer', transition: 'all 0.15s',
+                  }}>{f === 'all' ? 'Tout' : f}</button>
+                ))}
+              </div>
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                style={{
+                  border: '1px solid var(--cream-border)', borderRadius: '8px',
+                  padding: '8px 14px', fontSize: '13px',
+                  background: 'var(--white)', color: 'var(--ink)',
+                  cursor: 'pointer', outline: 'none',
+                }}
+              >
+                <option value="apr">Meilleur taux</option>
+                <option value="ltv">LTV maximum</option>
+              </select>
+            </div>
+ 
           </div>
         </section>
  
-        {/* CTA FINAL */}
-        <section style={{
-          background: 'var(--cream-dark)',
-          padding: '80px 40px',
-          borderTop: '1px solid var(--cream-border)',
-        }}>
-          <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '40px',
-              fontWeight: '500',
-              color: 'var(--ink)',
-              letterSpacing: '-0.5px',
-              marginBottom: '16px',
-            }}>Prêt à emprunter sur votre Bitcoin ?</h2>
-            <p style={{ color: 'var(--ink-muted)', fontSize: '16px', marginBottom: '32px' }}>
-              Comparez gratuitement, sans inscription.
+        {/* Tableau comparateur */}
+        <section style={{ padding: '24px 60px 40px' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+ 
+            {/* En-tête colonnes */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '220px 1fr 1fr 1fr 1fr 160px',
+              gap: '24px',
+              padding: '10px 28px',
+              fontSize: '11px', fontWeight: '600',
+              color: 'var(--ink-muted)',
+              textTransform: 'uppercase', letterSpacing: '0.8px',
+              marginBottom: '6px',
+            }}>
+              <span>Plateforme</span>
+              <span>APR annuel</span>
+              <span>LTV max</span>
+              <span>Emprunt max</span>
+              <span>Prix liquidation</span>
+              <span></span>
+            </div>
+ 
+            {/* Lignes */}
+            {filtered.map(platform => {
+              const maxBorrow       = (collateral * platform.ltv) / 100
+              const liquidationPrice = price > 0
+                ? (collateral * (platform.liquidationThreshold / 100)) / amount
+                : 0
+ 
+              return (
+                <div
+                  key={platform.name}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '220px 1fr 1fr 1fr 1fr 160px',
+                    gap: '24px',
+                    padding: '22px 28px',
+                    background: 'var(--white)',
+                    borderRadius: '12px',
+                    marginBottom: '10px',
+                    border: platform.best ? '2px solid var(--teal)' : '1px solid var(--cream-border)',
+                    alignItems: 'center',
+                    transition: 'box-shadow 0.2s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'}
+                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                >
+                  {/* Nom plateforme */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '10px',
+                      background: platform.color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'white', fontWeight: '700', fontSize: '16px', flexShrink: 0,
+                    }}>{platform.name[0]}</div>
+                    <div>
+                      <div style={{ fontWeight: '600', fontSize: '15px', color: 'var(--ink)' }}>{platform.name}</div>
+                      <div style={{ fontSize: '11px', fontWeight: '600', color: platform.type === 'DeFi' ? '#1A7F4B' : '#2D5BE3' }}>{platform.type}</div>
+                    </div>
+ 
+                  </div>
+ 
+                  {/* APR */}
+                  <div>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: '500', color: 'var(--ink)' }}>{platform.apr}%</span>
+                    <span style={{ fontSize: '12px', color: 'var(--ink-muted)', marginLeft: '4px' }}>/ an</span>
+                  </div>
+ 
+                  {/* LTV */}
+                  <div>
+                    <span style={{ fontSize: '18px', fontWeight: '600', color: 'var(--ink)' }}>{platform.ltv}%</span>
+                    <div style={{ height: '4px', background: 'var(--cream-dark)', borderRadius: '2px', marginTop: '6px', width: '80px' }}>
+                      <div style={{ height: '100%', width: `${platform.ltv}%`, background: platform.color, borderRadius: '2px' }} />
+                    </div>
+                  </div>
+ 
+                  {/* Emprunt max */}
+                  <div style={{ fontWeight: '700', fontSize: '18px', color: 'var(--teal)' }}>
+                    {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
+                  </div>
+ 
+                  {/* Prix liquidation */}
+                  <div>
+                    <span style={{ fontSize: '16px', fontWeight: '600', color: '#E53E3E' }}>
+                      {mounted && price > 0 ? fmt(liquidationPrice) + ' €' : '—'}
+                    </span>
+                    <div style={{ fontSize: '11px', color: 'var(--ink-muted)', marginTop: '2px' }}>par {crypto.symbol}</div>
+                  </div>
+ 
+                  {/* CTA */}
+                  <a
+                    href={platform.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'block', textAlign: 'center',
+                      padding: '10px 16px',
+                      background: platform.best ? 'var(--teal)' : 'transparent',
+                      color: platform.best ? 'white' : 'var(--teal)',
+                      borderRadius: '8px', fontSize: '13px', fontWeight: '600',
+                      border: `1px solid ${platform.best ? 'transparent' : 'var(--teal)'}`,
+                      textDecoration: 'none', transition: 'opacity 0.2s',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
+                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                  >
+                    Emprunter →
+                  </a>
+                </div>
+              )
+            })}
+ 
+            {/* Disclaimer */}
+            <p style={{ fontSize: '12px', color: 'var(--ink-muted)', marginTop: '16px', lineHeight: '1.6' }}>
+              ⚠️ Taux indicatifs, mis à jour régulièrement. Liens affiliés présents. Ce comparateur ne constitue pas un conseil financier.
             </p>
-            <Link href="/comparateur" style={{
-              background: 'var(--teal)',
-              color: 'white',
-              padding: '18px 40px',
-              borderRadius: '10px',
-              fontSize: '16px',
-              fontWeight: '600',
-              display: 'inline-block',
-            }}>Voir le comparateur complet →</Link>
           </div>
         </section>
+ 
       </main>
  
       <Footer />
