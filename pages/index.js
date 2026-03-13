@@ -48,17 +48,6 @@ export default function Home() {
     .filter(p => filter === 'all' || p.type === filter)
     .sort((a, b) => sortBy === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
  
-  const s = {
-    page:        { background: '#F7F7F5', minHeight: '100vh' },
-    taglineBar:  { background: '#fff', borderBottom: '1px solid #EBEBEB', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' },
-    h1:          { fontSize: '20px', fontWeight: '600', letterSpacing: '-0.5px', color: '#111', marginBottom: '3px' },
-    sub:         { fontSize: '13px', color: '#888' },
-    liveBadge:   { display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#888', whiteSpace: 'nowrap' },
-    liveDot:     { width: '7px', height: '7px', borderRadius: '50%', background: '#22C55E', flexShrink: 0 },
-    controlsBar: { background: '#FAFAFA', borderBottom: '1px solid #EBEBEB', padding: '12px 40px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' },
-    content:     { padding: '24px 40px 40px', background: '#F7F7F5' },
-  }
- 
   return (
     <>
       <Head>
@@ -68,23 +57,50 @@ export default function Home() {
  
       <Navbar />
  
-      <main style={{ ...s.page, paddingTop: '56px' }}>
+      <main style={{ background: '#F7F7F5', minHeight: '100vh', paddingTop: '56px' }}>
  
         {/* Tagline */}
-        <section style={s.taglineBar}>
+        <section style={{
+          background: '#fff',
+          borderBottom: '1px solid #EBEBEB',
+          padding: '22px 40px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap',
+        }}>
           <div>
-            <h1 style={s.h1}>Empruntez en euros. Gardez votre crypto.</h1>
-            <p style={s.sub}>Comparez les meilleures offres de prêt sur Bitcoin et Ethereum — sans vendre, sans impôt sur les plus-values.</p>
+            <h1 style={{ fontSize: '21px', fontWeight: '700', letterSpacing: '-0.6px', color: '#111', marginBottom: '4px' }}>
+              Empruntez en euros. Gardez votre crypto.
+            </h1>
+            <p style={{ fontSize: '13px', color: '#999', lineHeight: '1.5' }}>
+              Comparez les meilleures offres de prêt sur Bitcoin et Ethereum — sans vendre, sans impôt.
+            </p>
           </div>
-          <div style={s.liveBadge}>
-            <div style={s.liveDot} />
-            Prix en temps réel
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+            {['5 plateformes', 'Gratuit · Sans inscription'].map(txt => (
+              <span key={txt} style={{
+                fontSize: '11px', color: '#999',
+                padding: '5px 10px', border: '1px solid #EBEBEB',
+                borderRadius: '20px', background: '#fff', whiteSpace: 'nowrap',
+              }}>{txt}</span>
+            ))}
+            <span style={{
+              display: 'flex', alignItems: 'center', gap: '5px',
+              fontSize: '11px', color: '#999',
+              padding: '5px 10px', border: '1px solid #EBEBEB',
+              borderRadius: '20px', background: '#fff', whiteSpace: 'nowrap',
+            }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', flexShrink: 0 }} />
+              Prix en temps réel
+            </span>
           </div>
         </section>
  
         {/* Contrôles */}
-        <section style={s.controlsBar}>
- 
+        <section style={{
+          background: '#F7F7F5',
+          borderBottom: '1px solid #EBEBEB',
+          padding: '14px 40px',
+          display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap',
+        }}>
           {/* Toggle crypto */}
           <div style={{ display: 'flex', gap: '8px' }}>
             {CRYPTOS.map(c => (
@@ -92,23 +108,23 @@ export default function Home() {
                 key={c.id}
                 onClick={() => { setSelectedCrypto(c.id); setAmount(1); setFilter('all') }}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '7px 14px', borderRadius: '100px',
+                  display: 'flex', alignItems: 'center', gap: '7px',
+                  padding: '8px 16px', borderRadius: '100px',
                   border: selectedCrypto === c.id ? `1.5px solid ${c.color}` : '1px solid #E0E0E0',
                   background: selectedCrypto === c.id ? `${c.color}12` : '#fff',
                   cursor: 'pointer', fontSize: '13px', fontWeight: '600',
-                  color: selectedCrypto === c.id ? c.color : '#888',
+                  color: selectedCrypto === c.id ? c.color : '#999',
                   transition: 'all 0.15s',
                 }}
               >
                 <div style={{
-                  width: '16px', height: '16px', borderRadius: '50%',
+                  width: '18px', height: '18px', borderRadius: '50%',
                   background: c.color, display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: '7px', fontWeight: '800',
+                  justifyContent: 'center', fontSize: '8px', fontWeight: '800',
                   color: '#fff', flexShrink: 0,
                 }}>{c.symbol[0]}</div>
                 {c.name}
-                <span style={{ fontSize: '11px', opacity: 0.5 }}>{c.symbol}</span>
+                <span style={{ fontSize: '11px', opacity: 0.4 }}>{c.symbol}</span>
               </button>
             ))}
           </div>
@@ -117,29 +133,26 @@ export default function Home() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{
               display: 'flex', alignItems: 'center',
-              background: '#fff', border: '1px solid #E0E0E0',
-              borderRadius: '8px', overflow: 'hidden',
+              background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden',
             }}>
               <div style={{
-                width: '26px', height: '26px', margin: '4px', borderRadius: '5px',
+                width: '28px', height: '28px', margin: '4px', borderRadius: '6px',
                 background: crypto.color, display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '7px', fontWeight: '800',
-                color: '#fff', flexShrink: 0,
+                justifyContent: 'center', fontSize: '8px', fontWeight: '800', color: '#fff', flexShrink: 0,
               }}>{crypto.symbol[0]}</div>
               <input
-                type="number"
-                value={amount}
+                type="number" value={amount}
                 onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))}
                 step="0.1"
                 style={{
                   border: 'none', padding: '7px 8px', fontSize: '17px',
-                  width: '90px', outline: 'none', color: '#111',
-                  background: 'transparent', fontWeight: '500',
+                  width: '85px', outline: 'none', color: '#111',
+                  background: 'transparent', fontWeight: '600',
                 }}
               />
-              <span style={{ padding: '0 10px', fontWeight: '600', color: '#AAA', fontSize: '13px' }}>{crypto.symbol}</span>
+              <span style={{ padding: '0 10px', fontWeight: '600', color: '#CCC', fontSize: '13px' }}>{crypto.symbol}</span>
             </div>
-            <span style={{ fontSize: '13px', color: '#888', whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: '13px', color: '#999', whiteSpace: 'nowrap' }}>
               = {mounted && price > 0 ? fmt(collateral) : '—'} €
             </span>
           </div>
@@ -149,49 +162,41 @@ export default function Home() {
             <div style={{ display: 'flex', background: '#fff', borderRadius: '8px', border: '1px solid #E0E0E0', overflow: 'hidden' }}>
               {['all', 'CeFi', 'DeFi'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
-                  padding: '7px 14px', fontSize: '12px', fontWeight: '600',
+                  padding: '8px 16px', fontSize: '12px', fontWeight: '600',
                   background: filter === f ? '#111' : 'transparent',
-                  color: filter === f ? '#fff' : '#888',
+                  color: filter === f ? '#fff' : '#999',
                   border: 'none', cursor: 'pointer', transition: 'all 0.15s',
                 }}>{f === 'all' ? 'Tout' : f}</button>
               ))}
             </div>
-            <select
-              value={sortBy}
-              onChange={e => setSortBy(e.target.value)}
-              style={{
-                border: '1px solid #E0E0E0', borderRadius: '8px',
-                padding: '7px 12px', fontSize: '12px',
-                background: '#fff', color: '#111',
-                cursor: 'pointer', outline: 'none',
-              }}
-            >
+            <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{
+              border: '1px solid #E0E0E0', borderRadius: '8px', padding: '8px 12px',
+              fontSize: '12px', background: '#fff', color: '#111', cursor: 'pointer', outline: 'none',
+            }}>
               <option value="apr">Meilleur taux</option>
               <option value="ltv">LTV maximum</option>
             </select>
           </div>
- 
         </section>
  
         {/* Contenu */}
-        <section style={s.content}>
+        <section style={{ padding: '24px 40px 40px', background: '#F7F7F5' }}>
  
           {/* 3 étapes */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '24px' }}>
             {[
-              { n: '01', title: 'Choisissez votre crypto',  desc: 'Entrez le montant de Bitcoin ou Ethereum que vous souhaitez nantir comme garantie.' },
-              { n: '02', title: 'Comparez les offres',       desc: 'Taux, LTV et prix de liquidation affichés côte à côte. CeFi ou DeFi — vous choisissez.' },
-              { n: '03', title: 'Recevez vos euros',         desc: "La plateforme vous verse des euros directement. Pas de vente, pas d'impôt sur les plus-values." },
+              { n: '01', title: 'Choisissez votre crypto', desc: 'Entrez le montant de BTC ou ETH à nantir comme garantie.' },
+              { n: '02', title: 'Comparez les offres',      desc: 'Taux, LTV, prix de liquidation — tout côte à côte. CeFi ou DeFi.' },
+              { n: '03', title: 'Recevez vos euros',        desc: "Euros versés directement sur votre compte. Pas de vente, pas d'impôt." },
             ].map(step => (
               <div key={step.n} style={{
-                background: '#fff', border: '1px solid #EBEBEB',
-                borderRadius: '10px', padding: '16px 18px',
-                display: 'flex', gap: '14px', alignItems: 'flex-start',
+                background: '#fff', border: '1px solid #EBEBEB', borderRadius: '10px',
+                padding: '18px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start',
               }}>
-                <span style={{ fontSize: '22px', fontWeight: '700', color: '#E8E8E8', lineHeight: '1', flexShrink: 0, letterSpacing: '-1px' }}>{step.n}</span>
+                <span style={{ fontSize: '24px', fontWeight: '700', color: '#EBEBEB', lineHeight: '1', flexShrink: 0, letterSpacing: '-1px' }}>{step.n}</span>
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#111', marginBottom: '4px' }}>{step.title}</div>
-                  <div style={{ fontSize: '12px', color: '#888', lineHeight: '1.6' }}>{step.desc}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', marginBottom: '5px' }}>{step.title}</div>
+                  <div style={{ fontSize: '12px', color: '#999', lineHeight: '1.6' }}>{step.desc}</div>
                 </div>
               </div>
             ))}
@@ -199,17 +204,16 @@ export default function Home() {
  
           {/* En-tête tableau */}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: '180px 1fr 1fr 1fr 1fr 130px',
+            display: 'grid', gridTemplateColumns: '175px 1fr 1fr 1fr 1fr 120px',
             gap: '16px', padding: '8px 20px',
-            fontSize: '10px', fontWeight: '600', color: '#BBB',
-            textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '6px',
+            fontSize: '10px', fontWeight: '700', color: '#CCC',
+            textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px',
           }}>
             <span>Plateforme</span>
             <span>APR annuel</span>
             <span>LTV max</span>
             <span>Emprunt max</span>
-            <span>Prix liquidation</span>
+            <span>Liquidation {crypto.symbol}</span>
             <span></span>
           </div>
  
@@ -222,40 +226,38 @@ export default function Home() {
               <div
                 key={platform.name}
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: '180px 1fr 1fr 1fr 1fr 130px',
+                  display: 'grid', gridTemplateColumns: '175px 1fr 1fr 1fr 1fr 120px',
                   gap: '16px', padding: '18px 20px',
                   background: '#fff', borderRadius: '10px', marginBottom: '8px',
                   border: platform.best ? '1.5px solid #111' : '1px solid #EBEBEB',
                   alignItems: 'center', transition: 'box-shadow 0.2s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)'}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.07)'}
                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
               >
                 {/* Plateforme */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div style={{
-                    width: '36px', height: '36px', borderRadius: '8px',
-                    background: platform.color, display: 'flex',
-                    alignItems: 'center', justifyContent: 'center',
-                    color: '#fff', fontWeight: '700', fontSize: '15px', flexShrink: 0,
+                    width: '38px', height: '38px', borderRadius: '9px',
+                    background: platform.color, display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', color: '#fff', fontWeight: '700', fontSize: '15px', flexShrink: 0,
                   }}>{platform.name[0]}</div>
                   <div>
-                    <div style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{platform.name}</div>
-                    <div style={{ fontSize: '11px', fontWeight: '600', color: platform.type === 'DeFi' ? '#1A7F4B' : '#2D5BE3' }}>{platform.type}</div>
+                    <div style={{ fontWeight: '700', fontSize: '14px', color: '#111' }}>{platform.name}</div>
+                    <div style={{ fontSize: '10px', fontWeight: '700', color: platform.type === 'DeFi' ? '#1A7F4B' : '#2D5BE3' }}>{platform.type}</div>
                   </div>
                 </div>
  
                 {/* APR */}
                 <div>
-                  <span style={{ fontSize: '22px', fontWeight: '600', color: '#111' }}>{platform.apr}%</span>
-                  <span style={{ fontSize: '11px', color: '#BBB', marginLeft: '3px' }}>/ an</span>
+                  <span style={{ fontSize: '22px', fontWeight: '700', color: '#111', letterSpacing: '-0.5px' }}>{platform.apr}%</span>
+                  <span style={{ fontSize: '11px', color: '#CCC', marginLeft: '3px' }}>/ an</span>
                 </div>
  
                 {/* LTV */}
                 <div>
-                  <span style={{ fontSize: '16px', fontWeight: '600', color: '#111' }}>{platform.ltv}%</span>
-                  <div style={{ height: '3px', background: '#F0F0F0', borderRadius: '2px', marginTop: '5px', width: '64px' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '700', color: '#111' }}>{platform.ltv}%</span>
+                  <div style={{ height: '3px', background: '#F0F0F0', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
                     <div style={{ height: '100%', width: `${platform.ltv}%`, background: platform.color, borderRadius: '2px' }} />
                   </div>
                 </div>
@@ -267,27 +269,26 @@ export default function Home() {
  
                 {/* Liquidation */}
                 <div>
-                  <div style={{ fontSize: '14px', fontWeight: '600', color: '#E53E3E' }}>
+                  <div style={{ fontSize: '14px', fontWeight: '700', color: '#D93025' }}>
                     {mounted && price > 0 ? fmt(liquidationPrice) + ' €' : '—'}
                   </div>
-                  <div style={{ fontSize: '11px', color: '#BBB', marginTop: '1px' }}>par {crypto.symbol}</div>
+                  <div style={{ fontSize: '10px', color: '#CCC', marginTop: '2px' }}>par {crypto.symbol}</div>
                 </div>
  
-                {/* CTA */}
+                {/* CTA — identique pour tous */}
                 <a
                   href={platform.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
                     display: 'block', textAlign: 'center',
-                    padding: '9px 14px', borderRadius: '7px',
-                    fontSize: '12px', fontWeight: '600',
-                    background: platform.best ? '#111' : 'transparent',
-                    color: platform.best ? '#fff' : '#111',
-                    border: '1px solid #111',
+                    padding: '9px 12px', borderRadius: '8px',
+                    fontSize: '12px', fontWeight: '700',
+                    background: 'transparent', color: '#111',
+                    border: '1.5px solid #111',
                     textDecoration: 'none', transition: 'opacity 0.15s',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
+                  onMouseEnter={e => e.currentTarget.style.opacity = '0.6'}
                   onMouseLeave={e => e.currentTarget.style.opacity = '1'}
                 >
                   Emprunter →
@@ -307,4 +308,3 @@ export default function Home() {
     </>
   )
 }
- 
