@@ -222,6 +222,8 @@ export default function Home() {
             </div>
             <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
 
+            <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap', marginLeft: 'auto' }}>Mis à jour le {today}</span>
+
             {sep}
 
             <div style={{ display: 'flex', background: '#EBEBEB', borderRadius: '7px', padding: '2px' }}>
@@ -235,8 +237,6 @@ export default function Home() {
                 }}>{f === 'all' ? 'Tout' : f}</button>
               ))}
             </div>
-
-            <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap', marginLeft: 'auto' }}>Mis à jour le {today}</span>
           </div>
         </div>
 
