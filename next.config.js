@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  images: {
+    domains: [
+      'assets.coingecko.com',
+      'bitcompare-public.sgp1.cdn.digitaloceanspaces.com',
+    ],
+  },
 }
- 
+
 module.exports = nextConfig
- 
