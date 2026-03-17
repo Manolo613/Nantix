@@ -69,6 +69,7 @@ const BLOG = [
 
 const W  = '1100px'
 const PX = '24px'
+const PX = '24px'
 
 export default function Home() {
   const [crypto, setCrypto]   = useState('bitcoin')
@@ -190,60 +191,57 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── TOOLBAR ── */}
-        <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', marginTop: '16px', background: '#FAFAFA' }}>
-          <div style={{ ...wrap, paddingTop: '10px', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        {/* ── NIVEAU 1 : onglets crypto ── */}
+        <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', marginTop: '16px', background: '#fff' }}>
+          <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
+            {CRYPTOS.map(x => (
+              <button key={x.id} onClick={() => { setCrypto(x.id); setAmount(1); setFilter('all') }} style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '14px 20px',
+                fontSize: '14px', fontWeight: '600',
+                color: crypto === x.id ? '#111' : '#888',
+                background: 'transparent', border: 'none',
+                borderBottom: `2.5px solid ${crypto === x.id ? '#111' : 'transparent'}`,
+                cursor: 'pointer', transition: 'all .15s', whiteSpace: 'nowrap',
+              }}>
+                <img src={x.logo} alt={x.symbol} width={20} height={20} style={{ borderRadius: '50%' }} />
+                {x.name}
+                <span style={{ fontSize: '11px', opacity: 0.45 }}>{x.symbol}</span>
+              </button>
+            ))}
+          </div>
+        </div>
 
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {CRYPTOS.map(x => (
-                <button key={x.id} onClick={() => { setCrypto(x.id); setAmount(1); setFilter('all') }} style={{
-                  display: 'flex', alignItems: 'center', gap: '7px',
-                  padding: '6px 14px', borderRadius: '20px',
-                  border: `1.5px solid ${crypto === x.id ? x.color : '#E0E0E0'}`,
-                  background: crypto === x.id ? `${x.color}12` : '#fff',
-                  cursor: 'pointer', fontSize: '13px', fontWeight: '600',
-                  color: crypto === x.id ? x.color : '#444',
-                  transition: 'all .15s',
-                }}>
-                  <img src={x.logo} alt={x.symbol} width={18} height={18} style={{ borderRadius: '50%' }} />
-                  {x.name}
-                  <span style={{ fontSize: '11px', opacity: 0.5 }}>{x.symbol}</span>
-                </button>
-              ))}
+        {/* ── NIVEAU 2 : filtres ── */}
+        <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
+          <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
+              <img src={c.logo} alt={c.symbol} width={22} height={22} style={{ margin: '4px', borderRadius: '50%', flexShrink: 0 }} />
+              <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
+                style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
+              <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#999' }}>{c.symbol}</span>
             </div>
+            <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
 
             {sep}
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
-                <img src={c.logo} alt={c.symbol} width={24} height={24} style={{ margin: '4px', borderRadius: '50%', flexShrink: 0 }} />
-                <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
-                  style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
-                <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#888' }}>{c.symbol}</span>
-              </div>
-              <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
-            </div>
-
-            {sep}
-
-            <div style={{ display: 'flex', background: '#EBEBEB', borderRadius: '8px', padding: '2px' }}>
+            <div style={{ display: 'flex', background: '#EBEBEB', borderRadius: '7px', padding: '2px' }}>
               {['all', 'CeFi', 'DeFi'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
                   padding: '5px 12px', fontSize: '12px', fontWeight: '600',
                   background: filter === f ? '#fff' : 'transparent',
                   color: filter === f ? '#111' : '#666',
-                  border: 'none', cursor: 'pointer', borderRadius: '6px',
-                  boxShadow: filter === f ? '0 1px 3px rgba(0,0,0,.08)' : 'none',
+                  border: 'none', cursor: 'pointer', borderRadius: '5px',
+                  boxShadow: filter === f ? '0 1px 2px rgba(0,0,0,.08)' : 'none',
                 }}>{f === 'all' ? 'Tout' : f}</button>
               ))}
             </div>
 
-            <select value={sort} onChange={e => setSort(e.target.value)} style={{ border: '1px solid #E0E0E0', borderRadius: '8px', padding: '6px 10px', fontSize: '12px', background: '#fff', color: '#111', cursor: 'pointer', outline: 'none', marginLeft: 'auto' }}>
+            <select value={sort} onChange={e => setSort(e.target.value)} style={{ border: '1px solid #E0E0E0', borderRadius: '7px', padding: '5px 8px', fontSize: '12px', background: '#fff', color: '#111', cursor: 'pointer', outline: 'none', marginLeft: 'auto' }}>
               <option value="apr">Meilleur taux</option>
               <option value="ltv">LTV maximum</option>
             </select>
-
-            <span style={{ fontSize: '11px', color: '#888', whiteSpace: 'nowrap' }}>Mis à jour le {today}</span>
+            <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>Mis à jour le {today}</span>
           </div>
         </div>
 
