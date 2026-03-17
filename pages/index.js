@@ -124,6 +124,7 @@ export default function Home() {
     <>
       <Head>
         <title>Nantix — Comparez les prêts Bitcoin, Ethereum & Solana</title>
+        <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both}`}</style>
         <meta name="description" content="Le seul comparateur francophone de prêts crypto collatéralisés. Comparez Nexo, Ledn, Aave, Compound en temps réel." />
       </Head>
       <Navbar />
@@ -135,7 +136,7 @@ export default function Home() {
           <div style={wrap}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px', marginBottom: '28px', flexWrap: 'wrap' }}>
               <div>
-                <h1 style={{ fontSize: '32px', fontWeight: '800', letterSpacing: '-1.1px', color: '#111', lineHeight: '1.15', marginBottom: '12px' }}>
+                <h1 style={{ fontSize: '56px', fontWeight: '800', letterSpacing: '-2px', color: '#111', lineHeight: '1.15', marginBottom: '12px' }}>
                   Empruntez en euros.<br />
                   <span style={{ color: '#666', fontWeight: '400' }}>Gardez votre crypto.</span>
                 </h1>
@@ -252,7 +253,9 @@ export default function Home() {
             const isOpen    = openRow === p.name
             return (
               <div key={p.name} style={{ borderBottom: i < rows.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
-                <div onClick={() => setOpenRow(isOpen ? null : p.name)} style={{
+                <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
+                style={{
+                  animationDelay: `${i * 0.06}s`,
                   display: 'grid', gridTemplateColumns: '220px 100px 100px 1fr 1fr 130px',
                   padding: '20px 12px', alignItems: 'center',
                   background: p.best ? '#FAFAFA' : '#fff', cursor: 'pointer',
