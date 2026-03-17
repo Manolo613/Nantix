@@ -86,14 +86,14 @@ export default function Home() {
               <div>
                 <h1 style={{ fontSize: '32px', fontWeight: '800', letterSpacing: '-1.1px', color: '#111', lineHeight: '1.15', marginBottom: '12px' }}>
                   Empruntez en euros.<br />
-                  <span style={{ color: '#AAA', fontWeight: '400' }}>Gardez votre crypto.</span>
+                  <span style={{ color: '#666', fontWeight: '400' }}>Gardez votre crypto.</span>
                 </h1>
-                <p style={{ fontSize: '15px', color: '#AAA', lineHeight: '1.6', maxWidth: '420px' }}>
+                <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.6', maxWidth: '420px' }}>
                   Le seul comparateur francophone de prêts crypto — sans vendre, sans impôt sur les plus-values.
                 </p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#AAA' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#666' }}>
                   <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
                   Prix en temps réel
                 </div>
@@ -101,7 +101,7 @@ export default function Home() {
                   {[{ v: '5', l: 'Plateformes' }, { v: '3,8%', l: 'Meilleur taux' }, { v: '80%', l: 'LTV max' }].map((s, i) => (
                     <div key={s.l} style={{ padding: '14px 22px', borderRight: i < 2 ? '1px solid #F0F0F0' : 'none', textAlign: 'center' }}>
                       <div style={{ fontSize: '22px', fontWeight: '800', color: '#111', letterSpacing: '-0.7px' }}>{s.v}</div>
-                      <div style={{ fontSize: '11px', color: '#AAA', marginTop: '2px' }}>{s.l}</div>
+                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{s.l}</div>
                     </div>
                   ))}
                 </div>
@@ -119,7 +119,7 @@ export default function Home() {
                   <span style={{ fontSize: '11px', fontWeight: '800', color: '#DDD', flexShrink: 0 }}>{s.n}</span>
                   <div>
                     <div style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{s.t}</div>
-                    <div style={{ fontSize: '11px', color: '#AAA', marginTop: '2px' }}>{s.d}</div>
+                    <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{s.d}</div>
                   </div>
                 </div>
               ))}
@@ -167,9 +167,9 @@ export default function Home() {
                 <div style={{ width: '24px', height: '24px', margin: '4px', borderRadius: '5px', background: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '7px', fontWeight: '800', color: '#fff', flexShrink: 0 }}>{c.symbol[0]}</div>
                 <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
                   style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
-                <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#CCC' }}>{c.symbol}</span>
+                <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#888' }}>{c.symbol}</span>
               </div>
-              <span style={{ fontSize: '13px', color: '#AAA', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
+              <span style={{ fontSize: '13px', color: '#666', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
             </div>
 
             {sep}
@@ -191,14 +191,14 @@ export default function Home() {
               <option value="ltv">LTV maximum</option>
             </select>
 
-            <span style={{ fontSize: '11px', color: '#CCC', whiteSpace: 'nowrap' }}>Mis à jour le {today}</span>
+            <span style={{ fontSize: '11px', color: '#888', whiteSpace: 'nowrap' }}>Mis à jour le {today}</span>
           </div>
         </div>
 
         {/* ── TABLEAU ── */}
         <div style={wrap}>
           {/* Header colonnes */}
-          <div style={{ display: 'grid', gridTemplateColumns: '220px 100px 100px 1fr 1fr 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#CCC', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #F0F0F0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '220px 100px 100px 1fr 1fr 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #F0F0F0' }}>
             <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation {c.symbol}</span><span></span>
           </div>
 
@@ -220,7 +220,7 @@ export default function Home() {
                     <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: p.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: '800', fontSize: '15px', flexShrink: 0 }}>{p.name[0]}</div>
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>
-                        {p.name} <span style={{ fontSize: '10px', color: '#CCC', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+                        {p.name} <span style={{ fontSize: '10px', color: '#888', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
                       </div>
                       <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#16A34A' : '#2563EB' }}>{p.type}</div>
                     </div>
@@ -239,7 +239,7 @@ export default function Home() {
 
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
-                    <div style={{ fontSize: '10px', color: '#CCC', marginTop: '2px' }}>par {c.symbol}</div>
+                    <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>par {c.symbol}</div>
                   </div>
 
                   <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
@@ -258,19 +258,19 @@ export default function Home() {
                     <div>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#BBB', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
                       <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
-                      <div style={{ fontSize: '11px', color: '#AAA', marginTop: '2px' }}>{p.country}</div>
+                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{p.country}</div>
                     </div>
                     <div>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#BBB', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Utilisateurs</div>
                       <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.users}</div>
-                      <div style={{ fontSize: '11px', color: '#AAA', marginTop: '2px' }}>estimé</div>
+                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>estimé</div>
                     </div>
                     <div>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#BBB', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>Régulation</div>
                       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: '700', color: p.regulated ? '#16A34A' : '#B45309', background: p.regulated ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.regulated ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 8px', borderRadius: '20px' }}>
                         {p.regulated ? '✓ Régulée' : '⚡ Décentralisé'}
                       </div>
-                      <div style={{ fontSize: '11px', color: '#AAA', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
+                      <div style={{ fontSize: '11px', color: '#666', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
                     </div>
                     <div>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#BBB', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
@@ -285,7 +285,7 @@ export default function Home() {
           {/* Transparence */}
           <div style={{ display: 'flex', gap: '10px', padding: '14px 0', borderTop: '1px solid #F0F0F0', marginTop: '4px' }}>
             <span>🔍</span>
-            <p style={{ fontSize: '11px', color: '#AAA', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.6' }}>
               <strong style={{ color: '#666' }}>Indépendance éditoriale.</strong> Nantix compare objectivement les plateformes. Nous percevons une commission d'affiliation si vous utilisez nos liens — cela ne modifie pas les données ni notre classement.
             </p>
           </div>
@@ -294,9 +294,9 @@ export default function Home() {
         {/* ── VENDRE VS EMPRUNTER ── */}
         <section style={{ borderTop: '1px solid #F0F0F0', padding: '52px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#CCC', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Pourquoi emprunter ?</div>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Pourquoi emprunter ?</div>
             <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '8px' }}>Gardez votre crypto. Accédez à vos liquidités.</h2>
-            <p style={{ fontSize: '14px', color: '#AAA', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Vendre votre Bitcoin déclenche un impôt sur les plus-values. Un prêt collatéralisé vous donne accès à des euros sans vente.</p>
+            <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Vendre votre Bitcoin déclenche un impôt sur les plus-values. Un prêt collatéralisé vous donne accès à des euros sans vente.</p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr', border: '1px solid #F0F0F0', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px' }}>
               {[
@@ -328,7 +328,7 @@ export default function Home() {
                 <div key={card.t} style={{ border: '1px solid #F0F0F0', borderRadius: '10px', padding: '18px 20px' }}>
                   <div style={{ fontSize: '20px', marginBottom: '10px' }}>{card.icon}</div>
                   <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', marginBottom: '6px' }}>{card.t}</div>
-                  <div style={{ fontSize: '12px', color: '#AAA', lineHeight: '1.6' }}>{card.d}</div>
+                  <div style={{ fontSize: '12px', color: '#666', lineHeight: '1.6' }}>{card.d}</div>
                 </div>
               ))}
             </div>
@@ -338,13 +338,13 @@ export default function Home() {
         {/* ── FAQ ── */}
         <section style={{ borderTop: '1px solid #F0F0F0', padding: '52px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#CCC', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
             <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '28px' }}>Tout ce que vous devez savoir</h2>
             {FAQ.map((item, i) => (
               <div key={i} style={{ borderBottom: '1px solid #F0F0F0' }}>
                 <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: '16px' }}>
                   <span style={{ fontSize: '14px', fontWeight: '600', color: '#333' }}>{item.q}</span>
-                  <span style={{ fontSize: '12px', color: '#CCC', flexShrink: 0, display: 'inline-block', transition: 'transform .2s', transform: openFaq === i ? 'rotate(180deg)' : 'none' }}>▾</span>
+                  <span style={{ fontSize: '12px', color: '#888', flexShrink: 0, display: 'inline-block', transition: 'transform .2s', transform: openFaq === i ? 'rotate(180deg)' : 'none' }}>▾</span>
                 </div>
                 {openFaq === i && <div style={{ paddingBottom: '16px', fontSize: '13px', color: '#888', lineHeight: '1.7' }}>{item.a}</div>}
               </div>
@@ -355,7 +355,7 @@ export default function Home() {
         {/* ── BLOG ── */}
         <section style={{ borderTop: '1px solid #F0F0F0', padding: '52px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#CCC', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
             <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '24px' }}>Comprendre les prêts crypto</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px' }}>
               {BLOG.map(b => (
@@ -364,9 +364,9 @@ export default function Home() {
                   onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
                   <div style={{ height: '80px', background: b.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>{b.icon}</div>
                   <div style={{ padding: '14px 16px' }}>
-                    <div style={{ fontSize: '10px', fontWeight: '700', color: '#AAA', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>{b.tag}</div>
+                    <div style={{ fontSize: '10px', fontWeight: '700', color: '#666', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>{b.tag}</div>
                     <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', lineHeight: '1.4', marginBottom: '6px' }}>{b.title}</div>
-                    <div style={{ fontSize: '11px', color: '#CCC' }}>{b.date} · {b.read}</div>
+                    <div style={{ fontSize: '11px', color: '#888' }}>{b.date} · {b.read}</div>
                   </div>
                 </div>
               ))}
@@ -380,8 +380,8 @@ export default function Home() {
             <div style={{ background: '#FAFAFA', border: '1px solid #F0F0F0', borderRadius: '12px', padding: '36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
               <div style={{ maxWidth: '420px' }}>
                 <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.4px', marginBottom: '6px' }}>Alerte taux gratuite</div>
-                <div style={{ fontSize: '14px', color: '#AAA', lineHeight: '1.6', marginBottom: '8px' }}>Recevez une notification quand les taux changent. Maximum 1 email par semaine.</div>
-                <div style={{ fontSize: '12px', color: '#CCC' }}>🔒 Pas de spam. Désabonnement en un clic.</div>
+                <div style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', marginBottom: '8px' }}>Recevez une notification quand les taux changent. Maximum 1 email par semaine.</div>
+                <div style={{ fontSize: '12px', color: '#888' }}>🔒 Pas de spam. Désabonnement en un clic.</div>
               </div>
               <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
                 <input type="email" placeholder="votre@email.com" style={{ border: '1px solid #E0E0E0', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', outline: 'none', width: '220px', color: '#111' }} />
