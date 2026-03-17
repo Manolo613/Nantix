@@ -25,12 +25,12 @@ const CRYPTOS = [
 ]
 
 const PLATFORM_LOGOS = {
-  Nexo:     'https://assets.coingecko.com/coins/images/11319/small/LFvMqB6K_400x400.jpg',
-  Ledn:     'https://assets.coingecko.com/markets/images/781/small/ledn.jpg',
+  Nexo:     'https://logo.clearbit.com/nexo.com',
+  Ledn:     'https://logo.clearbit.com/ledn.io',
   Aave:     'https://assets.coingecko.com/coins/images/12645/small/AAVE.png',
   Compound: 'https://assets.coingecko.com/coins/images/10775/small/COMP.png',
-  Spark:    'https://assets.coingecko.com/coins/images/32843/small/spark.png',
-  Kamino:   'https://assets.coingecko.com/coins/images/36174/small/kamino.jpg',
+  Spark:    'https://logo.clearbit.com/spark.fi',
+  Kamino:   'https://logo.clearbit.com/kamino.finance',
 }
 
 const PLATFORMS = {
