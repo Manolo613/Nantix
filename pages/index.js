@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
- 
+
 const CRYPTOS = [
   {
     id: 'bitcoin',  symbol: 'BTC', name: 'Bitcoin',
@@ -23,7 +23,7 @@ const CRYPTOS = [
     color: '#9945FF',
   },
 ]
- 
+
 const PLATFORM_LOGOS = {
   Nexo:     'https://assets.coingecko.com/markets/images/682/small/nexo.png',
   Ledn:     'https://cdn.prod.website-files.com/6203fc3b9a702b7f41584a82/620657b7aafd9474f92f0f86_favicon-256.png',
@@ -32,7 +32,7 @@ const PLATFORM_LOGOS = {
   Spark:    'https://assets.coingecko.com/markets/images/1257/small/spark.png',
   Kamino:   'https://assets.coingecko.com/markets/images/1159/small/kamino.png',
 }
- 
+
 const PLATFORMS = {
   bitcoin: [
     { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',        best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
@@ -52,7 +52,7 @@ const PLATFORMS = {
     { name: 'Aave',     apr: 5.5,  ltv: 60, liq: 77,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: false, founded: '2020', country: 'Décentralisé', users: '500K+', regulated: false, about: 'Aave V3 supporte SOL via wSOL sur plusieurs chaînes. Smart contracts audités.' },
   ],
 }
- 
+
 const FAQ = [
   { q: "Que se passe-t-il si le prix de ma crypto baisse ?", a: "Si le prix baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie de votre collatéral pour rembourser le prêt. Pour éviter cela : empruntez moins que le maximum (LTV faible = plus de sécurité) ou ajoutez du collatéral si le prix baisse." },
   { q: "Quelle est la différence entre CeFi et DeFi ?", a: "CeFi (Nexo, Ledn) : plateforme centralisée, plus simple, support client, mais ils détiennent vos fonds. DeFi (Aave, Compound) : smart contracts, vous gardez le contrôle de vos fonds. Plus technique, mais aucune entité ne peut geler vos actifs." },
@@ -60,17 +60,16 @@ const FAQ = [
   { q: "Quel est le montant minimum pour emprunter ?", a: "Sur CeFi (Nexo, Ledn), les minimums sont généralement autour de 500–1 000 €. Sur DeFi (Aave, Compound), pas de minimum officiel, mais les frais de gas rendent les petits montants peu rentables en dessous de ~5 000 €." },
   { q: "Nantix est-il indépendant ?", a: "Oui. Nantix ne reçoit aucune rémunération pour modifier les données affichées. Nous percevons une commission d'affiliation standard si vous vous inscrivez via nos liens — cela ne biaise pas notre comparaison." },
 ]
- 
+
 const BLOG = [
   { tag: 'Guide',   title: "Qu'est-ce qu'un prêt Bitcoin collatéralisé ?", date: '12 mars 2025', read: '5 min', bg: '#FFF8F0', icon: '₿' },
   { tag: 'Analyse', title: 'CeFi vs DeFi : quel prêt choisir en 2025 ?',   date: '5 mars 2025',  read: '8 min', bg: '#F0FDF4', icon: '📊' },
   { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '28 fév 2025', read: '6 min', bg: '#EFF6FF', icon: '⚠️' },
 ]
- 
+
 const W  = '1100px'
 const PX = '24px'
-const PX = '24px'
- 
+
 export default function Home() {
   const [crypto, setCrypto]   = useState('bitcoin')
   const [prices, setPrices]   = useState({})
@@ -81,26 +80,26 @@ export default function Home() {
   const [openRow, setOpenRow] = useState(null)
   const [openFaq, setOpenFaq] = useState(null)
   const [imgErrors, setImgErrors] = useState({})
- 
+
   useEffect(() => {
     setMounted(true)
     fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=eur')
       .then(r => r.json()).then(d => setPrices(d)).catch(() => {})
   }, [])
- 
+
   const c     = CRYPTOS.find(x => x.id === crypto)
   const price = prices[c.coingeckoId]?.eur || 0
   const col   = amount * price
   const fmt   = n => Math.round(n).toLocaleString('fr-FR')
   const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
- 
+
   const rows = (PLATFORMS[crypto] || [])
     .filter(p => filter === 'all' || p.type === filter)
     .sort((a, b) => sort === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
- 
+
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
   const sep  = <div style={{ width: '1px', height: '18px', background: '#E0E0E0' }} />
- 
+
   const PlatformLogo = ({ name, color }) => {
     const src = PLATFORM_LOGOS[name]
     if (src && !imgErrors[name]) {
@@ -120,7 +119,7 @@ export default function Home() {
       </div>
     )
   }
- 
+
   return (
     <>
       <Head>
@@ -128,9 +127,9 @@ export default function Home() {
         <meta name="description" content="Le seul comparateur francophone de prêts crypto collatéralisés. Comparez Nexo, Ledn, Aave, Compound en temps réel." />
       </Head>
       <Navbar />
- 
+
       <main style={{ background: '#fff', minHeight: '100vh', paddingTop: '52px' }}>
- 
+
         {/* ── HERO ── */}
         <section style={{ borderBottom: '1px solid #F0F0F0', padding: '40px 0 28px' }}>
           <div style={wrap}>
@@ -159,7 +158,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
- 
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
               {[
                 { n: '01', t: 'Déposez votre crypto',  d: 'BTC, ETH ou SOL comme garantie.' },
@@ -177,7 +176,7 @@ export default function Home() {
             </div>
           </div>
         </section>
- 
+
         {/* ── RISQUE ── */}
         <div style={{ ...wrap, paddingTop: '16px' }}>
           <div style={{ border: '1px solid #FEF3C7', background: '#FFFBEB', borderRadius: '8px', padding: '12px 16px', display: 'flex', gap: '10px' }}>
@@ -190,7 +189,7 @@ export default function Home() {
             </div>
           </div>
         </div>
- 
+
         {/* ── NIVEAU 1 : onglets crypto ── */}
         <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', marginTop: '16px', background: '#fff' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
@@ -211,7 +210,7 @@ export default function Home() {
             ))}
           </div>
         </div>
- 
+
         {/* ── NIVEAU 2 : filtres ── */}
         <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
@@ -222,9 +221,9 @@ export default function Home() {
               <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#999' }}>{c.symbol}</span>
             </div>
             <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
- 
+
             {sep}
- 
+
             <div style={{ display: 'flex', background: '#EBEBEB', borderRadius: '7px', padding: '2px' }}>
               {['all', 'CeFi', 'DeFi'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
@@ -236,7 +235,7 @@ export default function Home() {
                 }}>{f === 'all' ? 'Tout' : f}</button>
               ))}
             </div>
- 
+
             <select value={sort} onChange={e => setSort(e.target.value)} style={{ border: '1px solid #E0E0E0', borderRadius: '7px', padding: '5px 8px', fontSize: '12px', background: '#fff', color: '#111', cursor: 'pointer', outline: 'none', marginLeft: 'auto' }}>
               <option value="apr">Meilleur taux</option>
               <option value="ltv">LTV maximum</option>
@@ -244,13 +243,13 @@ export default function Home() {
             <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>Mis à jour le {today}</span>
           </div>
         </div>
- 
+
         {/* ── TABLEAU ── */}
         <div style={wrap}>
           <div style={{ display: 'grid', gridTemplateColumns: '220px 100px 100px 1fr 1fr 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
             <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation {c.symbol}</span><span></span>
           </div>
- 
+
           {rows.map((p, i) => {
             const maxBorrow = (col * p.ltv) / 100
             const liqPrice  = price > 0 ? (col * (p.liq / 100)) / amount : 0
@@ -264,7 +263,7 @@ export default function Home() {
                 }}
                 onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
                 onMouseLeave={e => e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'}>
- 
+
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <PlatformLogo name={p.name} color={p.color} />
                     <div>
@@ -274,23 +273,23 @@ export default function Home() {
                       <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#16A34A' : '#2563EB' }}>{p.type}</div>
                     </div>
                   </div>
- 
+
                   <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.apr}%</div>
- 
+
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.ltv}%</div>
                     <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '52px' }}>
                       <div style={{ height: '100%', width: `${p.ltv}%`, background: p.color, borderRadius: '2px' }} />
                     </div>
                   </div>
- 
+
                   <div style={{ fontSize: '17px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
- 
+
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
                     <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>par {c.symbol}</div>
                   </div>
- 
+
                   <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
                     display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px',
                     fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap',
@@ -301,7 +300,7 @@ export default function Home() {
                   onMouseLeave={e => { e.currentTarget.style.borderColor = p.best ? '#111' : '#DCDCDC'; e.currentTarget.style.color = p.best ? '#fff' : '#444' }}
                   >Emprunter →</a>
                 </div>
- 
+
                 {isOpen && (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px', background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
                     <div>
@@ -330,7 +329,7 @@ export default function Home() {
               </div>
             )
           })}
- 
+
           <div style={{ display: 'flex', gap: '10px', padding: '14px 0', borderTop: '1px solid #EBEBEB', marginTop: '4px' }}>
             <span>🔍</span>
             <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.6' }}>
@@ -338,14 +337,14 @@ export default function Home() {
             </p>
           </div>
         </div>
- 
+
         {/* ── VENDRE VS EMPRUNTER ── */}
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Pourquoi emprunter ?</div>
             <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '8px' }}>Gardez votre crypto. Accédez à vos liquidités.</h2>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Vendre votre Bitcoin déclenche un impôt sur les plus-values. Un prêt collatéralisé vous donne accès à des euros sans vente.</p>
- 
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px' }}>
               {[
                 { header: '✕ Vendre votre crypto', color: '#DC2626', rows: [['Impôt plus-values', '30% flat tax', true], ['Exposition marché', 'Perdue', true], ['Délai', '1–3 jours', false], ['Montant net', '~70% après impôt', true]] },
@@ -366,7 +365,7 @@ export default function Home() {
                 )
               )}
             </div>
- 
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' }}>
               {[
                 { icon: '🏦', t: 'Pas de vérification de crédit', d: 'Votre crypto est la garantie. Pas de score de crédit, approbation quasi-instantanée.' },
@@ -382,7 +381,7 @@ export default function Home() {
             </div>
           </div>
         </section>
- 
+
         {/* ── FAQ ── */}
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
@@ -399,7 +398,7 @@ export default function Home() {
             ))}
           </div>
         </section>
- 
+
         {/* ── BLOG ── */}
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
@@ -421,7 +420,7 @@ export default function Home() {
             </div>
           </div>
         </section>
- 
+
         {/* ── NEWSLETTER ── */}
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
@@ -438,7 +437,7 @@ export default function Home() {
             </div>
           </div>
         </section>
- 
+
       </main>
       <Footer />
     </>
