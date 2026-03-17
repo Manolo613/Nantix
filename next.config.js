@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'assets.coingecko.com',
-      'bitcompare-public.sgp1.cdn.digitaloceanspaces.com',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'assets.coingecko.com' },
+      { protocol: 'https', hostname: 'cdn.jsdelivr.net' },
     ],
   },
 }
