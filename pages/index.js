@@ -26,9 +26,9 @@ const CRYPTOS = [
 
 const PLATFORM_LOGOS = {
   Nexo:     'https://assets.coingecko.com/markets/images/682/small/nexo.png',
-  Ledn:     'https://cdn.prod.website-files.com/6203fc3b9a702b7f41584a82/620657b7aafd9474f92f0f86_favicon-256.png',
-  Aave:     'https://assets.coingecko.com/markets/images/526/small/aave.png',
-  Compound: 'https://assets.coingecko.com/markets/images/466/small/compound.png',
+  Ledn:     'https://assets.coingecko.com/markets/images/781/small/ledn.jpg',
+  Aave:     'https://assets.coingecko.com/coins/images/12645/small/AAVE.png',
+  Compound: 'https://assets.coingecko.com/coins/images/10775/small/COMP.png',
   Spark:    'https://assets.coingecko.com/markets/images/1257/small/spark.png',
   Kamino:   'https://assets.coingecko.com/markets/images/1159/small/kamino.png',
 }
@@ -289,11 +289,11 @@ export default function Home() {
                   <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
                     display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px',
                     fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap',
-                    background: p.best ? '#111' : '#fff', color: p.best ? '#fff' : '#444',
-                    border: `1.5px solid ${p.best ? '#111' : '#DCDCDC'}`,
+                    background: '#fff', color: '#444',
+                    border: '1.5px solid #DCDCDC',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#111'; e.currentTarget.style.color = p.best ? '#fff' : '#111' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = p.best ? '#111' : '#DCDCDC'; e.currentTarget.style.color = p.best ? '#fff' : '#444' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#111'; e.currentTarget.style.color = '#111' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#DCDCDC'; e.currentTarget.style.color = '#444' }}
                   >Emprunter →</a>
                 </div>
 
