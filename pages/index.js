@@ -25,12 +25,12 @@ const CRYPTOS = [
 ]
 
 const PLATFORM_LOGOS = {
-  Nexo:     'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/nexo.svg',
-  Ledn:     'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/ledn.svg',
-  Aave:     'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/aave.svg',
-  Compound: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/comp.svg',
-  Spark:    'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/spark.svg',
-  Kamino:   'https://assets.coingecko.com/coins/images/36174/small/kamino.jpg',
+  Nexo:     'https://www.google.com/s2/favicons?domain=nexo.com&sz=64',
+  Ledn:     'https://www.google.com/s2/favicons?domain=ledn.io&sz=64',
+  Aave:     'https://www.google.com/s2/favicons?domain=aave.com&sz=64',
+  Compound: 'https://www.google.com/s2/favicons?domain=compound.finance&sz=64',
+  Spark:    'https://www.google.com/s2/favicons?domain=spark.fi&sz=64',
+  Kamino:   'https://www.google.com/s2/favicons?domain=kamino.finance&sz=64',
 }
 
 const PLATFORMS = {
