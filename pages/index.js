@@ -236,11 +236,7 @@ export default function Home() {
               ))}
             </div>
 
-            <select value={sort} onChange={e => setSort(e.target.value)} style={{ border: '1px solid #E0E0E0', borderRadius: '7px', padding: '5px 8px', fontSize: '12px', background: '#fff', color: '#111', cursor: 'pointer', outline: 'none', marginLeft: 'auto' }}>
-              <option value="apr">Meilleur taux</option>
-              <option value="ltv">LTV maximum</option>
-            </select>
-            <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>Mis à jour le {today}</span>
+            <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap', marginLeft: 'auto' }}>Mis à jour le {today}</span>
           </div>
         </div>
 
