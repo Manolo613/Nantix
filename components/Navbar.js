@@ -1,33 +1,42 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function Navbar() {
+  const router = useRouter()
+  const links = [
+    { label: 'Prêts',   href: '/'        },
+    { label: 'Staking', href: '/staking' },
+    { label: 'Blog',    href: '/blog'    },
+    { label: 'FAQ',     href: '/faq'     },
+  ]
+
   return (
     <nav style={{
-      position: 'fixed',
-      top: 0, left: 0, right: 0,
-      zIndex: 100,
-      height: '52px',
-      background: '#fff',
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      height: '52px', background: '#fff',
       borderBottom: '1px solid #F0F0F0',
+      display: 'flex', alignItems: 'center',
+      padding: '0 28px',
     }}>
-      <div style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '0 24px',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <span style={{ fontSize: '17px', fontWeight: '800', color: '#111', letterSpacing: '-0.5px' }}>Nantix</span>
-        </Link>
-        <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
-          <Link href="/preter" style={{ fontSize: '13px', fontWeight: '500', color: '#999', textDecoration: 'none' }}>Prêter</Link>
-          <Link href="/staker" style={{ fontSize: '13px', fontWeight: '500', color: '#999', textDecoration: 'none' }}>Staker</Link>
-          <Link href="/blog"   style={{ fontSize: '13px', fontWeight: '500', color: '#999', textDecoration: 'none' }}>Blog</Link>
-          <Link href="/faq"    style={{ fontSize: '13px', fontWeight: '500', color: '#999', textDecoration: 'none' }}>FAQ</Link>
-        </div>
+      <Link href="/" style={{ textDecoration: 'none', marginRight: '32px' }}>
+        <span style={{ fontSize: '17px', fontWeight: '800', color: '#111', letterSpacing: '-0.5px' }}>Nantix</span>
+      </Link>
+
+      <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+        {links.map(item => {
+          const active = router.pathname === item.href
+          return (
+            <Link key={item.href} href={item.href} style={{
+              display: 'flex', alignItems: 'center', height: '100%',
+              padding: '0 14px',
+              fontSize: '13px', fontWeight: active ? '600' : '500',
+              color: active ? '#111' : '#999',
+              textDecoration: 'none',
+              borderBottom: `2px solid ${active ? '#111' : 'transparent'}`,
+              transition: 'all .15s',
+            }}>{item.label}</Link>
+          )
+        })}
       </div>
     </nav>
   )
