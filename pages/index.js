@@ -123,9 +123,9 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Nantix — Comparez les prêts Bitcoin, Ethereum & Solana</title>
+        <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
         <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both}`}</style>
-        <meta name="description" content="Le seul comparateur francophone de prêts crypto collatéralisés. Comparez Nexo, Ledn, Aave, Compound en temps réel." />
+        <meta name="description" content="Comparateur indépendant de prêts crypto collatéralisés en français. Données en temps réel." />
       </Head>
       <Navbar />
 
@@ -137,11 +137,11 @@ export default function Home() {
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px', marginBottom: '28px', flexWrap: 'wrap' }}>
               <div>
                 <h1 style={{ fontSize: '56px', fontWeight: '800', letterSpacing: '-2px', color: '#111', lineHeight: '1.15', marginBottom: '12px' }}>
-                  Empruntez en euros.<br />
-                  <span style={{ color: '#666', fontWeight: '400' }}>Gardez votre crypto.</span>
+                  Prêts crypto collatéralisés :<br />
+                  <span style={{ color: '#666', fontWeight: '400' }}>comparez les offres en France.</span>
                 </h1>
                 <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.6', maxWidth: '420px' }}>
-                  Le seul comparateur francophone de prêts crypto — sans vendre, sans impôt sur les plus-values.
+                  Taux, LTV et prix de liquidation des principales plateformes CeFi et DeFi — mis à jour en temps réel.
                 </p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
@@ -162,9 +162,9 @@ export default function Home() {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
               {[
-                { n: '01', t: 'Déposez votre crypto',  d: 'BTC, ETH ou SOL comme garantie.' },
-                { n: '02', t: 'Comparez les offres',    d: 'Taux, LTV et liquidation.' },
-                { n: '03', t: 'Recevez vos euros',      d: 'Directement sur votre compte.' },
+                { n: '01', t: 'Choisissez votre crypto',  d: 'Sélectionnez BTC, ETH ou SOL et entrez le montant.' },
+                { n: '02', t: 'Comparez les offres',    d: 'Taux annuel, LTV et seuil de liquidation côte à côte.' },
+                { n: '03', t: 'Recevez vos euros',      d: 'Consultez les conditions de chaque plateforme.' },
               ].map((s, i) => (
                 <div key={s.n} style={{ padding: '14px 20px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span style={{ fontSize: '11px', fontWeight: '800', color: '#BBB', flexShrink: 0 }}>{s.n}</span>
@@ -183,9 +183,9 @@ export default function Home() {
           <div style={{ border: '1px solid #FEF3C7', background: '#FFFBEB', borderRadius: '8px', padding: '12px 16px', display: 'flex', gap: '10px' }}>
             <span style={{ fontSize: '14px', flexShrink: 0 }}>⚠️</span>
             <div>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: '#92400E', marginBottom: '3px' }}>Comprendre le risque de liquidation</div>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: '#92400E', marginBottom: '3px' }}>Qu'est-ce que le risque de liquidation ?</div>
               <div style={{ fontSize: '12px', color: '#B45309', lineHeight: '1.6' }}>
-                Si le prix de votre crypto baisse sous le seuil, la plateforme vend automatiquement votre collatéral. La colonne <strong>Liquidation</strong> indique le prix exact auquel cela se produirait.
+                Dans un prêt collatéralisé, si le prix de la crypto baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie du collatéral pour couvrir le prêt. La colonne <strong>Liquidation</strong> indique ce seuil pour chaque plateforme selon le montant saisi.
               </div>
             </div>
           </div>
@@ -332,7 +332,7 @@ export default function Home() {
           <div style={{ display: 'flex', gap: '10px', padding: '14px 0', borderTop: '1px solid #EBEBEB', marginTop: '4px' }}>
             <span>🔍</span>
             <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.6' }}>
-              <strong style={{ color: '#444' }}>Indépendance éditoriale.</strong> Nantix compare objectivement les plateformes. Nous percevons une commission d'affiliation si vous utilisez nos liens — cela ne modifie pas les données ni notre classement.
+              <strong style={{ color: '#444' }}>Indépendance éditoriale.</strong> Nantix est un comparateur indépendant. Les données affichées ne sont pas influencées par les plateformes. Des commissions d'affiliation peuvent être perçues via certains liens — elles ne modifient pas notre classement.
             </p>
           </div>
         </div>
@@ -340,9 +340,9 @@ export default function Home() {
         {/* ── VENDRE VS EMPRUNTER ── */}
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Pourquoi emprunter ?</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '8px' }}>Gardez votre crypto. Accédez à vos liquidités.</h2>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Vendre votre Bitcoin déclenche un impôt sur les plus-values. Un prêt collatéralisé vous donne accès à des euros sans vente.</p>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '8px' }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
+            <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Un prêt collatéralisé permet d'obtenir des liquidités sans vendre sa crypto. Voici les principales différences entre les deux options.</p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px' }}>
               {[
@@ -367,9 +367,9 @@ export default function Home() {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' }}>
               {[
-                { icon: '🏦', t: 'Pas de vérification de crédit', d: 'Votre crypto est la garantie. Pas de score de crédit, approbation quasi-instantanée.' },
-                { icon: '📈', t: 'Continuez à profiter de la hausse', d: 'Vous récupérez votre collatéral au remboursement. La plus-value reste la vôtre.' },
-                { icon: '⚡', t: 'Liquidité immédiate', d: 'Fonds disponibles en quelques minutes sur CeFi, instantanément sur DeFi.' },
+                { icon: '🏦', t: 'Pas de score de crédit requis', d: 'Les prêts crypto utilisent votre collatéral comme garantie. Aucun historique de crédit n\'est nécessaire.' },
+                { icon: '📊', t: 'Collatéral récupéré au remboursement', d: 'Au remboursement du prêt, le collatéral est restitué. L\'exposition au marché est maintenue pendant la durée du prêt.' },
+                { icon: '⏱', t: 'Délais de traitement variables', d: 'Sur CeFi, les fonds sont généralement disponibles en quelques minutes à quelques heures. Sur DeFi, le traitement est quasi-instantané.' },
               ].map(card => (
                 <div key={card.t} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', padding: '18px 20px' }}>
                   <div style={{ fontSize: '20px', marginBottom: '10px' }}>{card.icon}</div>
@@ -385,7 +385,7 @@ export default function Home() {
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '28px' }}>Tout ce que vous devez savoir</h2>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '28px' }}>Fonctionnement des prêts crypto collatéralisés</h2>
             {FAQ.map((item, i) => (
               <div key={i} style={{ borderBottom: '1px solid #EBEBEB' }}>
                 <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: '16px' }}>
@@ -402,7 +402,7 @@ export default function Home() {
         <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '24px' }}>Comprendre les prêts crypto</h2>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '24px' }}>Ressources et guides</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px' }}>
               {BLOG.map(b => (
                 <div key={b.title} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer', transition: 'box-shadow .15s' }}
@@ -425,13 +425,13 @@ export default function Home() {
           <div style={wrap}>
             <div style={{ background: '#FAFAFA', border: '1px solid #EBEBEB', borderRadius: '12px', padding: '36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
               <div style={{ maxWidth: '420px' }}>
-                <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.4px', marginBottom: '6px' }}>Alerte taux gratuite</div>
-                <div style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', marginBottom: '8px' }}>Recevez une notification quand les taux changent. Maximum 1 email par semaine.</div>
-                <div style={{ fontSize: '12px', color: '#888' }}>🔒 Pas de spam. Désabonnement en un clic.</div>
+                <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.4px', marginBottom: '6px' }}>Suivi des taux</div>
+                <div style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', marginBottom: '8px' }}>Recevez un récapitulatif hebdomadaire des variations de taux sur les principales plateformes.</div>
+                <div style={{ fontSize: '12px', color: '#888' }}>Fréquence maximale : 1 email par semaine.</div>
               </div>
               <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
                 <input type="email" placeholder="votre@email.com" style={{ border: '1px solid #E0E0E0', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', outline: 'none', width: '220px', color: '#111' }} />
-                <button style={{ background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>M'alerter</button>
+                <button style={{ background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>S'abonner</button>
               </div>
             </div>
           </div>
