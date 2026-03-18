@@ -4,10 +4,11 @@ import { useRouter } from 'next/router'
 export default function Navbar() {
   const router = useRouter()
   const links = [
-    { label: 'Prêts',   href: '/'        },
-    { label: 'Staking', href: '/staking' },
-    { label: 'Blog',    href: '/blog'    },
-    { label: 'FAQ',     href: '/faq'     },
+    { label: 'Emprunter', href: '/'        },
+    { label: 'Prêter',    href: '/preter'  },
+    { label: 'Staking',   href: '/staking' },
+    { label: 'Blog',      href: '/blog'    },
+    { label: 'FAQ',       href: '/faq'     },
   ]
 
   return (
@@ -22,7 +23,7 @@ export default function Navbar() {
         <span style={{ fontSize: '17px', fontWeight: '800', color: '#111', letterSpacing: '-0.5px' }}>Nantix</span>
       </Link>
 
-      <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'stretch', height: '100%' }}>
         {links.map(item => {
           const active = router.pathname === item.href
           return (
