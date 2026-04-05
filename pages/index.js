@@ -161,6 +161,10 @@ export default function Home() {
       return p
     })
     .sort((a, b) => sort === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
+    .map((p, _, arr) => {
+      const minApr = Math.min(...arr.map(x => x.apr))
+      return { ...p, best: p.apr === minApr }
+    })
 
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
   const sep  = <div style={{ width: '1px', height: '18px', background: '#E0E0E0' }} />
