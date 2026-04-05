@@ -57,64 +57,63 @@ async function fetchAave() {
 }
 
 async function fetchMorpho() {
-  const response = await fetch('https://blue-api.morpho.org/graphql', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query: `{
-        markets(where: { chainId_in: [1] }, first: 200) {
-          items {
+  // Query only the 4 markets we need directly by pair to avoid pagination issues
+  // Market IDs verified live — sorted by liquidity (biggest/most active market per pair)
+  // USDC/WBTC: 118M USDC  | USDC/WETH: 39M USDC
+  // USDT/WBTC: 61M USDT   | USDT/WETH: 42M USDT
+  // XRP: not available on Morpho (not an ERC-20 token)
+  const MARKET_IDS = {
+    'USDC/WBTC': '0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49',
+    'USDC/WETH': '0x94b823e6bd8ea533b4e33fbc307faea0b307301bc48763acc4d4aa4def7636cd',
+    'USDT/WBTC': '0xa921ef34e2fc7a27ccc50ae7e4b154e16c9799d3387076c421423ef52ac4df99',
+    'USDT/WETH': '0xdbffac82c2dc7e8aa781bd05746530b0068d80929f23ac1628580e27810bc0c5',
+  }
+
+  const fetchMarket = async (marketId) => {
+    const res = await fetch('https://blue-api.morpho.org/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `{
+          marketById(marketId: "${marketId}", chainId: 1) {
             loanAsset { symbol }
             collateralAsset { symbol }
             lltv
-            state {
-              borrowApy
-              supplyAssets
-            }
+            state { borrowApy supplyAssets }
           }
-        }
-      }`
+        }`
+      })
     })
-  })
-  const { data } = await response.json()
-  const markets = data.markets.items.filter(m =>
-    m.loanAsset && m.collateralAsset && m.state
-  )
-
-  const getBestMarket = (loanSymbol, collateralSymbol) => {
-    const relevant = markets.filter(m =>
-      m.loanAsset.symbol === loanSymbol &&
-      m.collateralAsset.symbol === collateralSymbol &&
-      m.state.borrowApy !== null &&
-      m.state.supplyAssets !== null
-    )
-    if (!relevant.length) return null
-    return relevant.sort((a, b) =>
-      parseFloat(b.state.supplyAssets) - parseFloat(a.state.supplyAssets)
-    )[0]
+    const { data } = await res.json()
+    return data.marketById
   }
 
-  const getRate = (loanSymbol, collateralSymbol) => {
-    const market = getBestMarket(loanSymbol, collateralSymbol)
-    if (!market) return null
+  const [usdcWbtc, usdcWeth, usdtWbtc, usdtWeth] = await Promise.all([
+    fetchMarket(MARKET_IDS['USDC/WBTC']),
+    fetchMarket(MARKET_IDS['USDC/WETH']),
+    fetchMarket(MARKET_IDS['USDT/WBTC']),
+    fetchMarket(MARKET_IDS['USDT/WETH']),
+  ])
+
+  const getRate = (market) => {
+    if (!market?.state?.borrowApy) return null
     return parseFloat((market.state.borrowApy * 100).toFixed(2))
   }
 
-  const getCollateral = (collateralSymbol) => {
-    const market = getBestMarket('USDC', collateralSymbol) || getBestMarket('USDT', collateralSymbol)
-    if (!market) return null
-    const lltv = parseFloat((parseFloat(market.lltv) / 1e27 * 100).toFixed(1))
+  const getCollateral = (market) => {
+    if (!market?.lltv) return null
+    const lltv = parseFloat((parseFloat(market.lltv) / 1e18 * 100).toFixed(1))
     return { ltv: lltv, liquidationThreshold: lltv }
   }
 
   return {
     rates: {
-      usdc: { bitcoin: getRate('USDC', 'WBTC'), ethereum: getRate('USDC', 'WETH') },
-      usdt: { bitcoin: getRate('USDT', 'WBTC'), ethereum: getRate('USDT', 'WETH') },
+      usdc: { bitcoin: getRate(usdcWbtc), ethereum: getRate(usdcWeth) },
+      usdt: { bitcoin: getRate(usdtWbtc), ethereum: getRate(usdtWeth) },
     },
     collateral: {
-      bitcoin:  getCollateral('WBTC'),
-      ethereum: getCollateral('WETH'),
+      bitcoin:  getCollateral(usdcWbtc),
+      ethereum: getCollateral(usdcWeth),
     }
   }
 }
