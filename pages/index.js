@@ -81,6 +81,7 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState(null)
   const [imgErrors, setImgErrors] = useState({})
   const [defiRates, setDefiRates] = useState(null) // ← MODIFIÉ : taux live DeFi
+  const [updatedAt, setUpdatedAt] = useState(null)
 
   useEffect(() => {
     setMounted(true)
@@ -92,7 +93,7 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/rates')
       .then(r => r.json())
-      .then(d => setDefiRates(d))
+      .then(d => { setDefiRates(d); setUpdatedAt(d.updatedAt) })
       .catch(() => {})
   }, [])
 
@@ -354,6 +355,12 @@ export default function Home() {
               </div>
             )
           })}
+
+          {updatedAt && (
+            <div style={{ textAlign: 'right', fontSize: '11px', color: '#999', padding: '8px 0 4px' }}>
+              Taux Aave mis à jour le {new Date(updatedAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            </div>
+          )}
 
           <div style={{ display: 'flex', gap: '10px', padding: '14px 0', borderTop: '1px solid #EBEBEB', marginTop: '4px' }}>
             <span>🔍</span>
