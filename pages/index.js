@@ -131,8 +131,15 @@ export default function Home() {
   const c     = COLLATERALS.find(x => x.id === collateral)
   const price = prices[c.coingeckoId]?.eur || 0
   const col   = amount * price
-  const fmt   = n => Math.round(n).toLocaleString('fr-FR')
-  const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+  const fmt     = n => Math.round(n).toLocaleString('fr-FR')
+  const today   = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+  const timeAgo = (iso) => {
+    if (!iso) return ''
+    const mins = Math.floor((Date.now() - new Date(iso)) / 60000)
+    if (mins < 1) return "à l'instant"
+    if (mins < 60) return `il y a ${mins} min`
+    return `il y a ${Math.floor(mins / 60)}h`
+  }
 
   const rows = (PLATFORMS[stablecoin]?.[collateral] || [])
     .filter(p => filter === 'all' || p.type === filter)
@@ -322,7 +329,7 @@ export default function Home() {
         {/* ── TABLEAU ── */}
         <div style={wrap}>
           <div style={{ display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
-            <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Seuil liquidation</span><span>Risque</span><span></span>
+            <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation / {c.symbol}</span><span>Risque</span><span></span>
           </div>
 
           {rows.map((p, i) => {
@@ -359,7 +366,7 @@ export default function Home() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
                         <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
                         <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>
-                          {updatedAt ? new Date(updatedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '...'}
+                          {timeAgo(updatedAt)}
                         </span>
                       </div>
                     ) : (
@@ -379,8 +386,13 @@ export default function Home() {
                   <div style={{ fontSize: '17px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
 
                   <div>
-                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(amount * liqPrice) + ' €' : '—'}</div>
-                    <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>seuil · {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'} / {c.symbol}</div>
+                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
+                    <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
+                      {mounted && price > 0
+                        ? <span style={{ color: '#DC2626', fontWeight: '600' }}>−{Math.round((1 - p.liq / 100) * 100)}%</span>
+                        : ''}
+                      {mounted && price > 0 ? ' avant liquidation' : ''}
+                    </div>
                   </div>
 
                   <div>
