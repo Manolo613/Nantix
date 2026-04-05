@@ -35,17 +35,26 @@ export default async function handler(req, res) {
       )
       if (!r) return null
       return {
-        apr:                  parseFloat(r.borrowInfo.apy.formatted),
         ltv:                  parseFloat(r.supplyInfo.maxLTV.formatted),
         liquidationThreshold: parseFloat(r.supplyInfo.liquidationThreshold.formatted),
-        live: true
       }
     }
 
+    // Taux d'emprunt USDC — c'est ce que les utilisateurs empruntent réellement
+    const usdc = reserves.find(r =>
+      r.underlyingToken.symbol === 'USDC' &&
+      !r.isFrozen &&
+      r.borrowInfo !== null
+    )
+    const usdcApr = usdc ? parseFloat(usdc.borrowInfo.apy.formatted) : null
+
+    const wbtc = getAsset('WBTC')
+    const weth = getAsset('WETH')
+
     res.status(200).json({
       aave: {
-        bitcoin:  getAsset('WBTC'),
-        ethereum: getAsset('WETH'),
+        bitcoin:  wbtc ? { apr: usdcApr, ltv: wbtc.ltv, liquidationThreshold: wbtc.liquidationThreshold, live: true } : null,
+        ethereum: weth ? { apr: usdcApr, ltv: weth.ltv, liquidationThreshold: weth.liquidationThreshold, live: true } : null,
       },
       updatedAt: new Date().toISOString()
     })
