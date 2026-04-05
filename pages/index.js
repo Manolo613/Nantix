@@ -80,11 +80,20 @@ export default function Home() {
   const [openRow, setOpenRow] = useState(null)
   const [openFaq, setOpenFaq] = useState(null)
   const [imgErrors, setImgErrors] = useState({})
+  const [defiRates, setDefiRates] = useState(null) // ← MODIFIÉ : taux live DeFi
 
   useEffect(() => {
     setMounted(true)
     fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=eur')
       .then(r => r.json()).then(d => setPrices(d)).catch(() => {})
+  }, [])
+
+  // ← MODIFIÉ : récupère les taux Aave en temps réel
+  useEffect(() => {
+    fetch('/api/rates')
+      .then(r => r.json())
+      .then(d => setDefiRates(d))
+      .catch(() => {})
   }, [])
 
   const c     = CRYPTOS.find(x => x.id === crypto)
@@ -93,8 +102,16 @@ export default function Home() {
   const fmt   = n => Math.round(n).toLocaleString('fr-FR')
   const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 
+  // ← MODIFIÉ : fusionne les taux live Aave avec les données statiques
   const rows = (PLATFORMS[crypto] || [])
     .filter(p => filter === 'all' || p.type === filter)
+    .map(p => {
+      if (p.name === 'Aave' && defiRates?.aave?.[crypto]) {
+        const live = defiRates.aave[crypto]
+        return { ...p, apr: live.apr, ltv: live.ltv, liq: live.liquidationThreshold }
+      }
+      return p
+    })
     .sort((a, b) => sort === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
 
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
@@ -251,6 +268,7 @@ export default function Home() {
             const maxBorrow = (col * p.ltv) / 100
             const liqPrice  = price > 0 ? (col * (p.liq / 100)) / amount : 0
             const isOpen    = openRow === p.name
+            const isLive    = p.name === 'Aave' && defiRates?.aave?.[crypto]?.live
             return (
               <div key={p.name} style={{ borderBottom: i < rows.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
                 <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
@@ -273,7 +291,15 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.apr}%</div>
+                  <div>
+                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.apr}%</div>
+                    {isLive && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
+                        <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
+                        <span style={{ fontSize: '9px', color: '#16A34A', fontWeight: '700' }}>LIVE</span>
+                      </div>
+                    )}
+                  </div>
 
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.ltv}%</div>
