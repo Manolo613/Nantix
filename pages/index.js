@@ -3,7 +3,20 @@ import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
-const CRYPTOS = [
+const STABLECOINS = [
+  {
+    id: 'usdc', symbol: 'USDC', name: 'USDC',
+    logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png',
+    color: '#2775CA',
+  },
+  {
+    id: 'usdt', symbol: 'USDT', name: 'USDT',
+    logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png',
+    color: '#26A17B',
+  },
+]
+
+const COLLATERALS = [
   {
     id: 'bitcoin',  symbol: 'BTC', name: 'Bitcoin',
     coingeckoId: 'bitcoin',
@@ -17,10 +30,10 @@ const CRYPTOS = [
     color: '#627EEA',
   },
   {
-    id: 'solana',   symbol: 'SOL', name: 'Solana',
-    coingeckoId: 'solana',
-    logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png',
-    color: '#9945FF',
+    id: 'xrp', symbol: 'XRP', name: 'XRP',
+    coingeckoId: 'ripple',
+    logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png',
+    color: '#346AA9',
   },
 ]
 
@@ -30,27 +43,41 @@ const PLATFORM_LOGOS = {
   Aave:     'https://www.google.com/s2/favicons?domain=aave.com&sz=64',
   Compound: 'https://www.google.com/s2/favicons?domain=compound.finance&sz=64',
   Spark:    'https://www.google.com/s2/favicons?domain=spark.fi&sz=64',
-  Kamino:   'https://www.google.com/s2/favicons?domain=kamino.finance&sz=64',
 }
 
 const PLATFORMS = {
-  bitcoin: [
-    { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',        best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
-    { name: 'Ledn',     apr: 11.9, ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: true,  founded: '2018', country: 'Canada',        users: '100K+', regulated: true,  about: 'Spécialiste Bitcoin. Proof-of-Reserves publique. Premier prêt hypothécaire adossé au BTC.' },
-    { name: 'Aave',     apr: 4.2,  ltv: 70, liq: 82.5, type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: false, founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Smart contracts audités. Pas de KYC, fonds toujours sous contrôle utilisateur.' },
-    { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
-  ],
-  ethereum: [
-    { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',        best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
-    { name: 'Aave',     apr: 3.8,  ltv: 80, liq: 82.5, type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé', users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Smart contracts audités.' },
-    { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé', users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Taux variables selon offre et demande.' },
-    { name: 'Spark',    apr: 4.1,  ltv: 74, liq: 79,   type: 'DeFi', color: '#FF6B35', link: 'https://spark.fi',         best: false, founded: '2023', country: 'Décentralisé', users: '50K+',  regulated: false, about: 'Protocole DeFi basé sur MakerDAO. Taux stables compétitifs.' },
-  ],
-  solana: [
-    { name: 'Nexo',     apr: 14.9, ltv: 40, liq: 75,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',        best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+',   regulated: true,  about: 'Nexo accepte SOL comme collatéral. LTV plus conservatrice vu la volatilité de Solana.' },
-    { name: 'Kamino',   apr: 6.8,  ltv: 65, liq: 80,   type: 'DeFi', color: '#9945FF', link: 'https://kamino.finance',   best: true,  founded: '2022', country: 'Décentralisé', users: '80K+',  regulated: false, about: 'Protocole DeFi natif Solana. Gestion de liquidité automatisée et taux optimisés.' },
-    { name: 'Aave',     apr: 5.5,  ltv: 60, liq: 77,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: false, founded: '2020', country: 'Décentralisé', users: '500K+', regulated: false, about: 'Aave V3 supporte SOL via wSOL sur plusieurs chaînes. Smart contracts audités.' },
-  ],
+  usdc: {
+    bitcoin: [
+      { name: 'Aave',     apr: 3.6,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDC. Smart contracts audités, pas de KYC.' },
+      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables selon l\'offre et la demande.' },
+      { name: 'Ledn',     apr: 11.9, ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',         users: '100K+', regulated: true,  about: 'Spécialiste Bitcoin. Proof-of-Reserves publique. Premier prêt hypothécaire adossé au BTC.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
+    ],
+    ethereum: [
+      { name: 'Aave',     apr: 3.6,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
+      { name: 'Spark',    apr: 4.1,  ltv: 74, liq: 79,   type: 'DeFi', color: '#FF6B35', link: 'https://spark.fi',         best: false, founded: '2023', country: 'Décentralisé',  users: '50K+',  regulated: false, about: 'Protocole DeFi basé sur MakerDAO/Sky. Taux stables compétitifs sur ETH.' },
+      { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
+    ],
+    xrp: [
+      { name: 'Nexo',     apr: 9.9,  ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: true,  founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
+    ],
+  },
+  usdt: {
+    bitcoin: [
+      { name: 'Aave',     apr: 3.8,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDT. Smart contracts audités, pas de KYC.' },
+      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
+    ],
+    ethereum: [
+      { name: 'Aave',     apr: 3.8,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDT.' },
+      { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
+    ],
+    xrp: [
+      { name: 'Nexo',     apr: 9.9,  ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: true,  founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
+    ],
+  },
 }
 
 const FAQ = [
@@ -71,25 +98,25 @@ const W  = '1100px'
 const PX = '24px'
 
 export default function Home() {
-  const [crypto, setCrypto]   = useState('bitcoin')
-  const [prices, setPrices]   = useState({})
-  const [amount, setAmount]   = useState(1)
-  const [mounted, setMounted] = useState(false)
-  const [sort, setSort]       = useState('apr')
-  const [filter, setFilter]   = useState('all')
-  const [openRow, setOpenRow] = useState(null)
-  const [openFaq, setOpenFaq] = useState(null)
-  const [imgErrors, setImgErrors] = useState({})
-  const [defiRates, setDefiRates] = useState(null) // ← MODIFIÉ : taux live DeFi
-  const [updatedAt, setUpdatedAt] = useState(null)
+  const [stablecoin, setStablecoin] = useState('usdc')
+  const [collateral, setCollateral] = useState('bitcoin')
+  const [prices, setPrices]         = useState({})
+  const [amount, setAmount]         = useState(1)
+  const [mounted, setMounted]       = useState(false)
+  const [sort, setSort]             = useState('apr')
+  const [filter, setFilter]         = useState('all')
+  const [openRow, setOpenRow]       = useState(null)
+  const [openFaq, setOpenFaq]       = useState(null)
+  const [imgErrors, setImgErrors]   = useState({})
+  const [defiRates, setDefiRates]   = useState(null)
+  const [updatedAt, setUpdatedAt]   = useState(null)
 
   useEffect(() => {
     setMounted(true)
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=eur')
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=eur')
       .then(r => r.json()).then(d => setPrices(d)).catch(() => {})
   }, [])
 
-  // ← MODIFIÉ : récupère les taux Aave en temps réel
   useEffect(() => {
     fetch('/api/rates')
       .then(r => r.json())
@@ -97,19 +124,22 @@ export default function Home() {
       .catch(() => {})
   }, [])
 
-  const c     = CRYPTOS.find(x => x.id === crypto)
+  const s     = STABLECOINS.find(x => x.id === stablecoin)
+  const c     = COLLATERALS.find(x => x.id === collateral)
   const price = prices[c.coingeckoId]?.eur || 0
   const col   = amount * price
   const fmt   = n => Math.round(n).toLocaleString('fr-FR')
   const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 
-  // ← MODIFIÉ : fusionne les taux live Aave avec les données statiques
-  const rows = (PLATFORMS[crypto] || [])
+  const rows = (PLATFORMS[stablecoin]?.[collateral] || [])
     .filter(p => filter === 'all' || p.type === filter)
     .map(p => {
-      if (p.name === 'Aave' && defiRates?.aave?.[crypto]) {
-        const live = defiRates.aave[crypto]
-        return { ...p, apr: live.apr, ltv: live.ltv, liq: live.liquidationThreshold }
+      if (p.name === 'Aave' && defiRates?.aave) {
+        const apr = defiRates.aave.rates?.[stablecoin]
+        const col = defiRates.aave.collateral?.[collateral]
+        if (apr !== null && apr !== undefined && col) {
+          return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
+        }
       }
       return p
     })
@@ -143,7 +173,7 @@ export default function Home() {
       <Head>
         <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
         <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both}`}</style>
-        <meta name="description" content="Comparateur indépendant de prêts crypto collatéralisés en français. Données en temps réel." />
+        <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC, ETH ou XRP. Données en temps réel." />
       </Head>
       <Navbar />
 
@@ -155,20 +185,20 @@ export default function Home() {
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px', marginBottom: '28px', flexWrap: 'wrap' }}>
               <div>
                 <h1 style={{ fontSize: '56px', fontWeight: '800', letterSpacing: '-2px', color: '#111', lineHeight: '1.15', marginBottom: '12px' }}>
-                  Prêts crypto collatéralisés :<br />
-                  <span style={{ color: '#666', fontWeight: '400' }}>comparez les offres en France.</span>
+                  Empruntez de l'USDC ou USDT<br />
+                  <span style={{ color: '#666', fontWeight: '400' }}>sans vendre votre crypto.</span>
                 </h1>
                 <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.6', maxWidth: '420px' }}>
-                  Taux, LTV et prix de liquidation des principales plateformes CeFi et DeFi — mis à jour en temps réel.
+                  Déposez du BTC, ETH ou XRP comme collatéral et empruntez des stablecoins. Comparez les taux des meilleures plateformes CeFi et DeFi.
                 </p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#555' }}>
                   <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                  Prix en temps réel
+                  Taux Aave en temps réel
                 </div>
                 <div style={{ display: 'flex', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
-                  {[{ v: '5', l: 'Plateformes' }, { v: '3,8%', l: 'Meilleur taux' }, { v: '80%', l: 'LTV max' }].map((s, i) => (
+                  {[{ v: '5', l: 'Plateformes' }, { v: '3,6%', l: 'Meilleur taux' }, { v: '80%', l: 'LTV max' }].map((s, i) => (
                     <div key={s.l} style={{ padding: '14px 22px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', textAlign: 'center' }}>
                       <div style={{ fontSize: '22px', fontWeight: '800', color: '#111', letterSpacing: '-0.7px' }}>{s.v}</div>
                       <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{s.l}</div>
@@ -180,15 +210,15 @@ export default function Home() {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
               {[
-                { n: '01', t: 'Choisissez votre crypto',  d: 'Sélectionnez BTC, ETH ou SOL et entrez le montant.' },
-                { n: '02', t: 'Comparez les offres',    d: 'Taux annuel, LTV et seuil de liquidation côte à côte.' },
-                { n: '03', t: 'Recevez vos euros',      d: 'Consultez les conditions de chaque plateforme.' },
-              ].map((s, i) => (
-                <div key={s.n} style={{ padding: '14px 20px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#BBB', flexShrink: 0 }}>{s.n}</span>
+                { n: '01', t: 'Choisissez le stablecoin',   d: 'USDC ou USDT — le montant que vous souhaitez emprunter.' },
+                { n: '02', t: 'Sélectionnez votre collatéral', d: 'BTC, ETH ou XRP à déposer en garantie.' },
+                { n: '03', t: 'Comparez et empruntez',       d: 'Taux, LTV et seuil de liquidation côte à côte.' },
+              ].map((step, i) => (
+                <div key={step.n} style={{ padding: '14px 20px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#BBB', flexShrink: 0 }}>{step.n}</span>
                   <div>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{s.t}</div>
-                    <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{s.d}</div>
+                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{step.t}</div>
+                    <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{step.d}</div>
                   </div>
                 </div>
               ))}
@@ -209,32 +239,52 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── NIVEAU 1 : onglets crypto ── */}
+        {/* ── NIVEAU 1 : onglets stablecoin ── */}
         <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', marginTop: '16px', background: '#fff' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
-            {CRYPTOS.map(x => (
-              <button key={x.id} onClick={() => { setCrypto(x.id); setAmount(1); setFilter('all') }} style={{
+            {STABLECOINS.map(x => (
+              <button key={x.id} onClick={() => { setStablecoin(x.id); setFilter('all') }} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
                 padding: '14px 20px',
                 fontSize: '14px', fontWeight: '600',
-                color: crypto === x.id ? '#111' : '#888',
+                color: stablecoin === x.id ? '#111' : '#888',
                 background: 'transparent', border: 'none',
-                borderBottom: `2.5px solid ${crypto === x.id ? '#111' : 'transparent'}`,
+                borderBottom: `2.5px solid ${stablecoin === x.id ? '#111' : 'transparent'}`,
                 cursor: 'pointer', transition: 'all .15s', whiteSpace: 'nowrap',
               }}>
                 <img src={x.logo} alt={x.symbol} width={20} height={20} style={{ borderRadius: '50%' }} />
                 {x.name}
-                <span style={{ fontSize: '11px', opacity: 0.45 }}>{x.symbol}</span>
               </button>
             ))}
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', padding: '0 4px', gap: '6px' }}>
+              <span style={{ fontSize: '11px', color: '#AAA' }}>Emprunter</span>
+            </div>
           </div>
         </div>
 
-        {/* ── NIVEAU 2 : filtres ── */}
+        {/* ── NIVEAU 2 : collatéral + filtres ── */}
         <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+
+            {/* Sélecteur collatéral */}
+            <div style={{ display: 'flex', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
+              {COLLATERALS.map(x => (
+                <button key={x.id} onClick={() => { setCollateral(x.id); setAmount(1); setOpenRow(null) }} style={{
+                  display: 'flex', alignItems: 'center', gap: '5px',
+                  padding: '6px 12px',
+                  fontSize: '12px', fontWeight: '600',
+                  color: collateral === x.id ? '#fff' : '#666',
+                  background: collateral === x.id ? '#111' : 'transparent',
+                  border: 'none', cursor: 'pointer', transition: 'all .15s',
+                }}>
+                  <img src={x.logo} alt={x.symbol} width={14} height={14} style={{ borderRadius: '50%' }} />
+                  {x.symbol}
+                </button>
+              ))}
+            </div>
+
+            {/* Saisie montant */}
             <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
-              <img src={c.logo} alt={c.symbol} width={22} height={22} style={{ margin: '4px', borderRadius: '50%', flexShrink: 0 }} />
               <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
                 style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
               <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#999' }}>{c.symbol}</span>
@@ -267,9 +317,9 @@ export default function Home() {
 
           {rows.map((p, i) => {
             const maxBorrow = (col * p.ltv) / 100
-            const liqPrice  = price > 0 ? (col * (p.liq / 100)) / amount : 0
+            const liqPrice  = price > 0 ? (price * (p.liq / 100)) : 0
             const isOpen    = openRow === p.name
-            const isLive    = p.name === 'Aave' && defiRates?.aave?.[crypto]?.live
+            const isLive    = p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined
             return (
               <div key={p.name} style={{ borderBottom: i < rows.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
                 <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
