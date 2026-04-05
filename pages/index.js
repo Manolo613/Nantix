@@ -50,35 +50,35 @@ const PLATFORMS = {
     bitcoin: [
       { name: 'Aave',     apr: 3.6,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDC. Smart contracts audités, pas de KYC.' },
       { name: 'Morpho',   apr: 2.56, ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
-      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables selon l\'offre et la demande.' },
-      { name: 'Ledn',     apr: 11.9, ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',         users: '100K+', regulated: true,  about: 'Spécialiste Bitcoin. Proof-of-Reserves publique. Premier prêt hypothécaire adossé au BTC.' },
-      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
+      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables selon l\'offre et la demande.' },
+      { name: 'Ledn',     apr: 11.9, ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',         users: '100K+', regulated: true,  manualUpdate: 'avr. 2026', about: 'Spécialiste Bitcoin. Proof-of-Reserves publique. Premier prêt hypothécaire adossé au BTC.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
     ],
     ethereum: [
       { name: 'Aave',     apr: 3.6,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
       { name: 'Morpho',   apr: 2.59, ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
-      { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
-      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
+      { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
     ],
     xrp: [
-      { name: 'Nexo',     apr: 9.9,  ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: true,  founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
+      { name: 'Nexo',     apr: 9.9,  ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: true,  founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
     ],
   },
   usdt: {
     bitcoin: [
       { name: 'Aave',     apr: 3.8,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDT. Smart contracts audités, pas de KYC.' },
       { name: 'Morpho',   apr: 3.88, ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux variables par marché.' },
-      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
-      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
+      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
     ],
     ethereum: [
       { name: 'Aave',     apr: 3.8,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDT.' },
       { name: 'Morpho',   apr: 9.61, ltv: 91.5, liq: 91.5, type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. LTV très haute (91.5%). Taux variables par marché.' },
-      { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
-      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
+      { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
+      { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
     ],
     xrp: [
-      { name: 'Nexo',     apr: 9.9,  ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: true,  founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
+      { name: 'Nexo',     apr: 9.9,  ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: true,  founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
     ],
   },
 }
@@ -322,7 +322,7 @@ export default function Home() {
         {/* ── TABLEAU ── */}
         <div style={wrap}>
           <div style={{ display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
-            <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation {c.symbol}</span><span>Risque</span><span></span>
+            <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Seuil liquidation</span><span>Risque</span><span></span>
           </div>
 
           {rows.map((p, i) => {
@@ -355,10 +355,16 @@ export default function Home() {
 
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.apr}%</div>
-                    {isLive && (
+                    {isLive ? (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
                         <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                        <span style={{ fontSize: '9px', color: '#16A34A', fontWeight: '700' }}>LIVE</span>
+                        <span style={{ fontSize: '9px', color: '#16A34A', fontWeight: '700' }}>
+                          {updatedAt ? `Mis à jour à ${new Date(updatedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}` : 'Chargement...'}
+                        </span>
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>
+                        Mis à jour {p.manualUpdate || 'manuellement'}
                       </div>
                     )}
                   </div>
@@ -373,8 +379,8 @@ export default function Home() {
                   <div style={{ fontSize: '17px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
 
                   <div>
-                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
-                    <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>par {c.symbol}</div>
+                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(amount * liqPrice) + ' €' : '—'}</div>
+                    <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>seuil · {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'} / {c.symbol}</div>
                   </div>
 
                   <div>
