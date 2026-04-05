@@ -41,6 +41,7 @@ const PLATFORM_LOGOS = {
   Nexo:     'https://www.google.com/s2/favicons?domain=nexo.com&sz=64',
   Ledn:     'https://www.google.com/s2/favicons?domain=ledn.io&sz=64',
   Aave:     'https://www.google.com/s2/favicons?domain=aave.com&sz=64',
+  Morpho:   'https://www.google.com/s2/favicons?domain=morpho.org&sz=64',
   Compound: 'https://www.google.com/s2/favicons?domain=compound.finance&sz=64',
 }
 
@@ -48,12 +49,14 @@ const PLATFORMS = {
   usdc: {
     bitcoin: [
       { name: 'Aave',     apr: 3.6,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDC. Smart contracts audités, pas de KYC.' },
+      { name: 'Morpho',   apr: 3.5,  ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
       { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables selon l\'offre et la demande.' },
       { name: 'Ledn',     apr: 11.9, ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',         users: '100K+', regulated: true,  about: 'Spécialiste Bitcoin. Proof-of-Reserves publique. Premier prêt hypothécaire adossé au BTC.' },
       { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
     ],
     ethereum: [
       { name: 'Aave',     apr: 3.6,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
+      { name: 'Morpho',   apr: 3.0,  ltv: 91, liq: 91,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. LTV très haute (91.5%). Marchés isolés, taux variables.' },
       { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
     ],
@@ -64,11 +67,13 @@ const PLATFORMS = {
   usdt: {
     bitcoin: [
       { name: 'Aave',     apr: 3.8,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDT. Smart contracts audités, pas de KYC.' },
+      { name: 'Morpho',   apr: 3.6,  ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux variables par marché.' },
       { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux compétitifs avec système de fidélité NEXO token.' },
     ],
     ethereum: [
       { name: 'Aave',     apr: 3.8,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDT.' },
+      { name: 'Morpho',   apr: 3.2,  ltv: 91, liq: 91,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. LTV très haute (91.5%). Taux variables par marché.' },
       { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
     ],
@@ -135,6 +140,13 @@ export default function Home() {
       if (p.name === 'Aave' && defiRates?.aave) {
         const apr = defiRates.aave.rates?.[stablecoin]
         const col = defiRates.aave.collateral?.[collateral]
+        if (apr !== null && apr !== undefined && col) {
+          return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
+        }
+      }
+      if (p.name === 'Morpho' && defiRates?.morpho) {
+        const apr = defiRates.morpho.rates?.[stablecoin]?.[collateral]
+        const col = defiRates.morpho.collateral?.[collateral]
         if (apr !== null && apr !== undefined && col) {
           return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
         }
@@ -317,7 +329,8 @@ export default function Home() {
             const maxBorrow = (col * p.ltv) / 100
             const liqPrice  = price > 0 ? (price * (p.liq / 100)) : 0
             const isOpen    = openRow === p.name
-            const isLive    = p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined
+            const isLive    = (p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined) ||
+                              (p.name === 'Morpho' && defiRates?.morpho?.rates?.[stablecoin]?.[collateral] !== undefined)
             return (
               <div key={p.name} style={{ borderBottom: i < rows.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
                 <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
@@ -419,7 +432,7 @@ export default function Home() {
 
           {updatedAt && (
             <div style={{ textAlign: 'right', fontSize: '11px', color: '#999', padding: '8px 0 4px' }}>
-              Taux Aave mis à jour le {new Date(updatedAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              Taux DeFi mis à jour le {new Date(updatedAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </div>
           )}
 
