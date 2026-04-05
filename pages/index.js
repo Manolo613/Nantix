@@ -357,9 +357,9 @@ export default function Home() {
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.apr}%</div>
                     {isLive ? (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
-                        <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                        <span style={{ fontSize: '9px', color: '#16A34A', fontWeight: '700' }}>
-                          {updatedAt ? `Mis à jour à ${new Date(updatedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}` : 'Chargement...'}
+                        <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
+                        <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>
+                          {updatedAt ? new Date(updatedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '...'}
                         </span>
                       </div>
                     ) : (
