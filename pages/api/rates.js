@@ -103,7 +103,7 @@ async function fetchMorpho() {
   const getCollateral = (collateralSymbol) => {
     const market = getBestMarket('USDC', collateralSymbol) || getBestMarket('USDT', collateralSymbol)
     if (!market) return null
-    const lltv = parseFloat((market.lltv * 100).toFixed(1))
+    const lltv = parseFloat((parseFloat(market.lltv) / 1e27 * 100).toFixed(1))
     return { ltv: lltv, liquidationThreshold: lltv }
   }
 
