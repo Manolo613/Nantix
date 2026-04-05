@@ -42,7 +42,6 @@ const PLATFORM_LOGOS = {
   Ledn:     'https://www.google.com/s2/favicons?domain=ledn.io&sz=64',
   Aave:     'https://www.google.com/s2/favicons?domain=aave.com&sz=64',
   Compound: 'https://www.google.com/s2/favicons?domain=compound.finance&sz=64',
-  Spark:    'https://www.google.com/s2/favicons?domain=spark.fi&sz=64',
 }
 
 const PLATFORMS = {
@@ -55,7 +54,6 @@ const PLATFORMS = {
     ],
     ethereum: [
       { name: 'Aave',     apr: 3.6,  ltv: 80, liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
-      { name: 'Spark',    apr: 4.1,  ltv: 74, liq: 79,   type: 'DeFi', color: '#FF6B35', link: 'https://spark.fi',         best: false, founded: '2023', country: 'Décentralisé',  users: '50K+',  regulated: false, about: 'Protocole DeFi basé sur MakerDAO/Sky. Taux stables compétitifs sur ETH.' },
       { name: 'Compound', apr: 4.5,  ltv: 75, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'Nexo',     apr: 13.9, ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',  users: '7M+',   regulated: true,  about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
     ],
@@ -311,8 +309,8 @@ export default function Home() {
 
         {/* ── TABLEAU ── */}
         <div style={wrap}>
-          <div style={{ display: 'grid', gridTemplateColumns: '220px 100px 100px 1fr 1fr 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
-            <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation {c.symbol}</span><span></span>
+          <div style={{ display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
+            <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation {c.symbol}</span><span>Risque</span><span></span>
           </div>
 
           {rows.map((p, i) => {
@@ -325,7 +323,7 @@ export default function Home() {
                 <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
                 style={{
                   animationDelay: `${i * 0.06}s`,
-                  display: 'grid', gridTemplateColumns: '220px 100px 100px 1fr 1fr 130px',
+                  display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px',
                   padding: '20px 12px', alignItems: 'center',
                   background: p.best ? '#FAFAFA' : '#fff', cursor: 'pointer',
                 }}
@@ -364,6 +362,19 @@ export default function Home() {
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
                     <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>par {c.symbol}</div>
+                  </div>
+
+                  <div>
+                    <div style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '4px',
+                      fontSize: '10px', fontWeight: '700',
+                      color: p.type === 'DeFi' ? '#16A34A' : '#B45309',
+                      background: p.type === 'DeFi' ? '#F0FDF4' : '#FFFBEB',
+                      border: `1px solid ${p.type === 'DeFi' ? '#BBF7D0' : '#FDE68A'}`,
+                      padding: '3px 7px', borderRadius: '20px',
+                    }}>
+                      {p.type === 'DeFi' ? '🟢 Smart contract' : '🟡 Contrepartie'}
+                    </div>
                   </div>
 
                   <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
