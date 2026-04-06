@@ -356,7 +356,7 @@ export default function Home() {
         <div style={wrap}>
           {!isMobile && (
             <div style={{ display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
-              <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation / {c.symbol}</span><span>Risque</span><span></span>
+              <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation / {c.symbol}</span><span>Accès</span><span></span>
             </div>
           )}
 
@@ -393,7 +393,7 @@ export default function Home() {
                         <PlatformLogo name={p.name} color={p.color} />
                         <div>
                           <div style={{ fontSize: '15px', fontWeight: '700', color: '#111' }}>{p.name}</div>
-                          <div style={{ fontSize: '10px', fontWeight: '700', color: p.type === 'DeFi' ? '#16A34A' : '#2563EB' }}>{p.type}</div>
+                          <div style={{ fontSize: '10px', fontWeight: '700', color: p.type === 'DeFi' ? '#888' : '#16A34A' }}>{p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}</div>
                         </div>
                       </div>
                       <AprBadge />
@@ -443,7 +443,7 @@ export default function Home() {
                       <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>
                         {p.name} <span style={{ fontSize: '10px', color: '#BBB', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
                       </div>
-                      <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#16A34A' : '#2563EB' }}>{p.type}</div>
+                      <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
                     </div>
                   </div>
 
@@ -466,10 +466,15 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '700', color: p.type === 'DeFi' ? '#16A34A' : '#B45309', background: p.type === 'DeFi' ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.type === 'DeFi' ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 7px', borderRadius: '20px' }}>
-                      {p.type === 'DeFi' ? '🟢 Smart contract' : '🟡 Contrepartie'}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '700', color: p.type === 'DeFi' ? '#666' : '#16A34A', background: p.type === 'DeFi' ? '#F5F5F5' : '#F0FDF4', border: `1px solid ${p.type === 'DeFi' ? '#E0E0E0' : '#BBF7D0'}`, padding: '3px 7px', borderRadius: '20px' }}>
+                      {p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}
                     </div>
+                    {p.type === 'CeFi' && (
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '700', color: '#2563EB', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '3px 7px', borderRadius: '20px' }}>
+                        🛡️ Régulé
+                      </div>
+                    )}
                   </div>
 
                   <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
