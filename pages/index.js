@@ -50,13 +50,13 @@ const PLATFORM_LOGOS = {
 const PLATFORMS = {
   usdc: {
     bitcoin: [
-      { name: 'Aave',     apr: 3.6,  ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',  users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDC. Smart contracts audités, pas de KYC.' },
-      { name: 'Morpho',   apr: 2.56, ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',  users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
-      { name: 'Compound', apr: 5.1,  ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',  users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables selon l\'offre et la demande.' },
-      { name: 'Ledn',      apr: 11.49, ltv: 50, liq: 80,  type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',           users: '100K+', regulated: true,  manualUpdate: 'avr. 2026', about: 'Spécialiste Bitcoin uniquement. Proof-of-Reserves publique. Taux à partir de 11.49% APR.' },
-      { name: 'YouHodler', apr: 8.0,   ltv: 97, liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre',  users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Plateforme CeFi suisse. Taux variable selon le CVR choisi : 8% APR à 97% CVR (risque élevé, liquidation dès -1,5%) jusqu\'à 16% APR à 50% CVR (liquidation à -45%). Prêts en USDC/USDT, durée max 60 jours.' },
-      { name: 'Nexo',      apr: 13.9,  ltv: 50, liq: 83,  type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',    users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token (6.9% Platinum → 13.9% Base).' },
-      { name: 'Nebeus',    apr: 6.0,   ltv: 65, liq: 75,  type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',     users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Plateforme FCA-régulée au Royaume-Uni. Interest Only Loan (6% APR, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). KYC requis.' },
+      { name: 'Aave',      apr: 3.6,   ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDC. Smart contracts audités, pas de KYC.' },
+      { name: 'Morpho',    apr: 2.56,  ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',    users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
+      { name: 'Compound',  apr: 5.1,   ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',    users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables selon l\'offre et la demande.' },
+      { name: 'Ledn',      apr: 12.4,  ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',           users: '100K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '12.4 – 13.9', about: 'Spécialiste Bitcoin uniquement. Proof-of-Reserves publique. Taux à partir de 12.4% APR.' },
+      { name: 'YouHodler', apr: 8.0,   ltv: 97, liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Plateforme CeFi suisse. Taux variable selon le CVR choisi : 8% APR à 97% CVR (risque élevé, liquidation dès -1,5%) jusqu\'à 16% APR à 50% CVR (liquidation à -45%). Prêts en USDC/USDT, durée max 60 jours.' },
+      { name: 'Nexo',      apr: 13.9,  ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token (6.9% Platinum → 13.9% Base).' },
+      { name: 'Nebeus',    apr: 6.0,   ltv: 65, liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Plateforme FCA-régulée au Royaume-Uni. Interest Only Loan (6% APR, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). KYC requis.' },
     ],
     ethereum: [
       { name: 'Aave',      apr: 3.6,   ltv: 80,  liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
@@ -64,7 +64,7 @@ const PLATFORMS = {
       { name: 'Compound',  apr: 4.5,   ltv: 75,  liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',    users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97,  liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDC/USDT adossés à ETH. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
       { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token.' },
-      { name: 'Nebeus',    apr: 6.0,   ltv: 65,  liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Prêt ETH sur Nebeus. Interest Only Loan (6% APR, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
+      { name: 'Nebeus',    apr: 6.0,   ltv: 70,  liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Prêt ETH sur Nebeus. Interest Only Loan (6% APR, LTV 70%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
     ],
     xrp: [
       { name: 'Nexo',      apr: 9.9,   ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
@@ -82,7 +82,7 @@ const PLATFORMS = {
     ],
     ethereum: [
       { name: 'Aave',      apr: 3.8,   ltv: 80,  liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDT.' },
-      { name: 'Morpho',    apr: 9.61,  ltv: 91.5, liq: 91.5, type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',    users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. LTV très haute (91.5%). Taux variables par marché.' },
+      { name: 'Morpho',    apr: 9.61,  ltv: 91.5, liq: 91.5, type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',   users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. LTV très haute (91.5%). Taux variables par marché.' },
       { name: 'Compound',  apr: 4.5,   ltv: 75,  liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',    users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97,  liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDT adossés à ETH. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
       { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
@@ -111,6 +111,10 @@ const BLOG = [
 
 const W  = '1100px'
 const PX = '24px'
+
+// Colonnes du tableau — définies une seule fois, utilisées pour le header ET les rows
+// 1: Plateforme  2: Taux/an  3: LTV  4: Emprunt max  5: Liquidation  6: Accès  7: CTA
+const GRID = '220px 140px 110px 1fr 1fr 120px 130px'
 
 export default function Home() {
   const [stablecoin, setStablecoin] = useState('usdc')
@@ -367,13 +371,26 @@ export default function Home() {
         {/* ── TABLEAU ── */}
         <div style={wrap}>
           {!isMobile && (
-            <div style={{ display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px', padding: '10px 12px', fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', borderBottom: '1px solid #EBEBEB' }}>
-              <span>Plateforme</span><span>Taux / an</span><span>LTV max</span><span>Emprunt max</span><span>Liquidation / {c.symbol}</span><span>Accès</span><span></span>
+            // Header avec exactement les mêmes colonnes que les rows
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: GRID,
+              padding: '10px 16px',
+              fontSize: '10px', fontWeight: '700', color: '#999',
+              textTransform: 'uppercase', letterSpacing: '.9px',
+              borderBottom: '1px solid #EBEBEB',
+            }}>
+              <span>Plateforme</span>
+              <span>Taux / an</span>
+              <span>LTV max</span>
+              <span>Emprunt max</span>
+              <span>Liquidation / {c.symbol}</span>
+              <span>Accès</span>
+              <span></span>
             </div>
           )}
 
           {rows.map((p, i) => {
-            // Pour YouHodler, utiliser les valeurs calculées dynamiquement selon le CVR
             const isYouHodler = p.name === 'YouHodler'
             const yhCalc      = isYouHodler ? youhodlerCalc(youhodlerCvr) : null
             const displayApr  = isYouHodler ? yhCalc.apr : p.apr
@@ -386,10 +403,17 @@ export default function Home() {
             const isLive    = (p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined) ||
                               (p.name === 'Morpho' && defiRates?.morpho?.rates?.[stablecoin]?.[collateral] !== undefined)
 
+            // Barre LTV : largeur proportionnelle sur 64px de conteneur
+            // 100% LTV = barre pleine. On clampe à max 100%.
+            const ltvBarWidth = Math.min(displayLtv, 100)
+
             const AprBadge = () => (
               <div>
-                <div style={{ fontSize: isMobile ? '22px' : '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>
-                  {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
+                <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
+                  {isYouHodler
+                    ? `${displayApr}%`
+                    : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)
+                  }
                 </div>
                 {isLive ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
@@ -399,6 +423,37 @@ export default function Home() {
                 ) : (
                   <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
                 )}
+              </div>
+            )
+
+            // Colonne Accès — hauteur fixe pour aligner les badges DeFi (1 badge) et CeFi (2 badges)
+            const AccesBadges = () => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '4px',
+                  fontSize: '10px', fontWeight: '700',
+                  color: p.type === 'DeFi' ? '#666' : '#16A34A',
+                  background: p.type === 'DeFi' ? '#F5F5F5' : '#F0FDF4',
+                  border: `1px solid ${p.type === 'DeFi' ? '#E0E0E0' : '#BBF7D0'}`,
+                  padding: '3px 7px', borderRadius: '20px',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}
+                </div>
+                {/* Badge Régulé toujours présent — transparent pour DeFi afin de maintenir la hauteur */}
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '4px',
+                  fontSize: '10px', fontWeight: '700',
+                  color: p.type === 'CeFi' ? '#2563EB' : 'transparent',
+                  background: p.type === 'CeFi' ? '#EFF6FF' : 'transparent',
+                  border: `1px solid ${p.type === 'CeFi' ? '#BFDBFE' : 'transparent'}`,
+                  padding: '3px 7px', borderRadius: '20px',
+                  whiteSpace: 'nowrap',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                }}>
+                  🛡️ Régulé
+                </div>
               </div>
             )
 
@@ -420,7 +475,7 @@ export default function Home() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderTop: '1px solid #F0F0F0', borderBottom: '1px solid #F0F0F0' }}>
                       <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>LTV</div>
-                        <div style={{ fontSize: '15px', fontWeight: '700', color: '#111' }}>{p.ltv}%</div>
+                        <div style={{ fontSize: '15px', fontWeight: '700', color: '#111' }}>{displayLtv}%</div>
                       </div>
                       <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Emprunt max</div>
@@ -429,7 +484,7 @@ export default function Home() {
                       <div style={{ padding: '10px 12px' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Liquidation</div>
                         <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
-                        {mounted && price > 0 && <div style={{ fontSize: '9px', color: '#DC2626' }}>−{Math.round((1 - p.liq / 100) * 100)}%</div>}
+                        {mounted && price > 0 && <div style={{ fontSize: '9px', color: '#DC2626' }}>−{Math.round((1 - displayLiq / 100) * 100)}%</div>}
                       </div>
                     </div>
                     <div style={{ padding: '12px 16px' }}>
@@ -443,73 +498,98 @@ export default function Home() {
                   </div>
                 ) : (
 
-                <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
-                style={{
-                  animationDelay: `${i * 0.06}s`,
-                  display: 'grid', gridTemplateColumns: '200px 100px 100px 1fr 1fr 110px 130px',
-                  padding: '20px 12px', alignItems: 'center',
-                  background: p.best ? '#FAFAFA' : '#fff', cursor: 'pointer',
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
-                onMouseLeave={e => e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'}>
+                  <div
+                    onClick={() => setOpenRow(isOpen ? null : p.name)}
+                    className='fade-row'
+                    style={{
+                      animationDelay: `${i * 0.06}s`,
+                      display: 'grid',
+                      gridTemplateColumns: GRID,
+                      padding: '0 16px',
+                      alignItems: 'center',
+                      minHeight: '72px',  // hauteur uniforme pour toutes les lignes
+                      background: p.best ? '#FAFAFA' : '#fff',
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
+                    onMouseLeave={e => e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'}
+                  >
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <PlatformLogo name={p.name} color={p.color} />
+                    {/* Col 1 — Plateforme */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <PlatformLogo name={p.name} color={p.color} />
+                      <div>
+                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>
+                          {p.name}{' '}
+                          <span style={{ fontSize: '10px', color: '#BBB', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+                        </div>
+                        <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
+                      </div>
+                    </div>
+
+                    {/* Col 2 — Taux / an */}
+                    <AprBadge />
+
+                    {/* Col 3 — LTV max */}
                     <div>
-                      <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>
-                        {p.name} <span style={{ fontSize: '10px', color: '#BBB', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
+                      {/* Barre proportionnelle : conteneur 64px fixe, barre = ltvBarWidth% de 64px */}
+                      <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
+                        <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
                       </div>
-                      <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
                     </div>
-                  </div>
 
-                  <AprBadge />
-
-                  <div>
-                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
-                    <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '52px' }}>
-                      <div style={{ height: '100%', width: `${displayLtv}%`, background: '#111', borderRadius: '2px' }} />
+                    {/* Col 4 — Emprunt max */}
+                    <div style={{ fontSize: '16px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>
+                      {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
                     </div>
-                  </div>
 
-                  <div style={{ fontSize: '17px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
-
-                  <div>
-                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
-                    <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
-                      {mounted && price > 0 ? <span style={{ color: '#DC2626', fontWeight: '600' }}>−{Math.round((1 - displayLiq / 100) * 100)}%</span> : ''}
-                      {mounted && price > 0 ? ' avant liquidation' : ''}
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '700', color: p.type === 'DeFi' ? '#666' : '#16A34A', background: p.type === 'DeFi' ? '#F5F5F5' : '#F0FDF4', border: `1px solid ${p.type === 'DeFi' ? '#E0E0E0' : '#BBF7D0'}`, padding: '3px 7px', borderRadius: '20px' }}>
-                      {p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}
-                    </div>
-                    {p.type === 'CeFi' && (
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '700', color: '#2563EB', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '3px 7px', borderRadius: '20px' }}>
-                        🛡️ Régulé
+                    {/* Col 5 — Liquidation */}
+                    <div>
+                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>
+                        {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
                       </div>
-                    )}
-                  </div>
+                      <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
+                        {mounted && price > 0 && (
+                          <>
+                            <span style={{ color: '#DC2626', fontWeight: '600' }}>
+                              −{Math.round((1 - displayLiq / 100) * 100)}%
+                            </span>
+                            {' '}avant liquidation
+                          </>
+                        )}
+                      </div>
+                    </div>
 
-                  <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
-                    display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px',
-                    fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap',
-                    background: '#fff', color: '#444', border: '1.5px solid #DCDCDC',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#111'; e.currentTarget.style.color = '#111' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#DCDCDC'; e.currentTarget.style.color = '#444' }}
-                  >Emprunter →</a>
-                </div>
+                    {/* Col 6 — Accès (hauteur uniforme grâce au badge fantôme) */}
+                    <AccesBadges />
+
+                    {/* Col 7 — CTA */}
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={e => e.stopPropagation()}
+                      style={{
+                        display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px',
+                        fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap',
+                        background: '#fff', color: '#444', border: '1.5px solid #DCDCDC',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#111'; e.currentTarget.style.color = '#111' }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#DCDCDC'; e.currentTarget.style.color = '#444' }}
+                    >
+                      Emprunter →
+                    </a>
+                  </div>
                 )}
 
+                {/* ── PANNEAU EXPANDED ── */}
                 {isOpen && !isMobile && (
                   <div style={{ background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
 
                     {/* Boutons CVR pour YouHodler */}
                     {isYouHodler && (
-                      <div style={{ padding: '16px 20px 20px', background: '#FAFAFA' }}>
+                      <div style={{ padding: '16px 20px 20px' }}>
                         <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', marginBottom: '12px' }}>
                           Choisissez votre niveau d'emprunt (LTV)
                         </div>
@@ -539,30 +619,31 @@ export default function Home() {
                       </div>
                     )}
 
+                    {/* Détails génériques pour les autres plateformes */}
                     {!isYouHodler && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
-                    <div>
-                      <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
-                      <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
-                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{p.country}</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Utilisateurs</div>
-                      <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.users}</div>
-                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>estimé</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>Régulation</div>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: '700', color: p.regulated ? '#16A34A' : '#B45309', background: p.regulated ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.regulated ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 8px', borderRadius: '20px' }}>
-                        {p.regulated ? '✓ Régulée' : '⚡ Décentralisé'}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
+                        <div>
+                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
+                          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
+                          <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{p.country}</div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Utilisateurs</div>
+                          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.users}</div>
+                          <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>estimé</div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>Régulation</div>
+                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: '700', color: p.regulated ? '#16A34A' : '#B45309', background: p.regulated ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.regulated ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 8px', borderRadius: '20px' }}>
+                            {p.regulated ? '✓ Régulée' : '⚡ Décentralisé'}
+                          </div>
+                          <div style={{ fontSize: '11px', color: '#666', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
+                          <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
+                        </div>
                       </div>
-                      <div style={{ fontSize: '11px', color: '#666', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
-                      <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
-                    </div>
-                  </div>
                     )}
                   </div>
                 )}
