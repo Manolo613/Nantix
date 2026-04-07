@@ -60,10 +60,6 @@ const PLATFORMS = {
       { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token.' },
       { name: 'Nebeus',    apr: 6.0,   ltv: 70,  liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Prêt ETH sur Nebeus. Interest Only Loan (6% APR, LTV 70%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
     ],
-    xrp: [
-      { name: 'Nexo',      apr: 9.9,   ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
-      { name: 'YouHodler', apr: 14.9,  ltv: 50, liq: 72,   type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: true,  founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'YouHodler accepte XRP en collatéral. LTV 50%, taux à partir de 14.9% APR.' },
-    ],
   },
   usdt: {
     bitcoin: [
@@ -81,10 +77,6 @@ const PLATFORMS = {
       { name: 'YouHodler', apr: 8.0,   ltv: 97,  liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDT adossés à ETH. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
       { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
       { name: 'Nebeus',    apr: 6.5,   ltv: 50,  liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.5 – 13.9', about: 'Prêt ETH sur Nebeus. Flexible (6.5% APR, LTV 50%) ou Express (13.9%, LTV 80%). FCA-régulée.' },
-    ],
-    xrp: [
-      { name: 'Nexo',      apr: 9.9,   ltv: 40, liq: 70,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'Nexo accepte XRP comme collatéral. LTV conservatrice (40%) vu la volatilité du XRP.' },
-      { name: 'YouHodler', apr: 14.9,  ltv: 50, liq: 72,   type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: true,  founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', about: 'YouHodler accepte XRP en collatéral. LTV 50%, taux à partir de 14.9% APR.' },
     ],
   },
 }
@@ -135,7 +127,7 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true)
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=eur')
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=eur')
       .then(r => r.json()).then(d => setPrices(d)).catch(() => {})
   }, [])
 
@@ -226,7 +218,7 @@ export default function Home() {
       <Head>
         <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
         <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both} .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease} .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}`}</style>
-        <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC, ETH ou XRP. Données en temps réel." />
+        <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC ou ETH. Données en temps réel." />
       </Head>
       <Navbar />
 
@@ -241,7 +233,7 @@ export default function Home() {
                   Empruntez sans<br />vendre votre crypto.
                 </h1>
                 <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', maxWidth: '420px' }}>
-                  Déposez du BTC, ETH ou XRP et empruntez de l'USDC ou USDT. Comparez les meilleurs taux.
+                  Déposez du BTC ou ETH et empruntez de l'USDC ou USDT. Comparez les meilleurs taux.
                 </p>
               </div>
               {!isMobile && (
@@ -266,7 +258,7 @@ export default function Home() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
                 {[
                   { n: '01', t: 'Choisissez le stablecoin',      d: 'USDC ou USDT — le montant que vous souhaitez emprunter.' },
-                  { n: '02', t: 'Sélectionnez votre collatéral', d: 'BTC, ETH ou XRP à déposer en garantie.' },
+                  { n: '02', t: 'Sélectionnez votre collatéral', d: 'BTC ou ETH à déposer en garantie.' },
                   { n: '03', t: 'Comparez et empruntez',         d: 'Taux, LTV et seuil de liquidation côte à côte.' },
                 ].map((step, i) => (
                   <div key={step.n} style={{ padding: '14px 20px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
