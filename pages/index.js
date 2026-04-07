@@ -544,7 +544,6 @@ export default function Home() {
                       <div>
                         <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>{p.name}</div>
                         <div style={{ fontSize: '10px', fontWeight: '600', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
-                        <div style={{ fontSize: '10px', color: '#BBB', marginTop: '1px' }}>{p.users}</div>
                       </div>
                     </div>
 
