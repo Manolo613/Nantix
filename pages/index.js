@@ -187,13 +187,17 @@ export default function Home() {
       return { ...p, best: p.apr === minApr }
     })
 
-  // YouHodler CVR → taux et liquidation
+  // YouHodler CVR — données réelles vérifiées sur la plateforme (1 BTC, USDC)
+  const YH_CVR = {
+    97: { apr: 8.0,  liqPct: 1.5  },
+    90: { apr: 12.0, liqPct: 5.0  },
+    70: { apr: 14.0, liqPct: 25.0 },
+    50: { apr: 16.0, liqPct: 45.0 },
+  }
   const youhodlerCalc = (cvr) => {
-    // Taux : 8% à 97% CVR, 16% à 50% CVR — interpolation linéaire
-    const apr = 8 + (97 - cvr) * (16 - 8) / (97 - 50)
-    // Liquidation : CVR + ~1.5% de marge de sécurité YouHodler
-    const liq = Math.min(cvr + 1.5, 99.5)
-    return { apr: Math.round(apr * 10) / 10, liq: Math.round(liq * 10) / 10 }
+    const d = YH_CVR[cvr] || YH_CVR[90]
+    const liq = 100 - d.liqPct
+    return { apr: d.apr, liq, liqPct: d.liqPct }
   }
 
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
@@ -503,33 +507,39 @@ export default function Home() {
                 {isOpen && !isMobile && (
                   <div style={{ background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
 
-                    {/* Slider CVR pour YouHodler */}
+                    {/* Boutons CVR pour YouHodler */}
                     {isYouHodler && (
                       <div style={{ padding: '16px 20px', borderBottom: '1px solid #EBEBEB', background: '#F8F8F8' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                          <div style={{ fontSize: '11px', fontWeight: '700', color: '#555', textTransform: 'uppercase', letterSpacing: '.7px' }}>
-                            CVR (Crypto Value Ratio) — ajustez votre niveau d'emprunt
-                          </div>
-                          <div style={{ display: 'flex', gap: '16px', fontSize: '12px' }}>
-                            <span style={{ color: '#16A34A', fontWeight: '700' }}>Taux : {youhodlerCalc(youhodlerCvr).apr}% APR</span>
-                            <span style={{ color: '#DC2626', fontWeight: '700' }}>Liquidation : −{Math.round(100 - youhodlerCvr - 1.5)}% du prix actuel</span>
-                          </div>
+                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#555', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '12px' }}>
+                          CVR (Crypto Value Ratio) — choisissez votre niveau d'emprunt
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>50% <span style={{ color: '#16A34A' }}>✓ Sûr</span></span>
-                          <input
-                            type="range" min="50" max="97" step="1"
-                            value={youhodlerCvr}
-                            onChange={e => setYouhodlerCvr(Number(e.target.value))}
-                            onClick={e => e.stopPropagation()}
-                            style={{ flex: 1, accentColor: '#111', cursor: 'pointer' }}
-                          />
-                          <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>97% <span style={{ color: '#DC2626' }}>⚠ Risqué</span></span>
+                        <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+                          {[97, 90, 70, 50].map(cvr => {
+                            const d = YH_CVR[cvr]
+                            const isSelected = youhodlerCvr === cvr
+                            return (
+                              <button
+                                key={cvr}
+                                onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
+                                style={{
+                                  flex: 1, padding: '10px 8px', borderRadius: '8px', cursor: 'pointer',
+                                  border: `2px solid ${isSelected ? '#111' : '#E0E0E0'}`,
+                                  background: isSelected ? '#111' : '#fff',
+                                  color: isSelected ? '#fff' : '#444',
+                                  transition: 'all .15s',
+                                }}
+                              >
+                                <div style={{ fontSize: '16px', fontWeight: '800' }}>{cvr}%</div>
+                                <div style={{ fontSize: '10px', marginTop: '3px', opacity: 0.8 }}>{d.apr}% APR</div>
+                                <div style={{ fontSize: '10px', opacity: 0.7 }}>−{d.liqPct}% liq.</div>
+                              </button>
+                            )
+                          })}
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', fontSize: '11px', color: '#888' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', padding: '10px 14px', background: '#fff', borderRadius: '8px', border: '1px solid #EBEBEB' }}>
                           <span>Emprunt max : <strong style={{ color: '#16A34A' }}>{mounted && price > 0 ? fmt((col * youhodlerCvr) / 100) + ' €' : '—'}</strong></span>
-                          <span>CVR sélectionné : <strong style={{ color: '#111' }}>{youhodlerCvr}%</strong></span>
-                          <span>Seuil liquidation : <strong style={{ color: '#DC2626' }}>{mounted && price > 0 ? fmt(price * youhodlerCalc(youhodlerCvr).liq / 100) + ' €' : '—'}</strong></span>
+                          <span>Taux : <strong style={{ color: '#111' }}>{youhodlerCalc(youhodlerCvr).apr}% APR</strong></span>
+                          <span>Liquidation si BTC baisse de : <strong style={{ color: '#DC2626' }}>−{YH_CVR[youhodlerCvr].liqPct}%</strong></span>
                         </div>
                       </div>
                     )}
