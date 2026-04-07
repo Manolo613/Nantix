@@ -310,7 +310,6 @@ export default function Home() {
         <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
 
-            {/* Sélecteur collatéral */}
             <div style={{ display: 'flex', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
               {COLLATERALS.map(x => (
                 <button key={x.id} onClick={() => { setCollateral(x.id); setAmount(1); setOpenRow(null) }} style={{
@@ -327,7 +326,6 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Saisie montant */}
             <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
               <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
                 style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
@@ -384,10 +382,8 @@ export default function Home() {
             return (
               <div key={p.name} style={{ borderBottom: '1px solid #F5F5F5', marginBottom: isMobile ? '8px' : '0' }}>
 
-                {/* ── VERSION MOBILE : carte ── */}
                 {isMobile ? (
                   <div className='fade-row' style={{ animationDelay: `${i * 0.06}s`, background: '#fff', borderRadius: '12px', border: p.best ? '2px solid #111' : '1px solid #EBEBEB', overflow: 'hidden' }}>
-                    {/* Ligne 1 : logo + nom + APR */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <PlatformLogo name={p.name} color={p.color} />
@@ -398,7 +394,6 @@ export default function Home() {
                       </div>
                       <AprBadge />
                     </div>
-                    {/* Ligne 2 : stats */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderTop: '1px solid #F0F0F0', borderBottom: '1px solid #F0F0F0' }}>
                       <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>LTV</div>
@@ -414,7 +409,6 @@ export default function Home() {
                         {mounted && price > 0 && <div style={{ fontSize: '9px', color: '#DC2626' }}>−{Math.round((1 - p.liq / 100) * 100)}%</div>}
                       </div>
                     </div>
-                    {/* Bouton */}
                     <div style={{ padding: '12px 16px' }}>
                       <a href={p.link} target="_blank" rel="noopener noreferrer" style={{
                         display: 'block', textAlign: 'center', padding: '11px',
@@ -426,7 +420,6 @@ export default function Home() {
                   </div>
                 ) : (
 
-                /* ── VERSION DESKTOP : tableau ── */
                 <div onClick={() => setOpenRow(isOpen ? null : p.name)} className='fade-row'
                 style={{
                   animationDelay: `${i * 0.06}s`,
@@ -452,7 +445,7 @@ export default function Home() {
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.ltv}%</div>
                     <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '52px' }}>
-                      <div style={{ height: '100%', width: `${p.ltv}%`, background: p.color, borderRadius: '2px' }} />
+                      <div style={{ height: '100%', width: `${p.ltv}%`, background: '#111', borderRadius: '2px' }} />
                     </div>
                   </div>
 
