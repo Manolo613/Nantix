@@ -544,6 +544,7 @@ export default function Home() {
                       </div>
                     )}
 
+                    {!isYouHodler && (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
                     <div>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
@@ -567,6 +568,7 @@ export default function Home() {
                       <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
                     </div>
                   </div>
+                    )}
                   </div>
                 )}
               </div>
