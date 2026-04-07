@@ -521,11 +521,11 @@ export default function Home() {
                       </div>
                       <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Emprunt max</div>
-                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#16A34A' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' ' + currencySymbol : '—'}</div>
+                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#16A34A' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
                       </div>
                       <div style={{ padding: '10px 12px' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Liquidation</div>
-                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626' }}>{mounted && price > 0 ? fmt(liqPrice) + ' ' + currencySymbol : '—'}</div>
+                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
                         {mounted && price > 0 && <div style={{ fontSize: '9px', color: '#DC2626' }}>−{Math.round((1 - displayLiq / 100) * 100)}%</div>}
                       </div>
                     </div>
@@ -579,13 +579,13 @@ export default function Home() {
 
                     {/* Col 4 — Emprunt max */}
                     <div style={{ fontSize: '16px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>
-                      {mounted && price > 0 ? fmt(maxBorrow) + ' ' + currencySymbol : '—'}
+                      {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
                     </div>
 
                     {/* Col 5 — Liquidation */}
                     <div>
                       <div style={{ fontSize: '16px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>
-                        {mounted && price > 0 ? fmt(liqPrice) + ' ' + currencySymbol : '—'}
+                        {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
                       </div>
                       <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
                         {mounted && price > 0 && (
