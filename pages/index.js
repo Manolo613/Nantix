@@ -407,55 +407,21 @@ export default function Home() {
             // 100% LTV = barre pleine. On clampe à max 100%.
             const ltvBarWidth = Math.min(displayLtv, 100)
 
-            const AprBadge = () => {
-              // YouHodler desktop : mini-boutons CVR inline dans la colonne Taux
-              if (isYouHodler && !isMobile) {
-                return (
-                  <div onClick={e => e.stopPropagation()}>
-                    <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', marginBottom: '6px' }}>
-                      {displayApr}%
-                    </div>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                      {[97, 90, 70, 50].map(cvr => {
-                        const isSelected = youhodlerCvr === cvr
-                        return (
-                          <button
-                            key={cvr}
-                            onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
-                            style={{
-                              padding: '2px 6px', borderRadius: '4px',
-                              fontSize: '10px', fontWeight: '700',
-                              border: `1px solid ${isSelected ? '#111' : '#DCDCDC'}`,
-                              background: isSelected ? '#111' : '#fff',
-                              color: isSelected ? '#fff' : '#888',
-                              cursor: 'pointer', transition: 'all .12s', whiteSpace: 'nowrap',
-                            }}
-                          >
-                            {cvr}%
-                          </button>
-                        )
-                      })}
-                    </div>
-                    <div style={{ fontSize: '9px', color: '#AAA', marginTop: '5px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
-                  </div>
-                )
-              }
-              return (
-                <div>
-                  <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
-                    {p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`}
-                  </div>
-                  {isLive ? (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
-                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
-                      <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
-                    </div>
-                  ) : (
-                    <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
-                  )}
+            const AprBadge = () => (
+              <div>
+                <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
+                  {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
                 </div>
-              )
-            }
+                {isLive ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
+                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
+                    <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
+                )}
+              </div>
+            )
 
             // Colonne Accès — hauteur fixe pour aligner les badges DeFi (1 badge) et CeFi (2 badges)
             const AccesBadges = () => (
@@ -560,13 +526,13 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Col 2 — Taux / an (YouHodler : boutons CVR inline) */}
+                    {/* Col 2 — Taux / an */}
+                    <AprBadge />
+
+                    {/* Col 3 — LTV max (YouHodler : boutons CVR ici) */}
                     {isYouHodler ? (
-                      <div>
-                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', marginBottom: '6px' }}>
-                          {displayApr}%
-                        </div>
-                        <div style={{ display: 'flex', gap: '4px' }}>
+                      <div onClick={e => e.stopPropagation()}>
+                        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                           {[97, 90, 70, 50].map(cvr => {
                             const isSel = youhodlerCvr === cvr
                             return (
@@ -574,8 +540,8 @@ export default function Home() {
                                 key={cvr}
                                 onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
                                 style={{
-                                  padding: '2px 6px', borderRadius: '4px',
-                                  fontSize: '10px', fontWeight: '700',
+                                  padding: '3px 7px', borderRadius: '4px',
+                                  fontSize: '11px', fontWeight: '700',
                                   border: `1px solid ${isSel ? '#111' : '#DCDCDC'}`,
                                   background: isSel ? '#111' : '#fff',
                                   color: isSel ? '#fff' : '#888',
@@ -585,20 +551,19 @@ export default function Home() {
                             )
                           })}
                         </div>
-                        <div style={{ fontSize: '9px', color: '#AAA', marginTop: '5px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
+                        {/* Barre LTV proportionnelle sous les boutons */}
+                        <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '8px', width: '64px' }}>
+                          <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
+                        </div>
                       </div>
                     ) : (
-                      <AprBadge />
-                    )}
-
-                    {/* Col 3 — LTV max */}
-                    <div>
-                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
-                      {/* Barre proportionnelle : conteneur 64px fixe, barre = ltvBarWidth% de 64px */}
-                      <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
-                        <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
+                      <div>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
+                        <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
+                          <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Col 4 — Emprunt max */}
                     <div style={{ fontSize: '16px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>
