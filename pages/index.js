@@ -16,12 +16,12 @@ const STABLECOINS = [
   },
   {
     id: 'eur', symbol: 'EUR', name: 'EUR',
-    logo: 'https://assets.coingecko.com/coins/images/17980/small/EURt.png',
+    logo: 'https://flagcdn.com/w40/eu.png',
     color: '#003399',
   },
   {
     id: 'usd', symbol: 'USD', name: 'USD',
-    logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png',
+    logo: 'https://flagcdn.com/w40/us.png',
     color: '#85BB65',
   },
 ]
