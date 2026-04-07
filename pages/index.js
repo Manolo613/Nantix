@@ -589,9 +589,16 @@ export default function Home() {
 
                     {/* Boutons CVR pour YouHodler */}
                     {isYouHodler && (
-                      <div style={{ padding: '16px 20px 20px' }}>
-                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.9px', marginBottom: '12px' }}>
-                          Niveau d'emprunt (LTV)
+                      <div style={{
+                        margin: '0 16px 16px',
+                        borderRadius: '8px',
+                        border: '1px solid #E0E0E0',
+                        borderLeft: '3px solid #888',
+                        background: '#F8F8F8',
+                        padding: '16px 20px',
+                      }}>
+                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', marginBottom: '12px' }}>
+                          YouHodler — Niveau d'emprunt (LTV)
                         </div>
                         <div style={{ display: 'flex', gap: '8px' }}>
                           {[97, 90, 70, 50].map(cvr => {
