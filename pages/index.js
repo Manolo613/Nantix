@@ -29,12 +29,6 @@ const COLLATERALS = [
     logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
     color: '#627EEA',
   },
-  {
-    id: 'xrp', symbol: 'XRP', name: 'XRP',
-    coingeckoId: 'ripple',
-    logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png',
-    color: '#346AA9',
-  },
 ]
 
 const PLATFORM_LOGOS = {
@@ -351,8 +345,7 @@ export default function Home() {
             </div>
             <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
 
-            {!isMobile && <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap', marginLeft: 'auto' }}>Mis à jour le {today}</span>}
-            {!isMobile && sep}
+            {!isMobile && <div style={{ marginLeft: 'auto' }} />}
 
             <div style={{ display: 'flex', background: '#EBEBEB', borderRadius: '7px', padding: '2px', marginLeft: isMobile ? 'auto' : '0' }}>
               {['all', 'CeFi', 'DeFi'].map(f => (
@@ -459,33 +452,30 @@ export default function Home() {
               </div>
             )
 
-            // Colonne Accès — hauteur fixe pour aligner les badges DeFi (1 badge) et CeFi (2 badges)
             const AccesBadges = () => (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                 <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '4px',
-                  fontSize: '10px', fontWeight: '700',
-                  color: p.type === 'DeFi' ? '#666' : '#16A34A',
-                  background: p.type === 'DeFi' ? '#F5F5F5' : '#F0FDF4',
-                  border: `1px solid ${p.type === 'DeFi' ? '#E0E0E0' : '#BBF7D0'}`,
-                  padding: '3px 7px', borderRadius: '20px',
-                  whiteSpace: 'nowrap',
+                  display: 'inline-flex', alignItems: 'center', gap: '5px',
+                  fontSize: '11px', fontWeight: '600', color: '#444',
                 }}>
-                  {p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}
+                  <div style={{
+                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+                    background: p.type === 'DeFi' ? '#999' : '#16A34A',
+                  }} />
+                  {p.type === 'DeFi' ? 'Wallet requis' : 'Sans wallet'}
                 </div>
-                {/* Badge Régulé toujours présent — transparent pour DeFi afin de maintenir la hauteur */}
+                {/* Spacer transparent pour DeFi — maintient la hauteur de ligne */}
                 <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '4px',
-                  fontSize: '10px', fontWeight: '700',
+                  display: 'inline-flex', alignItems: 'center', gap: '5px',
+                  fontSize: '11px', fontWeight: '600',
                   color: p.type === 'CeFi' ? '#2563EB' : 'transparent',
-                  background: p.type === 'CeFi' ? '#EFF6FF' : 'transparent',
-                  border: `1px solid ${p.type === 'CeFi' ? '#BFDBFE' : 'transparent'}`,
-                  padding: '3px 7px', borderRadius: '20px',
-                  whiteSpace: 'nowrap',
-                  pointerEvents: 'none',
-                  userSelect: 'none',
+                  pointerEvents: 'none', userSelect: 'none',
                 }}>
-                  🛡️ Régulé
+                  <div style={{
+                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+                    background: p.type === 'CeFi' ? '#2563EB' : 'transparent',
+                  }} />
+                  Régulé
                 </div>
               </div>
             )
