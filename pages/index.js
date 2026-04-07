@@ -589,11 +589,20 @@ export default function Home() {
 
                     {/* Boutons CVR pour YouHodler */}
                     {isYouHodler && (
-                      <div style={{ padding: '16px 20px 20px' }}>
-                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', marginBottom: '12px' }}>
-                          Choisissez votre niveau d'emprunt (LTV)
+                      <div style={{
+                        margin: '0 16px 16px',
+                        borderRadius: '10px',
+                        border: '1px solid #B2E8F0',
+                        borderLeft: '3px solid #1EBDD2',
+                        background: '#F0FAFB',
+                        padding: '16px 20px',
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                          <img src={PLATFORM_LOGOS.YouHodler} alt="YouHodler" width={20} height={20} style={{ borderRadius: '5px' }} />
+                          <span style={{ fontSize: '12px', fontWeight: '700', color: '#0E7A8A' }}>YouHodler</span>
+                          <span style={{ fontSize: '11px', color: '#5BAAB8' }}>— Sélectionnez votre niveau d'emprunt (LTV)</span>
                         </div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                           {[97, 90, 70, 50].map(cvr => {
                             const d = YH_CVR[cvr]
                             const isSelected = youhodlerCvr === cvr
@@ -602,16 +611,17 @@ export default function Home() {
                                 key={cvr}
                                 onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
                                 style={{
-                                  flex: 1, padding: '12px 8px', borderRadius: '8px', cursor: 'pointer',
-                                  border: `2px solid ${isSelected ? '#111' : '#E0E0E0'}`,
-                                  background: isSelected ? '#111' : '#fff',
-                                  color: isSelected ? '#fff' : '#444',
+                                  flex: 1, padding: '14px 10px', borderRadius: '8px', cursor: 'pointer',
+                                  border: `2px solid ${isSelected ? '#1EBDD2' : '#CCE8EE'}`,
+                                  background: isSelected ? '#1EBDD2' : '#fff',
+                                  color: isSelected ? '#fff' : '#1EBDD2',
                                   transition: 'all .15s',
+                                  textAlign: 'center',
                                 }}
                               >
-                                <div style={{ fontSize: '17px', fontWeight: '800' }}>{cvr}%</div>
-                                <div style={{ fontSize: '10px', marginTop: '4px', opacity: 0.8 }}>{d.apr}% APR</div>
-                                <div style={{ fontSize: '10px', marginTop: '2px', opacity: 0.7 }}>liq. −{d.liqPct}%</div>
+                                <div style={{ fontSize: '18px', fontWeight: '800', letterSpacing: '-.5px' }}>{cvr}%</div>
+                                <div style={{ fontSize: '11px', fontWeight: '600', marginTop: '5px', opacity: 0.85 }}>{d.apr}% APR</div>
+                                <div style={{ fontSize: '10px', marginTop: '3px', opacity: 0.7 }}>liq. −{d.liqPct}%</div>
                               </button>
                             )
                           })}
