@@ -231,7 +231,7 @@ export default function Home() {
     <>
       <Head>
         <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
-        <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both}`}</style>
+        <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both} .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease} .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}`}</style>
         <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC, ETH ou XRP. Données en temps réel." />
       </Head>
       <Navbar />
@@ -417,6 +417,40 @@ export default function Home() {
                     <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
                     <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
                   </div>
+                ) : isYouHodler ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '3px', position: 'relative' }}>
+                    <span style={{ fontSize: '9px', color: '#AAA' }}>Varie selon LTV</span>
+                    <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+                      <span style={{
+                        width: '13px', height: '13px', borderRadius: '50%',
+                        background: '#E8E8E8', color: '#888',
+                        fontSize: '9px', fontWeight: '800',
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'default', userSelect: 'none',
+                      }}>?</span>
+                      <div className="yh-tooltip" style={{
+                        position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
+                        background: '#111', color: '#fff', borderRadius: '7px',
+                        padding: '10px 12px', fontSize: '11px', lineHeight: '1.6',
+                        width: '220px', zIndex: 100, pointerEvents: 'none',
+                        boxShadow: '0 4px 16px rgba(0,0,0,.18)',
+                      }}>
+                        <div style={{ fontWeight: '700', marginBottom: '6px' }}>YouHodler — taux selon LTV</div>
+                        {[97, 90, 70, 50].map(cvr => {
+                          const d = YH_CVR[cvr]
+                          return (
+                            <div key={cvr} style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 0', borderBottom: '1px solid #333' }}>
+                              <span style={{ color: '#AAA' }}>LTV {cvr}%</span>
+                              <span style={{ fontWeight: '700' }}>{d.apr}% APR</span>
+                            </div>
+                          )
+                        })}
+                        <div style={{ fontSize: '10px', color: '#888', marginTop: '6px' }}>Taux affiché : LTV 90% (référence)</div>
+                        {/* Flèche */}
+                        <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%)', width: '10px', height: '10px', background: '#111', rotate: '45deg' }} />
+                      </div>
+                    </div>
+                  </div>
                 ) : (
                   <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
                 )}
@@ -529,41 +563,13 @@ export default function Home() {
                     {/* Col 2 — Taux / an */}
                     <AprBadge />
 
-                    {/* Col 3 — LTV max (YouHodler : boutons CVR ici) */}
-                    {isYouHodler ? (
-                      <div onClick={e => e.stopPropagation()}>
-                        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                          {[97, 90, 70, 50].map(cvr => {
-                            const isSel = youhodlerCvr === cvr
-                            return (
-                              <button
-                                key={cvr}
-                                onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
-                                style={{
-                                  padding: '3px 7px', borderRadius: '4px',
-                                  fontSize: '11px', fontWeight: '700',
-                                  border: `1px solid ${isSel ? '#111' : '#DCDCDC'}`,
-                                  background: isSel ? '#111' : '#fff',
-                                  color: isSel ? '#fff' : '#888',
-                                  cursor: 'pointer', transition: 'all .12s',
-                                }}
-                              >{cvr}%</button>
-                            )
-                          })}
-                        </div>
-                        {/* Barre LTV proportionnelle sous les boutons */}
-                        <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '8px', width: '64px' }}>
-                          <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
-                        </div>
+                    {/* Col 3 — LTV max */}
+                    <div>
+                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
+                      <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
+                        <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
                       </div>
-                    ) : (
-                      <div>
-                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
-                        <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
-                          <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
-                        </div>
-                      </div>
-                    )}
+                    </div>
 
                     {/* Col 4 — Emprunt max */}
                     <div style={{ fontSize: '16px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>
