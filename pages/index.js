@@ -14,6 +14,16 @@ const STABLECOINS = [
     logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png',
     color: '#26A17B',
   },
+  {
+    id: 'eur', symbol: 'EUR', name: 'EUR',
+    logo: 'https://assets.coingecko.com/coins/images/17980/small/EURt.png',
+    color: '#003399',
+  },
+  {
+    id: 'usd', symbol: 'USD', name: 'USD',
+    logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png',
+    color: '#85BB65',
+  },
 ]
 
 const COLLATERALS = [
@@ -50,7 +60,7 @@ const PLATFORMS = {
       { name: 'Ledn',      apr: 12.4,  ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',           users: '100K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '12.4 – 13.9', about: 'Spécialiste Bitcoin uniquement. Proof-of-Reserves publique. Taux à partir de 12.4% APR.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97, liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Plateforme CeFi suisse. Taux variable selon le CVR choisi : 8% APR à 97% CVR (risque élevé, liquidation dès -1,5%) jusqu\'à 16% APR à 50% CVR (liquidation à -45%). Prêts en USDC/USDT, durée max 60 jours.' },
       { name: 'Nexo',      apr: 13.9,  ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token (6.9% Platinum → 13.9% Base).' },
-      { name: 'Nebeus',    apr: 6.0,   ltv: 65, liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Plateforme FCA-régulée au Royaume-Uni. Interest Only Loan (6% APR, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). KYC requis.' },
+      { name: 'Nebeus',    apr: 7.0,   ltv: 65, liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Plateforme FCA-régulée au Royaume-Uni. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). Versement en EUR, USDC ou USD. KYC requis.' },
     ],
     ethereum: [
       { name: 'Aave',      apr: 3.6,   ltv: 80,  liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
@@ -68,7 +78,7 @@ const PLATFORMS = {
       { name: 'Compound',  apr: 5.1,   ltv: 65, liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',    users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97, liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDT adossés à BTC. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
       { name: 'Nexo',      apr: 13.9,  ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token.' },
-      { name: 'Nebeus',    apr: 6.0,   ltv: 65, liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6 – 16.5', about: 'Prêt BTC sur Nebeus. Interest Only Loan (6% APR, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
+      { name: 'Nebeus',    apr: 7.0,   ltv: 65, liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Prêt BTC sur Nebeus. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). Versement en EUR, USDC ou USD. FCA-régulée.' },
     ],
     ethereum: [
       { name: 'Aave',      apr: 3.8,   ltv: 80,  liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDT.' },
@@ -76,7 +86,23 @@ const PLATFORMS = {
       { name: 'Compound',  apr: 4.5,   ltv: 75,  liq: 80,   type: 'DeFi', color: '#00D395', link: 'https://compound.finance', best: false, founded: '2018', country: 'Décentralisé',    users: '200K+', regulated: false, manualUpdate: 'avr. 2026', about: 'Protocole DeFi pionnier. Gouvernance décentralisée COMP. Taux variables.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97,  liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDT adossés à ETH. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
       { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
-      { name: 'Nebeus',    apr: 6.5,   ltv: 50,  liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.5 – 13.9', about: 'Prêt ETH sur Nebeus. Flexible (6.5% APR, LTV 50%) ou Express (13.9%, LTV 80%). FCA-régulée.' },
+      { name: 'Nebeus',    apr: 7.0,   ltv: 65,  liq: 75,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Prêt ETH sur Nebeus. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). Versement en EUR, USDC ou USD. FCA-régulée.' },
+    ],
+  },
+  eur: {
+    bitcoin: [
+      { name: 'Nebeus', apr: 7.0, ltv: 65, liq: 75, type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com', best: true, founded: '2014', country: 'Royaume-Uni', users: '200K+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Versement en euros sur IBAN européen. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
+    ],
+    ethereum: [
+      { name: 'Nebeus', apr: 7.0, ltv: 65, liq: 75, type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com', best: true, founded: '2014', country: 'Royaume-Uni', users: '200K+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Versement en euros sur IBAN européen. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
+    ],
+  },
+  usd: {
+    bitcoin: [
+      { name: 'Nebeus', apr: 7.0, ltv: 65, liq: 75, type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com', best: true, founded: '2014', country: 'Royaume-Uni', users: '200K+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Versement en USD. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
+    ],
+    ethereum: [
+      { name: 'Nebeus', apr: 7.0, ltv: 65, liq: 75, type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com', best: true, founded: '2014', country: 'Royaume-Uni', users: '200K+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '7 – 16.5', about: 'Versement en USD. Interest Only Loan (7% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). FCA-régulée.' },
     ],
   },
 }
@@ -142,6 +168,7 @@ export default function Home() {
   const c     = COLLATERALS.find(x => x.id === collateral)
   const price = prices[c.coingeckoId]?.eur || 0
   const col   = amount * price
+  const currencySymbol = stablecoin === 'eur' ? '€' : stablecoin === 'usd' ? '$' : stablecoin.toUpperCase()
   const fmt     = n => Math.round(n).toLocaleString('fr-FR')
   const today   = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
   const timeAgo = (iso) => {
@@ -494,11 +521,11 @@ export default function Home() {
                       </div>
                       <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Emprunt max</div>
-                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#16A34A' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
+                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#16A34A' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' ' + currencySymbol : '—'}</div>
                       </div>
                       <div style={{ padding: '10px 12px' }}>
                         <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Liquidation</div>
-                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
+                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626' }}>{mounted && price > 0 ? fmt(liqPrice) + ' ' + currencySymbol : '—'}</div>
                         {mounted && price > 0 && <div style={{ fontSize: '9px', color: '#DC2626' }}>−{Math.round((1 - displayLiq / 100) * 100)}%</div>}
                       </div>
                     </div>
@@ -552,13 +579,13 @@ export default function Home() {
 
                     {/* Col 4 — Emprunt max */}
                     <div style={{ fontSize: '16px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>
-                      {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
+                      {mounted && price > 0 ? fmt(maxBorrow) + ' ' + currencySymbol : '—'}
                     </div>
 
                     {/* Col 5 — Liquidation */}
                     <div>
                       <div style={{ fontSize: '16px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>
-                        {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
+                        {mounted && price > 0 ? fmt(liqPrice) + ' ' + currencySymbol : '—'}
                       </div>
                       <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
                         {mounted && price > 0 && (
