@@ -109,12 +109,12 @@ const BLOG = [
   { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '28 fév 2025', read: '6 min', bg: '#EFF6FF', icon: '⚠️' },
 ]
 
-const W  = '1100px'
-const PX = '24px'
+const W  = '1320px'
+const PX = '32px'
 
 // Colonnes du tableau — définies une seule fois, utilisées pour le header ET les rows
 // 1: Plateforme  2: Taux/an  3: LTV  4: Emprunt max  5: Liquidation  6: Accès  7: CTA
-const GRID = '220px 140px 110px 1fr 1fr 120px 130px'
+const GRID = '230px 160px 120px 1fr 1fr 140px 150px'
 
 export default function Home() {
   const [stablecoin, setStablecoin] = useState('usdc')
