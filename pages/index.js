@@ -530,7 +530,7 @@ export default function Home() {
                 ) : (
 
                   <div
-                    onClick={() => setOpenRow(isOpen ? null : p.name)}
+                    onClick={() => !isYouHodler && setOpenRow(isOpen ? null : p.name)}
                     className='fade-row'
                     style={{
                       animationDelay: `${i * 0.06}s`,
@@ -538,9 +538,9 @@ export default function Home() {
                       gridTemplateColumns: GRID,
                       padding: '0 16px',
                       alignItems: 'center',
-                      minHeight: '72px',  // hauteur uniforme pour toutes les lignes
+                      minHeight: isYouHodler ? '84px' : '72px',
                       background: p.best ? '#FAFAFA' : '#fff',
-                      cursor: 'pointer',
+                      cursor: isYouHodler ? 'default' : 'pointer',
                     }}
                     onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
                     onMouseLeave={e => e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'}
@@ -552,14 +552,44 @@ export default function Home() {
                       <div>
                         <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>
                           {p.name}{' '}
-                          <span style={{ fontSize: '10px', color: '#BBB', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+                          {!isYouHodler && (
+                            <span style={{ fontSize: '10px', color: '#BBB', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+                          )}
                         </div>
                         <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
                       </div>
                     </div>
 
-                    {/* Col 2 — Taux / an */}
-                    <AprBadge />
+                    {/* Col 2 — Taux / an (YouHodler : boutons CVR inline) */}
+                    {isYouHodler ? (
+                      <div>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', marginBottom: '6px' }}>
+                          {displayApr}%
+                        </div>
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          {[97, 90, 70, 50].map(cvr => {
+                            const isSel = youhodlerCvr === cvr
+                            return (
+                              <button
+                                key={cvr}
+                                onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
+                                style={{
+                                  padding: '2px 6px', borderRadius: '4px',
+                                  fontSize: '10px', fontWeight: '700',
+                                  border: `1px solid ${isSel ? '#111' : '#DCDCDC'}`,
+                                  background: isSel ? '#111' : '#fff',
+                                  color: isSel ? '#fff' : '#888',
+                                  cursor: 'pointer', transition: 'all .12s',
+                                }}
+                              >{cvr}%</button>
+                            )
+                          })}
+                        </div>
+                        <div style={{ fontSize: '9px', color: '#AAA', marginTop: '5px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
+                      </div>
+                    ) : (
+                      <AprBadge />
+                    )}
 
                     {/* Col 3 — LTV max */}
                     <div>
