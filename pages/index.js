@@ -522,7 +522,7 @@ export default function Home() {
                 ) : (
 
                   <div
-                    onClick={() => !isYouHodler && setOpenRow(isOpen ? null : p.name)}
+                    onClick={() => {}}
                     className='fade-row'
                     style={{
                       animationDelay: `${i * 0.06}s`,
@@ -532,7 +532,7 @@ export default function Home() {
                       alignItems: 'center',
                       minHeight: isYouHodler ? '84px' : '72px',
                       background: p.best ? '#FAFAFA' : '#fff',
-                      cursor: isYouHodler ? 'default' : 'pointer',
+                      cursor: 'default',
                     }}
                     onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
                     onMouseLeave={e => e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'}
@@ -542,13 +542,9 @@ export default function Home() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <PlatformLogo name={p.name} color={p.color} />
                       <div>
-                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>
-                          {p.name}{' '}
-                          {!isYouHodler && (
-                            <span style={{ fontSize: '10px', color: '#BBB', display: 'inline-block', transition: 'transform .2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
-                          )}
-                        </div>
-                        <div style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
+                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>{p.name}</div>
+                        <div style={{ fontSize: '10px', fontWeight: '600', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
+                        <div style={{ fontSize: '10px', color: '#BBB', marginTop: '1px' }}>{p.users}</div>
                       </div>
                     </div>
 
@@ -607,34 +603,6 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* ── PANNEAU EXPANDED ── */}
-                {isOpen && !isMobile && !isYouHodler && (
-                  <div style={{ background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
-                      <div>
-                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
-                        <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
-                        <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{p.country}</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Utilisateurs</div>
-                        <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.users}</div>
-                        <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>estimé</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>Régulation</div>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: '700', color: p.regulated ? '#16A34A' : '#B45309', background: p.regulated ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.regulated ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 8px', borderRadius: '20px' }}>
-                          {p.regulated ? '✓ Régulée' : '⚡ Décentralisé'}
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#666', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
-                        <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             )
           })}
