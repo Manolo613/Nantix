@@ -126,6 +126,7 @@ export default function Home() {
   const [defiRates, setDefiRates]   = useState(null)
   const [updatedAt, setUpdatedAt]   = useState(null)
   const [isMobile, setIsMobile]     = useState(false)
+  const [youhodlerCvr, setYouhodlerCvr] = useState(90)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768)
@@ -185,6 +186,15 @@ export default function Home() {
       const minApr = Math.min(...arr.map(x => x.apr))
       return { ...p, best: p.apr === minApr }
     })
+
+  // YouHodler CVR → taux et liquidation
+  const youhodlerCalc = (cvr) => {
+    // Taux : 8% à 97% CVR, 16% à 50% CVR — interpolation linéaire
+    const apr = 8 + (97 - cvr) * (16 - 8) / (97 - 50)
+    // Liquidation : CVR + ~1.5% de marge de sécurité YouHodler
+    const liq = Math.min(cvr + 1.5, 99.5)
+    return { apr: Math.round(apr * 10) / 10, liq: Math.round(liq * 10) / 10 }
+  }
 
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
   const sep  = <div style={{ width: '1px', height: '18px', background: '#E0E0E0' }} />
@@ -359,15 +369,24 @@ export default function Home() {
           )}
 
           {rows.map((p, i) => {
-            const maxBorrow = (col * p.ltv) / 100
-            const liqPrice  = price > 0 ? (price * (p.liq / 100)) : 0
+            // Pour YouHodler, utiliser les valeurs calculées dynamiquement selon le CVR
+            const isYouHodler = p.name === 'YouHodler'
+            const yhCalc      = isYouHodler ? youhodlerCalc(youhodlerCvr) : null
+            const displayApr  = isYouHodler ? yhCalc.apr : p.apr
+            const displayLtv  = isYouHodler ? youhodlerCvr : p.ltv
+            const displayLiq  = isYouHodler ? yhCalc.liq  : p.liq
+
+            const maxBorrow = (col * displayLtv) / 100
+            const liqPrice  = price > 0 ? (price * (displayLiq / 100)) : 0
             const isOpen    = openRow === p.name
             const isLive    = (p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined) ||
                               (p.name === 'Morpho' && defiRates?.morpho?.rates?.[stablecoin]?.[collateral] !== undefined)
 
             const AprBadge = () => (
               <div>
-                <div style={{ fontSize: isMobile ? '22px' : '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`}</div>
+                <div style={{ fontSize: isMobile ? '22px' : '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>
+                  {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
+                </div>
                 {isLive ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
                     <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
@@ -443,9 +462,9 @@ export default function Home() {
                   <AprBadge />
 
                   <div>
-                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{p.ltv}%</div>
+                    <div style={{ fontSize: '17px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
                     <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '52px' }}>
-                      <div style={{ height: '100%', width: `${p.ltv}%`, background: '#111', borderRadius: '2px' }} />
+                      <div style={{ height: '100%', width: `${displayLtv}%`, background: '#111', borderRadius: '2px' }} />
                     </div>
                   </div>
 
@@ -454,7 +473,7 @@ export default function Home() {
                   <div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
                     <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
-                      {mounted && price > 0 ? <span style={{ color: '#DC2626', fontWeight: '600' }}>−{Math.round((1 - p.liq / 100) * 100)}%</span> : ''}
+                      {mounted && price > 0 ? <span style={{ color: '#DC2626', fontWeight: '600' }}>−{Math.round((1 - displayLiq / 100) * 100)}%</span> : ''}
                       {mounted && price > 0 ? ' avant liquidation' : ''}
                     </div>
                   </div>
@@ -482,7 +501,40 @@ export default function Home() {
                 )}
 
                 {isOpen && !isMobile && (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px', background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
+                  <div style={{ background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
+
+                    {/* Slider CVR pour YouHodler */}
+                    {isYouHodler && (
+                      <div style={{ padding: '16px 20px', borderBottom: '1px solid #EBEBEB', background: '#F8F8F8' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                          <div style={{ fontSize: '11px', fontWeight: '700', color: '#555', textTransform: 'uppercase', letterSpacing: '.7px' }}>
+                            CVR (Crypto Value Ratio) — ajustez votre niveau d'emprunt
+                          </div>
+                          <div style={{ display: 'flex', gap: '16px', fontSize: '12px' }}>
+                            <span style={{ color: '#16A34A', fontWeight: '700' }}>Taux : {youhodlerCalc(youhodlerCvr).apr}% APR</span>
+                            <span style={{ color: '#DC2626', fontWeight: '700' }}>Liquidation : −{Math.round(100 - youhodlerCvr - 1.5)}% du prix actuel</span>
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>50% <span style={{ color: '#16A34A' }}>✓ Sûr</span></span>
+                          <input
+                            type="range" min="50" max="97" step="1"
+                            value={youhodlerCvr}
+                            onChange={e => setYouhodlerCvr(Number(e.target.value))}
+                            onClick={e => e.stopPropagation()}
+                            style={{ flex: 1, accentColor: '#111', cursor: 'pointer' }}
+                          />
+                          <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>97% <span style={{ color: '#DC2626' }}>⚠ Risqué</span></span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', fontSize: '11px', color: '#888' }}>
+                          <span>Emprunt max : <strong style={{ color: '#16A34A' }}>{mounted && price > 0 ? fmt((col * youhodlerCvr) / 100) + ' €' : '—'}</strong></span>
+                          <span>CVR sélectionné : <strong style={{ color: '#111' }}>{youhodlerCvr}%</strong></span>
+                          <span>Seuil liquidation : <strong style={{ color: '#DC2626' }}>{mounted && price > 0 ? fmt(price * youhodlerCalc(youhodlerCvr).liq / 100) + ' €' : '—'}</strong></span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
                     <div>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
                       <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
@@ -504,6 +556,7 @@ export default function Home() {
                       <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
                       <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
                     </div>
+                  </div>
                   </div>
                 )}
               </div>
