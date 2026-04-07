@@ -409,47 +409,49 @@ export default function Home() {
 
             const AprBadge = () => (
               <div>
-                <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
-                  {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
-                </div>
-                {isLive ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
-                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
-                    <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
+                {/* Ligne taux + ? superscript pour YouHodler */}
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
+                  <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
+                    {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
                   </div>
-                ) : isYouHodler ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '3px', position: 'relative' }}>
-                    <span style={{ fontSize: '9px', color: '#AAA' }}>Varie selon LTV</span>
-                    <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+                  {isYouHodler && !isMobile && (
+                    <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '1px' }}>
                       <span style={{
                         width: '13px', height: '13px', borderRadius: '50%',
                         background: '#E8E8E8', color: '#888',
                         fontSize: '9px', fontWeight: '800',
                         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        cursor: 'default', userSelect: 'none',
+                        cursor: 'default', userSelect: 'none', flexShrink: 0,
                       }}>?</span>
                       <div className="yh-tooltip" style={{
-                        position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
+                        position: 'absolute', bottom: '22px', left: '50%', transform: 'translateX(-50%)',
                         background: '#111', color: '#fff', borderRadius: '7px',
                         padding: '10px 12px', fontSize: '11px', lineHeight: '1.6',
                         width: '220px', zIndex: 100, pointerEvents: 'none',
                         boxShadow: '0 4px 16px rgba(0,0,0,.18)',
                       }}>
                         <div style={{ fontWeight: '700', marginBottom: '6px' }}>YouHodler — taux selon LTV</div>
+                        <div style={{ fontSize: '10px', color: '#AAA', marginBottom: '8px' }}>Le taux varie selon la LTV choisie. Plus la LTV est élevée, plus le risque de liquidation est fort.</div>
                         {[97, 90, 70, 50].map(cvr => {
                           const d = YH_CVR[cvr]
                           return (
-                            <div key={cvr} style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 0', borderBottom: '1px solid #333' }}>
+                            <div key={cvr} style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px solid #2A2A2A' }}>
                               <span style={{ color: '#AAA' }}>LTV {cvr}%</span>
-                              <span style={{ fontWeight: '700' }}>{d.apr}% APR</span>
+                              <span style={{ fontWeight: '700' }}>{d.apr}% APR · liq. −{d.liqPct}%</span>
                             </div>
                           )
                         })}
-                        <div style={{ fontSize: '10px', color: '#888', marginTop: '6px' }}>Taux affiché : LTV 90% (référence)</div>
-                        {/* Flèche */}
-                        <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%)', width: '10px', height: '10px', background: '#111', rotate: '45deg' }} />
+                        <div style={{ fontSize: '10px', color: '#666', marginTop: '7px' }}>Taux affiché : LTV 90% (référence)</div>
+                        <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: '#111' }} />
                       </div>
                     </div>
+                  )}
+                </div>
+                {/* Ligne du bas : date ou indicateur live */}
+                {isLive ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
+                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
+                    <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
                   </div>
                 ) : (
                   <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
