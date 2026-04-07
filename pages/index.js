@@ -407,24 +407,55 @@ export default function Home() {
             // 100% LTV = barre pleine. On clampe à max 100%.
             const ltvBarWidth = Math.min(displayLtv, 100)
 
-            const AprBadge = () => (
-              <div>
-                <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
-                  {isYouHodler
-                    ? `${displayApr}%`
-                    : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)
-                  }
-                </div>
-                {isLive ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
-                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
-                    <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
+            const AprBadge = () => {
+              // YouHodler desktop : mini-boutons CVR inline dans la colonne Taux
+              if (isYouHodler && !isMobile) {
+                return (
+                  <div onClick={e => e.stopPropagation()}>
+                    <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', marginBottom: '6px' }}>
+                      {displayApr}%
+                    </div>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      {[97, 90, 70, 50].map(cvr => {
+                        const isSelected = youhodlerCvr === cvr
+                        return (
+                          <button
+                            key={cvr}
+                            onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
+                            style={{
+                              padding: '2px 6px', borderRadius: '4px',
+                              fontSize: '10px', fontWeight: '700',
+                              border: `1px solid ${isSelected ? '#111' : '#DCDCDC'}`,
+                              background: isSelected ? '#111' : '#fff',
+                              color: isSelected ? '#fff' : '#888',
+                              cursor: 'pointer', transition: 'all .12s', whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {cvr}%
+                          </button>
+                        )
+                      })}
+                    </div>
+                    <div style={{ fontSize: '9px', color: '#AAA', marginTop: '5px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
                   </div>
-                ) : (
-                  <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
-                )}
-              </div>
-            )
+                )
+              }
+              return (
+                <div>
+                  <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
+                    {p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`}
+                  </div>
+                  {isLive ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
+                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
+                      <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
+                  )}
+                </div>
+              )
+            }
 
             // Colonne Accès — hauteur fixe pour aligner les badges DeFi (1 badge) et CeFi (2 badges)
             const AccesBadges = () => (
@@ -584,75 +615,31 @@ export default function Home() {
                 )}
 
                 {/* ── PANNEAU EXPANDED ── */}
-                {isOpen && !isMobile && (
+                {isOpen && !isMobile && !isYouHodler && (
                   <div style={{ background: '#FAFAFA', borderTop: '1px solid #EBEBEB' }}>
-
-                    {/* Boutons CVR pour YouHodler */}
-                    {isYouHodler && (
-                      <div style={{
-                        margin: '0 16px 16px',
-                        borderRadius: '8px',
-                        border: '1px solid #E0E0E0',
-                        borderLeft: '3px solid #888',
-                        background: '#F8F8F8',
-                        padding: '16px 20px',
-                      }}>
-                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.9px', marginBottom: '12px' }}>
-                          YouHodler — Niveau d'emprunt (LTV)
-                        </div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          {[97, 90, 70, 50].map(cvr => {
-                            const d = YH_CVR[cvr]
-                            const isSelected = youhodlerCvr === cvr
-                            return (
-                              <button
-                                key={cvr}
-                                onClick={e => { e.stopPropagation(); setYouhodlerCvr(cvr) }}
-                                style={{
-                                  flex: 1, padding: '14px 10px', borderRadius: '8px', cursor: 'pointer',
-                                  border: `1.5px solid ${isSelected ? '#111' : '#E0E0E0'}`,
-                                  background: isSelected ? '#111' : '#fff',
-                                  color: isSelected ? '#fff' : '#444',
-                                  transition: 'all .15s',
-                                  textAlign: 'center',
-                                }}
-                              >
-                                <div style={{ fontSize: '18px', fontWeight: '800', letterSpacing: '-.5px' }}>{cvr}%</div>
-                                <div style={{ fontSize: '11px', fontWeight: '600', marginTop: '5px', opacity: isSelected ? 0.75 : 0.6 }}>{d.apr}% APR</div>
-                                <div style={{ fontSize: '10px', marginTop: '3px', opacity: isSelected ? 0.6 : 0.45 }}>liq. −{d.liqPct}%</div>
-                              </button>
-                            )
-                          })}
-                        </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
+                      <div>
+                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
+                        <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
+                        <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{p.country}</div>
                       </div>
-                    )}
-
-                    {/* Détails génériques pour les autres plateformes */}
-                    {!isYouHodler && (
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '16px 20px 20px' }}>
-                        <div>
-                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Fondée en</div>
-                          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.founded}</div>
-                          <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{p.country}</div>
-                        </div>
-                        <div>
-                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Utilisateurs</div>
-                          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.users}</div>
-                          <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>estimé</div>
-                        </div>
-                        <div>
-                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>Régulation</div>
-                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: '700', color: p.regulated ? '#16A34A' : '#B45309', background: p.regulated ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.regulated ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 8px', borderRadius: '20px' }}>
-                            {p.regulated ? '✓ Régulée' : '⚡ Décentralisé'}
-                          </div>
-                          <div style={{ fontSize: '11px', color: '#666', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
-                        </div>
-                        <div>
-                          <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
-                          <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
-                        </div>
+                      <div>
+                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>Utilisateurs</div>
+                        <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{p.users}</div>
+                        <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>estimé</div>
                       </div>
-                    )}
+                      <div>
+                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>Régulation</div>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: '700', color: p.regulated ? '#16A34A' : '#B45309', background: p.regulated ? '#F0FDF4' : '#FFFBEB', border: `1px solid ${p.regulated ? '#BBF7D0' : '#FDE68A'}`, padding: '3px 8px', borderRadius: '20px' }}>
+                          {p.regulated ? '✓ Régulée' : '⚡ Décentralisé'}
+                        </div>
+                        <div style={{ fontSize: '11px', color: '#666', marginTop: '5px' }}>{p.regulated ? 'Entité légale identifiable' : 'Smart contracts audités'}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '4px' }}>En bref</div>
+                        <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{p.about}</div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
