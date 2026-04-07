@@ -437,7 +437,7 @@ export default function Home() {
                           return (
                             <div key={cvr} style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px solid #2A2A2A' }}>
                               <span style={{ color: '#AAA' }}>LTV {cvr}%</span>
-                              <span style={{ fontWeight: '700' }}>{d.apr}% APR · liq. −{d.liqPct}%</span>
+                              <span style={{ fontWeight: '700' }}>{d.apr}% / an · liq. −{d.liqPct}%</span>
                             </div>
                           )
                         })}
