@@ -15,16 +15,14 @@ export default function Preter() {
     <>
       <Head>
         <title>Nantix — Prêter sa crypto</title>
-        <meta name="description" content="Comparez les meilleurs taux pour prêter votre Bitcoin, Ethereum ou Solana. Bientôt disponible sur Nantix." />
+        <meta name="description" content="Comparez les meilleurs APY pour prêter votre crypto. Bientôt sur Nantix." />
       </Head>
       <Navbar />
 
       <main style={{ background: '#fff', minHeight: '100vh', paddingTop: '52px', display: 'flex', flexDirection: 'column' }}>
-
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 24px' }}>
-          <div style={{ maxWidth: '480px', width: '100%', textAlign: 'center' }}>
+          <div style={{ maxWidth: '420px', width: '100%', textAlign: 'center' }}>
 
-            {/* Badge */}
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               background: '#F5F5F5', border: '1px solid #E8E8E8',
@@ -37,106 +35,61 @@ export default function Preter() {
               Bientôt disponible
             </div>
 
-            {/* Titre */}
-            <h1 style={{
-              fontSize: '40px', fontWeight: '800',
-              letterSpacing: '-1.5px', color: '#111',
-              lineHeight: '1.15', marginBottom: '16px',
-            }}>
+            <h1 style={{ fontSize: '40px', fontWeight: '800', letterSpacing: '-1.5px', color: '#111', lineHeight: '1.15', marginBottom: '14px' }}>
               Prêter sa crypto
             </h1>
 
-            {/* Description */}
-            <p style={{
-              fontSize: '15px', color: '#666',
-              lineHeight: '1.7', marginBottom: '36px',
-              maxWidth: '380px', margin: '0 auto 36px',
-            }}>
-              Nous vérifions actuellement les taux APY sur Nexo, YouHodler, Aave et Morpho avant de publier cette section. Les données seront disponibles prochainement.
+            <p style={{ fontSize: '14px', color: '#888', lineHeight: '1.6', marginBottom: '36px' }}>
+              BTC, ETH, SOL — les meilleurs APY sur une seule page.
             </p>
 
-            {/* Ce qui arrive */}
-            <div style={{
-              background: '#FAFAFA', border: '1px solid #EBEBEB',
-              borderRadius: '12px', padding: '20px 24px',
-              marginBottom: '32px', textAlign: 'left',
-            }}>
-              <div style={{ fontSize: '11px', fontWeight: '700', color: '#AAA', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '14px' }}>
-                Ce qui arrive
-              </div>
+            <div style={{ background: '#FAFAFA', border: '1px solid #EBEBEB', borderRadius: '12px', padding: '20px 24px', marginBottom: '32px', textAlign: 'left' }}>
               {[
-                { icon: '📈', t: 'APY vérifiés', d: 'BTC, ETH et SOL sur les meilleures plateformes' },
-                { icon: '🧮', t: 'Simulateur de gains', d: 'Vos intérêts estimés par mois et par an' },
-                { icon: '🔒', t: 'Analyse des risques', d: 'CeFi vs DeFi, custody, transparence' },
+                { icon: '📈', t: 'APY en temps réel', d: 'Nexo, YouHodler, Aave, Morpho' },
+                { icon: '🧮', t: 'Simulateur de gains', d: 'Vos intérêts estimés / mois et / an' },
+                { icon: '🔒', t: 'CeFi vs DeFi', d: 'Risques et conditions de chaque plateforme' },
               ].map(item => (
-                <div key={item.t} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
-                  <span style={{ fontSize: '16px', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
+                <div key={item.t} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '15px', flexShrink: 0 }}>{item.icon}</span>
                   <div>
                     <div style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{item.t}</div>
-                    <div style={{ fontSize: '12px', color: '#888', marginTop: '2px' }}>{item.d}</div>
+                    <div style={{ fontSize: '12px', color: '#888', marginTop: '1px' }}>{item.d}</div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Email */}
             {!sent ? (
               <div>
-                <div style={{ fontSize: '13px', fontWeight: '600', color: '#444', marginBottom: '10px' }}>
-                  Être notifié à l'ouverture
-                </div>
+                <div style={{ fontSize: '13px', color: '#666', marginBottom: '10px' }}>Être notifié à l'ouverture</div>
                 <div style={{ display: 'flex', gap: '8px', maxWidth: '360px', margin: '0 auto' }}>
-                  <input
-                    type="email"
-                    placeholder="votre@email.com"
-                    value={email}
+                  <input type="email" placeholder="votre@email.com" value={email}
                     onChange={e => setEmail(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-                    style={{
-                      flex: 1, border: '1px solid #E0E0E0', borderRadius: '8px',
-                      padding: '10px 14px', fontSize: '13px', outline: 'none',
-                      color: '#111', boxSizing: 'border-box',
-                    }}
+                    style={{ flex: 1, border: '1px solid #E0E0E0', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', outline: 'none', color: '#111' }}
                   />
-                  <button
-                    onClick={handleSubmit}
-                    style={{
-                      background: '#111', color: '#fff', border: 'none',
-                      borderRadius: '8px', padding: '10px 18px',
-                      fontSize: '13px', fontWeight: '700', cursor: 'pointer',
-                      whiteSpace: 'nowrap', flexShrink: 0,
-                    }}
-                  >
+                  <button onClick={handleSubmit}
+                    style={{ background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 18px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', whiteSpace: 'nowrap' }}>
                     M'avertir
                   </button>
                 </div>
               </div>
             ) : (
-              <div style={{
-                background: '#F0FDF4', border: '1px solid #BBF7D0',
-                borderRadius: '8px', padding: '12px 20px',
-                fontSize: '13px', color: '#16A34A', fontWeight: '600',
-              }}>
-                ✓ Enregistré — nous vous préviendrons à l'ouverture.
+              <div style={{ background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '8px', padding: '12px 20px', fontSize: '13px', color: '#16A34A', fontWeight: '600' }}>
+                ✓ Noté — on vous prévient dès l'ouverture.
               </div>
             )}
 
-            {/* Retour */}
             <div style={{ marginTop: '32px' }}>
-              <a href="/" style={{
-                fontSize: '13px', color: '#888', textDecoration: 'none',
-                fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '4px',
-              }}
+              <a href="/" style={{ fontSize: '13px', color: '#888', textDecoration: 'none', fontWeight: '600' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#111'}
-                onMouseLeave={e => e.currentTarget.style.color = '#888'}
-              >
-                ← Voir le comparateur Emprunter
+                onMouseLeave={e => e.currentTarget.style.color = '#888'}>
+                ← Retour au comparateur
               </a>
             </div>
 
           </div>
         </div>
-
       </main>
       <Footer />
     </>
