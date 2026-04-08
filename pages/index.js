@@ -59,7 +59,6 @@ const PLATFORMS = {
     ],
   },
   usdt: {
-    // Nexo absent (pas de USDT EEA) — Nebeus absent (pas de USDT) — Ledn absent (BTC only)
     bitcoin: [
       { name: 'Aave',      apr: 3.8,   ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDT. Smart contracts audités, pas de KYC.' },
       { name: 'Morpho',    apr: 3.88,  ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',    users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux variables par marché.' },
@@ -78,7 +77,6 @@ const FAQ = [
   { q: "Quelle est la différence entre CeFi et DeFi ?", a: "CeFi (Nexo, Ledn) : plateforme centralisée, plus simple, support client, mais ils détiennent vos fonds. DeFi (Aave, Morpho) : smart contracts, vous gardez le contrôle de vos fonds. Plus technique, mais aucune entité ne peut geler vos actifs." },
   { q: "Est-ce que je dois payer des impôts sur un prêt crypto ?", a: "En France, un prêt collatéralisé n'est pas un événement imposable car vous ne vendez pas votre crypto. Vous ne payez pas la flat tax de 30%. En revanche, si votre collatéral est liquidé, cette liquidation peut être considérée comme une vente imposable. Consultez un comptable." },
   { q: "Quel est le montant minimum pour emprunter ?", a: "Sur CeFi (Nexo, Ledn), les minimums sont généralement autour de 500–1 000 €. Sur DeFi (Aave, Morpho), pas de minimum officiel, mais les frais de gas rendent les petits montants peu rentables en dessous de ~5 000 €." },
-
 ]
 
 const BLOG = [
@@ -87,9 +85,25 @@ const BLOG = [
   { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '28 fév 2025', read: '6 min', bg: '#EFF6FF', icon: '⚠️' },
 ]
 
+// ── Design tokens StakingRewards ──────────────────────────────────────────────
+const SR = {
+  bgPage:    '#EEEEF5',   // fond lavande
+  bgCard:    '#FFFFFF',   // cards blanches
+  bgCardAlt: '#F4F4FB',   // alternance légère / header tableau
+  bgNav:     '#FFFFFF',
+  border:    '#E0E0EC',   // bordure lavande-grise
+  borderLight: '#EAEAF4',
+  text:      '#0F172A',   // quasi noir
+  textSec:   '#6B7280',   // gris moyen
+  textMuted: '#9CA3AF',   // gris clair
+  blue:      '#2563EB',   // bleu SR CTA
+  green:     '#16A34A',
+  red:       '#EF4444',
+  greenBg:   '#DCFCE7',
+}
+
 const W  = '1320px'
 const PX = '32px'
-
 const GRID = '230px 160px 120px 1fr 1fr 140px 150px'
 
 export default function Home() {
@@ -100,7 +114,6 @@ export default function Home() {
   const [mounted, setMounted]       = useState(false)
   const [sort, setSort]             = useState('apr')
   const [filter, setFilter]         = useState('all')
-  const [openRow, setOpenRow]       = useState(null)
   const [openFaq, setOpenFaq]       = useState(null)
   const [imgErrors, setImgErrors]   = useState({})
   const [defiRates, setDefiRates]   = useState(null)
@@ -132,8 +145,7 @@ export default function Home() {
   const c     = COLLATERALS.find(x => x.id === collateral)
   const price = prices[c.coingeckoId]?.eur || 0
   const col   = amount * price
-  const fmt     = n => Math.round(n).toLocaleString('fr-FR')
-  const today   = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+  const fmt   = n => Math.round(n).toLocaleString('fr-FR')
   const timeAgo = (iso) => {
     if (!iso) return ''
     const mins = Math.floor((Date.now() - new Date(iso)) / 60000)
@@ -141,31 +153,6 @@ export default function Home() {
     if (mins < 60) return `il y a ${mins} min`
     return `il y a ${Math.floor(mins / 60)}h`
   }
-
-  const rows = (PLATFORMS[stablecoin]?.[collateral] || [])
-    .filter(p => filter === 'all' || p.type === filter)
-    .map(p => {
-      if (p.name === 'Aave' && defiRates?.aave) {
-        const apr = defiRates.aave.rates?.[stablecoin]
-        const col = defiRates.aave.collateral?.[collateral]
-        if (apr !== null && apr !== undefined && col) {
-          return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
-        }
-      }
-      if (p.name === 'Morpho' && defiRates?.morpho) {
-        const apr = defiRates.morpho.rates?.[stablecoin]?.[collateral]
-        const col = defiRates.morpho.collateral?.[collateral]
-        if (apr !== null && apr !== undefined && col) {
-          return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
-        }
-      }
-      return p
-    })
-    .sort((a, b) => sort === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
-    .map((p, _, arr) => {
-      const minApr = Math.min(...arr.map(x => x.apr))
-      return { ...p, best: p.apr === minApr }
-    })
 
   const YH_CVR = {
     97: { apr: 8.0,  liqPct: 1.5  },
@@ -175,31 +162,55 @@ export default function Home() {
   }
   const youhodlerCalc = (cvr) => {
     const d = YH_CVR[cvr] || YH_CVR[90]
-    const liq = 100 - d.liqPct
-    return { apr: d.apr, liq, liqPct: d.liqPct }
+    return { apr: d.apr, liq: 100 - d.liqPct, liqPct: d.liqPct }
   }
 
+  const rows = (PLATFORMS[stablecoin]?.[collateral] || [])
+    .filter(p => filter === 'all' || p.type === filter)
+    .map(p => {
+      if (p.name === 'Aave' && defiRates?.aave) {
+        const apr = defiRates.aave.rates?.[stablecoin]
+        const col = defiRates.aave.collateral?.[collateral]
+        if (apr !== null && apr !== undefined && col)
+          return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
+      }
+      if (p.name === 'Morpho' && defiRates?.morpho) {
+        const apr = defiRates.morpho.rates?.[stablecoin]?.[collateral]
+        const col = defiRates.morpho.collateral?.[collateral]
+        if (apr !== null && apr !== undefined && col)
+          return { ...p, apr, ltv: col.ltv, liq: col.liquidationThreshold }
+      }
+      return p
+    })
+    .sort((a, b) => sort === 'apr' ? a.apr - b.apr : b.ltv - a.ltv)
+    .map((p, _, arr) => {
+      const minApr = Math.min(...arr.map(x => x.apr))
+      return { ...p, best: p.apr === minApr }
+    })
+
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
-  const sep  = <div style={{ width: '1px', height: '18px', background: '#E0E0E0' }} />
 
   const PlatformLogo = ({ name, color }) => {
     const src = PLATFORM_LOGOS[name]
-    const bg = color + '18'
     if (src && !imgErrors[name]) {
       return (
-        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid ' + color + '22' }}>
-          <img
-            src={src}
-            alt={name}
-            width={28} height={28}
-            style={{ borderRadius: '6px', objectFit: 'cover' }}
-            onError={() => setImgErrors(prev => ({ ...prev, [name]: true }))}
-          />
+        <div style={{
+          width: '40px', height: '40px', borderRadius: '10px',
+          background: '#F4F4FB', border: `1px solid ${SR.border}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}>
+          <img src={src} alt={name} width={24} height={24} style={{ borderRadius: '4px', objectFit: 'cover' }}
+            onError={() => setImgErrors(prev => ({ ...prev, [name]: true }))} />
         </div>
       )
     }
     return (
-      <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: bg, border: '1px solid ' + color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', color: color, fontWeight: '800', fontSize: '16px', flexShrink: 0, fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+      <div style={{
+        width: '40px', height: '40px', borderRadius: '10px',
+        background: color + '18', border: `1px solid ${color}30`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color, fontWeight: '800', fontSize: '15px', flexShrink: 0,
+      }}>
         {name[0]}
       </div>
     )
@@ -213,103 +224,145 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <style>{`
-          *, *::before, *::after { font-family: 'Inter', sans-serif; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-          @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-          .fade-row{animation:fadeInUp .35s cubic-bezier(.16,1,.3,1) both}
-          .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease}
-          .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}
-          .platform-row{transition:background .1s ease}
-          .platform-row:hover{background:#F8FAFC !important}
-          .cta-btn{transition:all .15s ease}
-          .cta-btn:hover{background:#0F172A !important; color:#fff !important; border-color:#0F172A !important}
+          *, *::before, *::after {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+          body { background: ${SR.bgPage}; }
+          @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+          @keyframes fadeInUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+          .fade-row { animation: fadeInUp .3s cubic-bezier(.16,1,.3,1) both }
+          .platform-row { transition: background .12s ease; }
+          .platform-row:hover { background: #F4F4FB !important; }
+          .cta-btn { transition: all .15s ease; }
+          .cta-btn:hover { background: ${SR.blue} !important; color: #fff !important; border-color: ${SR.blue} !important; }
+          .yh-tooltip { opacity:0; visibility:hidden; transition:opacity .15s ease }
+          .yh-tooltip-wrap:hover .yh-tooltip { opacity:1; visibility:visible }
           input[type=number]::-webkit-inner-spin-button,
-          input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+          input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+          .tab-btn { transition: all .15s; border-bottom: 2px solid transparent; }
+          .tab-btn:hover { color: ${SR.text} !important; }
         `}</style>
         <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC ou ETH. Données en temps réel." />
       </Head>
       <Navbar />
 
-      <main style={{ background: '#ffffff', minHeight: '100vh', paddingTop: '52px' }}>
+      <main style={{ background: SR.bgPage, minHeight: '100vh', paddingTop: '52px' }}>
 
         {/* ── HERO ── */}
-        <section style={{ borderBottom: '1px solid #E2E8F0', padding: isMobile ? '40px 0 32px' : '96px 0 72px', background: '#ffffff' }}>
+        <section style={{ padding: isMobile ? '48px 0 40px' : '88px 0 72px' }}>
           <div style={wrap}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '48px', flexWrap: 'wrap' }}>
-              <div style={{ maxWidth: '580px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '6px', padding: '4px 10px', marginBottom: '28px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', animation: 'pulse 2s infinite' }} />
-                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#16A34A', letterSpacing: '0.2px' }}>Taux Aave & Morpho en temps réel</span>
-                </div>
-                <h1 style={{ fontSize: isMobile ? '32px' : '56px', fontWeight: '800', letterSpacing: isMobile ? '-1px' : '-2.5px', color: '#0F172A', lineHeight: '1.1', marginBottom: '20px' }}>
-                  Empruntez sans<br />vendre votre crypto.
-                </h1>
-                <p style={{ fontSize: '17px', color: '#64748B', lineHeight: '1.7', maxWidth: '460px', fontWeight: '400' }}>
-                  Déposez du BTC ou ETH, empruntez de l'USDC ou USDT. Comparez les meilleurs taux en une vue.
-                </p>
+            <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto' }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                background: SR.bgCard, border: `1px solid ${SR.border}`,
+                borderRadius: '20px', padding: '5px 12px', marginBottom: '28px',
+              }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', animation: 'pulse 2s infinite' }} />
+                <span style={{ fontSize: '11px', fontWeight: '600', color: SR.textSec, letterSpacing: '0.2px' }}>
+                  Taux Aave & Morpho en temps réel
+                </span>
               </div>
-              {!isMobile && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #E2E8F0', borderRadius: '12px', overflow: 'hidden', flexShrink: 0, alignSelf: 'flex-start', marginTop: '8px', background: '#fff' }}>
-                  {[{ v: '6', l: 'Plateformes' }, { v: '2,56%', l: 'Meilleur taux' }, { v: '97%', l: 'LTV max' }].map((s, i) => (
-                    <div key={s.l} style={{ padding: '20px 32px', borderBottom: i < 2 ? '1px solid #E2E8F0' : 'none', textAlign: 'center', minWidth: '140px' }}>
-                      <div style={{ fontSize: '28px', fontWeight: '700', color: '#0F172A', letterSpacing: '-1px' }}>{s.v}</div>
-                      <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '4px', fontWeight: '500' }}>{s.l}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <h1 style={{
+                fontSize: isMobile ? '32px' : '52px',
+                fontWeight: '800',
+                letterSpacing: isMobile ? '-1px' : '-2px',
+                color: SR.text,
+                lineHeight: '1.12',
+                marginBottom: '18px',
+              }}>
+                Empruntez sans<br />vendre votre crypto.
+              </h1>
+              <p style={{ fontSize: '17px', color: SR.textSec, lineHeight: '1.7', fontWeight: '400' }}>
+                Déposez du BTC ou ETH, empruntez de l'USDC ou USDT.<br />
+                Comparez les meilleurs taux en une vue.
+              </p>
+
+              {/* Stats pills — style SR */}
+              <div style={{
+                display: 'flex', justifyContent: 'center', gap: '12px',
+                marginTop: '36px', flexWrap: 'wrap',
+              }}>
+                {[
+                  { v: '6', l: 'Plateformes' },
+                  { v: '2,56%', l: 'Meilleur taux' },
+                  { v: '97%', l: 'LTV max' },
+                ].map(s => (
+                  <div key={s.l} style={{
+                    background: SR.bgCard, border: `1px solid ${SR.border}`,
+                    borderRadius: '12px', padding: '14px 24px', textAlign: 'center',
+                    minWidth: '120px',
+                  }}>
+                    <div style={{ fontSize: '22px', fontWeight: '700', color: SR.text, letterSpacing: '-0.5px' }}>{s.v}</div>
+                    <div style={{ fontSize: '11px', color: SR.textMuted, marginTop: '3px', fontWeight: '500' }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── RISQUE ── */}
-        <div style={{ ...wrap, paddingTop: '24px', paddingBottom: '8px' }}>
-          <div style={{ border: '1px solid #FEF3C7', background: '#FFFBEB', borderRadius: '8px', padding: '12px 16px', display: 'flex', gap: '10px' }}>
+        {/* ── RISQUE banner ── */}
+        <div style={{ ...wrap, paddingBottom: '12px' }}>
+          <div style={{
+            background: '#FFFBEB', border: '1px solid #FDE68A',
+            borderRadius: '10px', padding: '12px 16px',
+            display: 'flex', gap: '10px',
+          }}>
             <span style={{ fontSize: '14px', flexShrink: 0 }}>⚠️</span>
             <div>
-              <div style={{ fontSize: '12px', fontWeight: '600', color: '#92400E', marginBottom: '3px' }}>Qu'est-ce que le risque de liquidation ?</div>
+              <div style={{ fontSize: '12px', fontWeight: '600', color: '#92400E', marginBottom: '3px' }}>
+                Qu'est-ce que le risque de liquidation ?
+              </div>
               <div style={{ fontSize: '12px', color: '#B45309', lineHeight: '1.6' }}>
-                Dans un prêt collatéralisé, si le prix de la crypto baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie du collatéral pour couvrir le prêt. La colonne <strong>Liquidation</strong> indique ce seuil pour chaque plateforme selon le montant saisi.
+                Dans un prêt collatéralisé, si le prix de la crypto baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie du collatéral. La colonne <strong>Liquidation</strong> indique ce seuil.
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── NIVEAU 1 : onglets stablecoin ── */}
-        <div style={{ borderBottom: '1px solid #E2E8F0', borderTop: '1px solid #E2E8F0', marginTop: '24px', background: '#fff' }}>
+        {/* ── ONGLETS stablecoin — style SR ── */}
+        <div style={{ background: SR.bgCard, borderTop: `1px solid ${SR.border}`, borderBottom: `1px solid ${SR.border}`, marginTop: '16px' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
             {STABLECOINS.map(x => (
-              <button key={x.id} onClick={() => { setStablecoin(x.id); setFilter('all') }} style={{
-                display: 'flex', alignItems: 'center', gap: '8px',
-                padding: '14px 20px',
-                fontSize: '13px', fontWeight: '600',
-                color: stablecoin === x.id ? '#0F172A' : '#94A3B8',
-                background: 'transparent', border: 'none',
-                borderBottom: `2px solid ${stablecoin === x.id ? '#0F172A' : 'transparent'}`,
-                cursor: 'pointer', transition: 'all .15s', whiteSpace: 'nowrap',
-              }}>
-                <img src={x.logo} alt={x.symbol} width={18} height={18} style={{ borderRadius: '50%' }} />
+              <button
+                key={x.id}
+                onClick={() => { setStablecoin(x.id); setFilter('all') }}
+                className="tab-btn"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '14px 20px',
+                  fontSize: '13px', fontWeight: '600',
+                  color: stablecoin === x.id ? SR.text : SR.textMuted,
+                  background: 'transparent', border: 'none',
+                  borderBottom: `2px solid ${stablecoin === x.id ? SR.blue : 'transparent'}`,
+                  cursor: 'pointer', whiteSpace: 'nowrap',
+                }}
+              >
+                <img src={x.logo} alt={x.symbol} width={16} height={16} style={{ borderRadius: '50%' }} />
                 {x.name}
               </button>
             ))}
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', padding: '0 4px' }}>
-              <span style={{ fontSize: '11px', color: '#CBD5E1' }}>Emprunter</span>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+              <span style={{ fontSize: '11px', color: SR.textMuted }}>Emprunter</span>
             </div>
           </div>
         </div>
 
-        {/* ── NIVEAU 2 : collatéral + filtres ── */}
-        <div style={{ borderBottom: '1px solid #E2E8F0', background: '#F8FAFC' }}>
+        {/* ── FILTRES collatéral ── */}
+        <div style={{ background: SR.bgCardAlt, borderBottom: `1px solid ${SR.border}` }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `10px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
 
-            <div style={{ display: 'flex', background: '#fff', border: '1px solid #E2E8F0', borderRadius: '8px', overflow: 'hidden' }}>
+            {/* Collateral toggle */}
+            <div style={{ display: 'flex', background: SR.bgCard, border: `1px solid ${SR.border}`, borderRadius: '8px', overflow: 'hidden' }}>
               {COLLATERALS.map(x => (
-                <button key={x.id} onClick={() => { setCollateral(x.id); setAmount(1); setOpenRow(null) }} style={{
+                <button key={x.id} onClick={() => { setCollateral(x.id); setAmount(1) }} style={{
                   display: 'flex', alignItems: 'center', gap: '5px',
-                  padding: '7px 14px',
-                  fontSize: '13px', fontWeight: '600',
-                  color: collateral === x.id ? '#fff' : '#64748B',
-                  background: collateral === x.id ? '#0F172A' : 'transparent',
+                  padding: '7px 14px', fontSize: '13px', fontWeight: '600',
+                  color: collateral === x.id ? '#fff' : SR.textSec,
+                  background: collateral === x.id ? SR.text : 'transparent',
                   border: 'none', cursor: 'pointer', transition: 'all .15s',
                 }}>
                   <img src={x.logo} alt={x.symbol} width={14} height={14} style={{ borderRadius: '50%' }} />
@@ -318,23 +371,29 @@ export default function Home() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E2E8F0', borderRadius: '8px', overflow: 'hidden' }}>
-              <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
-                style={{ border: 'none', padding: '7px 10px', fontSize: '14px', width: '70px', outline: 'none', color: '#0F172A', background: 'transparent', fontWeight: '600' }} />
-              <span style={{ padding: '0 12px', fontSize: '12px', fontWeight: '600', color: '#94A3B8' }}>{c.symbol}</span>
+            {/* Amount input */}
+            <div style={{ display: 'flex', alignItems: 'center', background: SR.bgCard, border: `1px solid ${SR.border}`, borderRadius: '8px', overflow: 'hidden' }}>
+              <input type="number" value={amount}
+                onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))}
+                step="0.1"
+                style={{ border: 'none', padding: '7px 10px', fontSize: '14px', width: '70px', outline: 'none', color: SR.text, background: 'transparent', fontWeight: '600' }}
+              />
+              <span style={{ padding: '0 12px', fontSize: '12px', fontWeight: '600', color: SR.textMuted }}>{c.symbol}</span>
             </div>
-            <span style={{ fontSize: '13px', color: '#64748B', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
+            <span style={{ fontSize: '13px', color: SR.textSec, whiteSpace: 'nowrap' }}>
+              ≈ {mounted && price > 0 ? fmt(col) : '—'} €
+            </span>
 
-            {!isMobile && <div style={{ marginLeft: 'auto' }} />}
+            <div style={{ marginLeft: 'auto' }} />
 
-            <div style={{ display: 'flex', background: '#E2E8F0', borderRadius: '8px', padding: '3px', marginLeft: isMobile ? 'auto' : '0' }}>
+            {/* CeFi/DeFi filter */}
+            <div style={{ display: 'flex', background: SR.bgCard, border: `1px solid ${SR.border}`, borderRadius: '8px', padding: '3px', gap: '2px' }}>
               {['all', 'CeFi', 'DeFi'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
                   padding: '5px 14px', fontSize: '12px', fontWeight: '600',
-                  background: filter === f ? '#fff' : 'transparent',
-                  color: filter === f ? '#0F172A' : '#64748B',
+                  background: filter === f ? SR.text : 'transparent',
+                  color: filter === f ? '#fff' : SR.textSec,
                   border: 'none', cursor: 'pointer', borderRadius: '6px',
-                  boxShadow: filter === f ? '0 1px 3px rgba(0,0,0,.08)' : 'none',
                   transition: 'all .15s',
                 }}>{f === 'all' ? 'Tout' : f}</button>
               ))}
@@ -343,292 +402,296 @@ export default function Home() {
         </div>
 
         {/* ── TABLEAU ── */}
-        <div style={{ ...wrap, background: '#fff', borderRadius: '16px', marginTop: '16px', border: '1px solid #EDE9E3', overflow: 'hidden' }}>
-          {!isMobile && (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: GRID,
-              padding: '10px 20px',
-              fontSize: '11px', fontWeight: '600', color: '#94A3B8',
-              textTransform: 'uppercase', letterSpacing: '0.6px',
-              borderBottom: '1px solid #E2E8F0',
-              background: '#F8FAFC',
-            }}>
-              <span>Plateforme</span>
-              <span>Taux / an</span>
-              <span>LTV max</span>
-              <span>Emprunt max</span>
-              <span>Liquidation / {c.symbol}</span>
-              <span>Accès</span>
-              <span></span>
-            </div>
-          )}
+        <div style={{ ...wrap, marginTop: '16px', marginBottom: '8px' }}>
+          <div style={{
+            background: SR.bgCard,
+            borderRadius: '14px',
+            border: `1px solid ${SR.border}`,
+            overflow: 'hidden',
+            boxShadow: '0 1px 4px rgba(0,0,0,.04)',
+          }}>
+            {/* Header */}
+            {!isMobile && (
+              <div style={{
+                display: 'grid', gridTemplateColumns: GRID,
+                padding: '10px 20px',
+                fontSize: '11px', fontWeight: '600', color: SR.textMuted,
+                textTransform: 'uppercase', letterSpacing: '0.6px',
+                borderBottom: `1px solid ${SR.border}`,
+                background: SR.bgCardAlt,
+              }}>
+                <span>Plateforme</span>
+                <span>Taux / an</span>
+                <span>LTV max</span>
+                <span>Emprunt max</span>
+                <span>Liquidation / {c.symbol}</span>
+                <span>Accès</span>
+                <span></span>
+              </div>
+            )}
 
-          {rows.map((p, i) => {
-            const isYouHodler = p.name === 'YouHodler'
-            const yhCalc      = isYouHodler ? youhodlerCalc(youhodlerCvr) : null
-            const displayApr  = isYouHodler ? yhCalc.apr : p.apr
-            const displayLtv  = isYouHodler ? youhodlerCvr : p.ltv
-            const displayLiq  = isYouHodler ? yhCalc.liq  : p.liq
+            {rows.map((p, i) => {
+              const isYouHodler = p.name === 'YouHodler'
+              const yhCalc      = isYouHodler ? youhodlerCalc(youhodlerCvr) : null
+              const displayApr  = isYouHodler ? yhCalc.apr : p.apr
+              const displayLtv  = isYouHodler ? youhodlerCvr : p.ltv
+              const displayLiq  = isYouHodler ? yhCalc.liq  : p.liq
 
-            const maxBorrow = (col * displayLtv) / 100
-            const liqPrice  = price > 0 ? (price * (displayLiq / 100)) : 0
-            const isOpen    = openRow === p.name
-            const isLive    = (p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined) ||
-                              (p.name === 'Morpho' && defiRates?.morpho?.rates?.[stablecoin]?.[collateral] !== undefined)
+              const maxBorrow = (col * displayLtv) / 100
+              const liqPrice  = price > 0 ? (price * (displayLiq / 100)) : 0
+              const isLive    = (p.name === 'Aave' && defiRates?.aave?.rates?.[stablecoin] !== undefined) ||
+                                (p.name === 'Morpho' && defiRates?.morpho?.rates?.[stablecoin]?.[collateral] !== undefined)
 
-            const ltvBarWidth = Math.min(displayLtv, 100)
-
-            const AprBadge = () => (
-              <div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
-                  <div style={{ fontSize: isMobile ? '22px' : '20px', fontWeight: '700', color: '#111', letterSpacing: '-.5px', whiteSpace: 'nowrap', fontFamily: "'Bricolage Grotesque', sans-serif" }}>
-                    {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
-                  </div>
-                  {isYouHodler && !isMobile && (
-                    <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '1px' }}>
-                      <span style={{
-                        width: '13px', height: '13px', borderRadius: '50%',
-                        background: '#E8E8E8', color: '#888',
-                        fontSize: '9px', fontWeight: '800',
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        cursor: 'default', userSelect: 'none', flexShrink: 0,
-                      }}>?</span>
-                      <div className="yh-tooltip" style={{
-                        position: 'absolute', bottom: '22px', left: '50%', transform: 'translateX(-50%)',
-                        background: '#111', color: '#fff', borderRadius: '7px',
-                        padding: '10px 12px', fontSize: '11px', lineHeight: '1.6',
-                        width: '220px', zIndex: 100, pointerEvents: 'none',
-                        boxShadow: '0 4px 16px rgba(0,0,0,.18)',
-                      }}>
-                        <div style={{ fontWeight: '700', marginBottom: '6px' }}>YouHodler — taux selon LTV</div>
-                        <div style={{ fontSize: '10px', color: '#AAA', marginBottom: '8px' }}>Le taux varie selon la LTV choisie. Plus la LTV est élevée, plus le risque de liquidation est fort.</div>
-                        {[97, 90, 70, 50].map(cvr => {
-                          const d = YH_CVR[cvr]
-                          return (
-                            <div key={cvr} style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px solid #2A2A2A' }}>
-                              <span style={{ color: '#AAA' }}>LTV {cvr}%</span>
-                              <span style={{ fontWeight: '700' }}>{d.apr}% / an · liq. −{d.liqPct}%</span>
-                            </div>
-                          )
-                        })}
-                        <div style={{ fontSize: '10px', color: '#666', marginTop: '7px' }}>Taux affiché : LTV 90% (référence)</div>
-                        <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: '#111' }} />
+              const AprBadge = () => (
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
+                    <div style={{ fontSize: isMobile ? '22px' : '20px', fontWeight: '700', color: SR.text, letterSpacing: '-.5px', whiteSpace: 'nowrap' }}>
+                      {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
+                    </div>
+                    {isYouHodler && !isMobile && (
+                      <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '2px' }}>
+                        <span style={{ width: '13px', height: '13px', borderRadius: '50%', background: SR.bgCardAlt, color: SR.textMuted, fontSize: '9px', fontWeight: '800', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'default', userSelect: 'none', border: `1px solid ${SR.border}` }}>?</span>
+                        <div className="yh-tooltip" style={{ position: 'absolute', bottom: '22px', left: '50%', transform: 'translateX(-50%)', background: '#1E293B', color: '#fff', borderRadius: '8px', padding: '10px 12px', fontSize: '11px', lineHeight: '1.6', width: '220px', zIndex: 100, pointerEvents: 'none', boxShadow: '0 4px 20px rgba(0,0,0,.2)' }}>
+                          <div style={{ fontWeight: '700', marginBottom: '6px' }}>YouHodler — taux selon LTV</div>
+                          {[97, 90, 70, 50].map(cvr => {
+                            const d = YH_CVR[cvr]
+                            return (
+                              <div key={cvr} style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px solid #334155' }}>
+                                <span style={{ color: '#94A3B8' }}>LTV {cvr}%</span>
+                                <span style={{ fontWeight: '700' }}>{d.apr}% · liq. −{d.liqPct}%</span>
+                              </div>
+                            )
+                          })}
+                          <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: '#1E293B' }} />
+                        </div>
                       </div>
+                    )}
+                  </div>
+                  {isLive ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
+                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
+                      <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: '9px', color: SR.textMuted, marginTop: '3px' }}>
+                      Mis à jour {p.manualUpdate || 'manuellement'}
                     </div>
                   )}
                 </div>
-                {isLive ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginTop: '3px' }}>
-                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#F97316', animation: 'pulse 2s infinite' }} />
-                    <span style={{ fontSize: '9px', color: '#F97316', fontWeight: '700' }}>{timeAgo(updatedAt)}</span>
+              )
+
+              const AccesBadges = () => (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11px', fontWeight: '600', color: SR.textSec }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, background: p.type === 'DeFi' ? SR.textMuted : SR.green }} />
+                    {p.type === 'DeFi' ? 'Wallet requis' : 'Sans wallet'}
                   </div>
-                ) : (
-                  <div style={{ fontSize: '9px', color: '#AAA', marginTop: '3px' }}>Mis à jour {p.manualUpdate || 'manuellement'}</div>
-                )}
-              </div>
-            )
-
-            const AccesBadges = () => (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '5px',
-                  fontSize: '11px', fontWeight: '600', color: '#444',
-                }}>
-                  <div style={{
-                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
-                    background: p.type === 'DeFi' ? '#999' : '#16A34A',
-                  }} />
-                  {p.type === 'DeFi' ? 'Wallet requis' : 'Sans wallet'}
+                  {p.type === 'CeFi' && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11px', fontWeight: '600', color: SR.blue }}>
+                      <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: SR.blue }} />
+                      Régulé
+                    </div>
+                  )}
                 </div>
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '5px',
-                  fontSize: '11px', fontWeight: '600',
-                  color: p.type === 'CeFi' ? '#2563EB' : 'transparent',
-                  pointerEvents: 'none', userSelect: 'none',
-                }}>
-                  <div style={{
-                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
-                    background: p.type === 'CeFi' ? '#2563EB' : 'transparent',
-                  }} />
-                  Régulé
-                </div>
-              </div>
-            )
+              )
 
-            return (
-              <div key={p.name} style={{ borderBottom: '1px solid #F5F5F5', marginBottom: isMobile ? '8px' : '0' }}>
-
-                {isMobile ? (
-                  <div className='fade-row' style={{ animationDelay: `${i * 0.06}s`, background: '#fff', borderRadius: '12px', border: p.best ? '2px solid #111' : '1px solid #EBEBEB', overflow: 'hidden' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              return (
+                <div key={p.name} style={{ borderBottom: `1px solid ${SR.borderLight}` }}>
+                  {isMobile ? (
+                    /* ── MOBILE CARD ── */
+                    <div className="fade-row" style={{
+                      animationDelay: `${i * 0.06}s`,
+                      background: SR.bgCard,
+                      borderRadius: '12px',
+                      border: p.best ? `2px solid ${SR.blue}` : `1px solid ${SR.border}`,
+                      overflow: 'hidden',
+                      margin: '8px',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <PlatformLogo name={p.name} color={p.color} />
+                          <div>
+                            <div style={{ fontSize: '15px', fontWeight: '700', color: SR.text }}>{p.name}</div>
+                            <div style={{ fontSize: '10px', fontWeight: '600', color: p.type === 'DeFi' ? SR.textMuted : SR.green }}>
+                              {p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}
+                            </div>
+                          </div>
+                        </div>
+                        <AprBadge />
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderTop: `1px solid ${SR.border}`, borderBottom: `1px solid ${SR.border}`, background: SR.bgCardAlt }}>
+                        {[
+                          { label: 'LTV', val: `${displayLtv}%`, color: SR.text, sz: '15px' },
+                          { label: 'Emprunt max', val: mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—', color: SR.green, sz: '13px' },
+                          { label: 'Liquidation', val: mounted && price > 0 ? fmt(liqPrice) + ' €' : '—', color: SR.red, sz: '13px' },
+                        ].map((cell, ci) => (
+                          <div key={ci} style={{ padding: '10px 12px', borderRight: ci < 2 ? `1px solid ${SR.border}` : 'none' }}>
+                            <div style={{ fontSize: '9px', color: SR.textMuted, fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>{cell.label}</div>
+                            <div style={{ fontSize: cell.sz, fontWeight: '700', color: cell.color }}>{cell.val}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ padding: '12px 16px' }}>
+                        <a href={p.link} target="_blank" rel="noopener noreferrer" style={{
+                          display: 'block', textAlign: 'center', padding: '11px',
+                          borderRadius: '8px', fontSize: '13px', fontWeight: '700',
+                          textDecoration: 'none',
+                          background: p.best ? SR.blue : SR.bgCardAlt,
+                          color: p.best ? '#fff' : SR.text,
+                          border: `1px solid ${p.best ? SR.blue : SR.border}`,
+                        }}>Emprunter →</a>
+                      </div>
+                    </div>
+                  ) : (
+                    /* ── DESKTOP ROW ── */
+                    <div
+                      className="fade-row platform-row"
+                      style={{
+                        animationDelay: `${i * 0.05}s`,
+                        display: 'grid',
+                        gridTemplateColumns: GRID,
+                        padding: '0 20px',
+                        alignItems: 'center',
+                        minHeight: isYouHodler ? '88px' : '72px',
+                        background: SR.bgCard,
+                        cursor: 'default',
+                      }}
+                    >
+                      {/* Col 1 — Plateforme */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <PlatformLogo name={p.name} color={p.color} />
                         <div>
-                          <div style={{ fontSize: '15px', fontWeight: '700', color: '#111' }}>{p.name}</div>
-                          <div style={{ fontSize: '10px', fontWeight: '700', color: p.type === 'DeFi' ? '#888' : '#16A34A' }}>{p.type === 'DeFi' ? '⚙️ Wallet requis' : '✅ Sans wallet'}</div>
+                          <div style={{ fontSize: '14px', fontWeight: '600', color: SR.text }}>{p.name}</div>
+                          <div style={{
+                            display: 'inline-block', fontSize: '10px', fontWeight: '700',
+                            padding: '2px 7px', borderRadius: '4px', marginTop: '3px',
+                            background: p.type === 'DeFi' ? '#EEF2FF' : '#F0FDF4',
+                            color: p.type === 'DeFi' ? '#4338CA' : SR.green,
+                          }}>
+                            {p.type}
+                          </div>
                         </div>
                       </div>
+
+                      {/* Col 2 — Taux */}
                       <AprBadge />
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderTop: '1px solid #F0F0F0', borderBottom: '1px solid #F0F0F0' }}>
-                      <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
-                        <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>LTV</div>
-                        <div style={{ fontSize: '15px', fontWeight: '700', color: '#111' }}>{displayLtv}%</div>
-                      </div>
-                      <div style={{ padding: '10px 12px', borderRight: '1px solid #F0F0F0' }}>
-                        <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Emprunt max</div>
-                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#16A34A' }}>{mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}</div>
-                      </div>
-                      <div style={{ padding: '10px 12px' }}>
-                        <div style={{ fontSize: '9px', color: '#999', fontWeight: '700', textTransform: 'uppercase', marginBottom: '3px' }}>Liquidation</div>
-                        <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626' }}>{mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}</div>
-                        {mounted && price > 0 && <div style={{ fontSize: '9px', color: '#DC2626' }}>−{Math.round((1 - displayLiq / 100) * 100)}%</div>}
-                      </div>
-                    </div>
-                    <div style={{ padding: '12px 16px' }}>
-                      <a href={p.link} target="_blank" rel="noopener noreferrer" style={{
-                        display: 'block', textAlign: 'center', padding: '11px',
-                        borderRadius: '8px', fontSize: '13px', fontWeight: '700',
-                        textDecoration: 'none', background: p.best ? '#111' : '#F5F5F5',
-                        color: p.best ? '#fff' : '#444',
-                      }}>Emprunter →</a>
-                    </div>
-                  </div>
-                ) : (
 
-                  <div
-                    onClick={() => {}}
-                    className="fade-row platform-row"
-                    style={{
-                      animationDelay: `${i * 0.05}s`,
-                      display: 'grid',
-                      gridTemplateColumns: GRID,
-                      padding: '0 20px',
-                      alignItems: 'center',
-                      minHeight: isYouHodler ? '88px' : '76px',
-                      background: '#fff',
-                      cursor: 'default',
-                      borderBottom: '1px solid #F1F5F9',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#F8FAFC' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = '#fff' }}
-                  >
-                    {/* Col 1 — Plateforme */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                      <PlatformLogo name={p.name} color={p.color} />
+                      {/* Col 3 — LTV */}
                       <div>
-                        <div style={{ fontSize: '14px', fontWeight: '600', color: '#0F172A' }}>{p.name}</div>
-                        <div style={{ fontSize: '11px', fontWeight: '500', marginTop: '3px', color: p.type === 'DeFi' ? '#94A3B8' : '#3B82F6', letterSpacing: '0.2px' }}>{p.type}</div>
-                      </div>
-                    </div>
-
-                    {/* Col 2 — Taux / an */}
-                    <AprBadge />
-
-                    {/* Col 3 — LTV max */}
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
-                        <div style={{ fontSize: '18px', fontWeight: '700', color: '#0F172A', letterSpacing: '-.5px' }}>{displayLtv}%</div>
-                        {p.ltvDynamic && (
-                          <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '1px' }}>
-                            <span style={{ width: '13px', height: '13px', borderRadius: '50%', background: '#E8E8E8', color: '#888', fontSize: '9px', fontWeight: '800', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'default', userSelect: 'none', flexShrink: 0 }}>?</span>
-                            <div className="yh-tooltip" style={{ position: 'absolute', bottom: '22px', left: '50%', transform: 'translateX(-50%)', background: '#111', color: '#fff', borderRadius: '7px', padding: '10px 12px', fontSize: '11px', lineHeight: '1.6', width: '210px', zIndex: 100, pointerEvents: 'none', boxShadow: '0 4px 16px rgba(0,0,0,.18)' }}>
-                              <div style={{ fontWeight: '700', marginBottom: '4px' }}>LTV variable</div>
-                              <div style={{ fontSize: '10px', color: '#AAA' }}>Le LTV est déterminé dynamiquement par Nexo selon la volatilité et la liquidité du marché. 50% est la valeur de référence actuelle.</div>
-                              <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: '#111' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <div style={{ fontSize: '18px', fontWeight: '700', color: SR.text, letterSpacing: '-.5px' }}>{displayLtv}%</div>
+                          {p.ltvDynamic && (
+                            <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex' }}>
+                              <span style={{ width: '13px', height: '13px', borderRadius: '50%', background: SR.bgCardAlt, color: SR.textMuted, fontSize: '9px', fontWeight: '800', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'default', border: `1px solid ${SR.border}` }}>?</span>
+                              <div className="yh-tooltip" style={{ position: 'absolute', bottom: '22px', left: '50%', transform: 'translateX(-50%)', background: '#1E293B', color: '#fff', borderRadius: '8px', padding: '10px 12px', fontSize: '11px', lineHeight: '1.6', width: '210px', zIndex: 100, pointerEvents: 'none', boxShadow: '0 4px 20px rgba(0,0,0,.2)' }}>
+                                <div style={{ fontWeight: '700', marginBottom: '4px' }}>LTV variable</div>
+                                <div style={{ fontSize: '10px', color: '#94A3B8' }}>Le LTV est déterminé dynamiquement par Nexo. 50% est la valeur de référence actuelle.</div>
+                                <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: '#1E293B' }} />
+                              </div>
                             </div>
+                          )}
+                        </div>
+                        {/* LTV bar */}
+                        <div style={{ height: '3px', background: SR.border, borderRadius: '3px', marginTop: '8px', width: '56px' }}>
+                          <div style={{ height: '100%', width: `${Math.min(displayLtv, 100)}%`, background: SR.green, borderRadius: '3px' }} />
+                        </div>
+                      </div>
+
+                      {/* Col 4 — Emprunt max */}
+                      <div style={{ fontSize: '18px', fontWeight: '700', color: SR.green, letterSpacing: '-.3px' }}>
+                        {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
+                      </div>
+
+                      {/* Col 5 — Liquidation */}
+                      <div>
+                        <div style={{ fontSize: '18px', fontWeight: '700', color: SR.red, letterSpacing: '-.3px' }}>
+                          {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
+                        </div>
+                        {mounted && price > 0 && (
+                          <div style={{ fontSize: '11px', color: SR.textMuted, marginTop: '3px' }}>
+                            <span style={{ color: SR.red, fontWeight: '600' }}>
+                              −{Math.round((1 - displayLiq / 100) * 100)}%
+                            </span>{' '}avant liquidation
                           </div>
                         )}
                       </div>
-                      <div style={{ height: '3px', background: '#E2E8F0', borderRadius: '3px', marginTop: '8px', width: '56px' }}>
-                        <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#22C55E', borderRadius: '3px' }} />
-                      </div>
+
+                      {/* Col 6 — Accès */}
+                      <AccesBadges />
+
+                      {/* Col 7 — CTA */}
+                      <a
+                        href={p.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cta-btn"
+                        style={{
+                          display: 'block', textAlign: 'center',
+                          padding: '9px 16px', borderRadius: '8px',
+                          fontSize: '13px', fontWeight: '600',
+                          textDecoration: 'none', whiteSpace: 'nowrap',
+                          background: '#fff', color: SR.text,
+                          border: `1px solid ${SR.border}`,
+                          letterSpacing: '0.1px',
+                        }}
+                      >
+                        Emprunter →
+                      </a>
                     </div>
+                  )}
+                </div>
+              )
+            })}
 
-                    {/* Col 4 — Emprunt max */}
-                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#22C55E', letterSpacing: '-.3px' }}>
-                      {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
-                    </div>
-
-                    {/* Col 5 — Liquidation */}
-                    <div>
-                      <div style={{ fontSize: '18px', fontWeight: '700', color: '#EF4444', letterSpacing: '-.3px' }}>
-                        {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
-                      </div>
-                      <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '3px' }}>
-                        {mounted && price > 0 && (
-                          <>
-                            <span style={{ color: '#EF4444', fontWeight: '600' }}>
-                              −{Math.round((1 - displayLiq / 100) * 100)}%
-                            </span>
-                            {' '}avant liquidation
-                          </>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Col 6 — Accès */}
-                    <AccesBadges />
-
-                    {/* Col 7 — CTA */}
-                    <a
-                      href={p.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={e => e.stopPropagation()}
-                      className="cta-btn"
-                      style={{
-                        display: 'block', textAlign: 'center', padding: '9px 16px', borderRadius: '8px',
-                        fontSize: '13px', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap',
-                        background: '#fff', color: '#0F172A', border: '1px solid #E2E8F0',
-                        letterSpacing: '0.1px',
-                      }}
-                    >
-                      Emprunter →
-                    </a>
-                  </div>
-                )}
-
+            {updatedAt && (
+              <div style={{ textAlign: 'right', fontSize: '11px', color: SR.textMuted, padding: '8px 20px 4px' }}>
+                Taux DeFi mis à jour le {new Date(updatedAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
               </div>
-            )
-          })}
+            )}
 
-          {updatedAt && (
-            <div style={{ textAlign: 'right', fontSize: '11px', color: '#999', padding: '8px 0 4px' }}>
-              Taux DeFi mis à jour le {new Date(updatedAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            <div style={{ display: 'flex', gap: '10px', padding: '14px 20px', borderTop: `1px solid ${SR.border}`, marginTop: '4px' }}>
+              <span>🔍</span>
+              <p style={{ fontSize: '11px', color: SR.textSec, lineHeight: '1.6', margin: 0 }}>
+                <strong style={{ color: SR.text }}>Indépendance éditoriale.</strong> Nantix est un comparateur indépendant. Les données affichées ne sont pas influencées par les plateformes. Des commissions d'affiliation peuvent être perçues via certains liens — elles ne modifient pas notre classement.
+              </p>
             </div>
-          )}
-
-          <div style={{ display: 'flex', gap: '10px', padding: '14px 0', borderTop: '1px solid #EBEBEB', marginTop: '4px' }}>
-            <span>🔍</span>
-            <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.6' }}>
-              <strong style={{ color: '#444' }}>Indépendance éditoriale.</strong> Nantix est un comparateur indépendant. Les données affichées ne sont pas influencées par les plateformes. Des commissions d'affiliation peuvent être perçues via certains liens — elles ne modifient pas notre classement.
-            </p>
           </div>
         </div>
 
         {/* ── VENDRE VS EMPRUNTER ── */}
-        <section style={{ borderTop: '1px solid #E2E8F0', padding: '80px 0', background: '#fff' }}>
+        <section style={{ padding: '80px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
-            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '8px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Un prêt collatéralisé permet d'obtenir des liquidités sans vendre sa crypto. Voici les principales différences entre les deux options.</p>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: SR.textMuted, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
+            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: SR.text, marginBottom: '8px' }}>
+              Vente vs prêt collatéralisé : quelles différences ?
+            </h2>
+            <p style={{ fontSize: '14px', color: SR.textSec, lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>
+              Un prêt collatéralisé permet d'obtenir des liquidités sans vendre sa crypto.
+            </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1px 1fr', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1px 1fr',
+              background: SR.bgCard,
+              border: `1px solid ${SR.border}`,
+              borderRadius: '12px',
+              overflow: 'hidden',
+              marginBottom: '20px',
+              boxShadow: '0 1px 4px rgba(0,0,0,.04)',
+            }}>
               {[
-                { header: '✕ Vendre votre crypto', color: '#DC2626', rows: [['Impôt plus-values', '30% flat tax', true], ['Exposition marché', 'Perdue', true], ['Délai', '1–3 jours', false], ['Montant net', '~70% après impôt', true]] },
+                { header: '✕ Vendre votre crypto', color: SR.red, rows: [['Impôt plus-values', '30% flat tax', true], ['Exposition marché', 'Perdue', true], ['Délai', '1–3 jours', false], ['Montant net', '~70% après impôt', true]] },
                 null,
-                { header: '✓ Prêt collatéralisé', color: '#16A34A', rows: [['Impôt plus-values', 'Aucun', false], ['Exposition marché', 'Conservée', false], ['Délai', 'Quelques minutes', false], ['Montant accessible', '50–80% collatéral', false]] },
+                { header: '✓ Prêt collatéralisé', color: SR.green, rows: [['Impôt plus-values', 'Aucun', false], ['Exposition marché', 'Conservée', false], ['Délai', 'Quelques minutes', false], ['Montant accessible', '50–80% collatéral', false]] },
               ].map((col, ci) => col === null
-                ? <div key={ci} style={{ background: '#EBEBEB' }} />
+                ? <div key={ci} style={{ background: SR.border }} />
                 : (
                   <div key={ci} style={{ padding: '20px 24px' }}>
                     <div style={{ fontSize: '13px', fontWeight: '700', color: col.color, marginBottom: '16px' }}>{col.header}</div>
                     {col.rows.map(r => (
-                      <div key={r[0]} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderBottom: '1px solid #F5F5F5', fontSize: '13px' }}>
-                        <span style={{ color: '#666' }}>{r[0]}</span>
-                        <span style={{ fontWeight: '600', color: r[2] ? col.color : '#111' }}>{r[1]}</span>
+                      <div key={r[0]} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderBottom: `1px solid ${SR.borderLight}`, fontSize: '13px' }}>
+                        <span style={{ color: SR.textSec }}>{r[0]}</span>
+                        <span style={{ fontWeight: '600', color: r[2] ? col.color : SR.text }}>{r[1]}</span>
                       </div>
                     ))}
                   </div>
@@ -640,12 +703,18 @@ export default function Home() {
               {[
                 { icon: '🏦', t: 'Pas de score de crédit requis', d: 'Les prêts crypto utilisent votre collatéral comme garantie. Aucun historique de crédit n\'est nécessaire.' },
                 { icon: '📊', t: 'Collatéral récupéré au remboursement', d: 'Au remboursement du prêt, le collatéral est restitué. L\'exposition au marché est maintenue pendant la durée du prêt.' },
-                { icon: '⏱', t: 'Délais de traitement variables', d: 'Sur CeFi, les fonds sont généralement disponibles en quelques minutes à quelques heures. Sur DeFi, le traitement est quasi-instantané.' },
+                { icon: '⏱', t: 'Délais de traitement variables', d: 'Sur CeFi, les fonds sont généralement disponibles en quelques minutes. Sur DeFi, le traitement est quasi-instantané.' },
               ].map(card => (
-                <div key={card.t} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', padding: '18px 20px' }}>
+                <div key={card.t} style={{
+                  background: SR.bgCard,
+                  border: `1px solid ${SR.border}`,
+                  borderRadius: '12px',
+                  padding: '18px 20px',
+                  boxShadow: '0 1px 4px rgba(0,0,0,.04)',
+                }}>
                   <div style={{ fontSize: '20px', marginBottom: '10px' }}>{card.icon}</div>
-                  <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', marginBottom: '6px' }}>{card.t}</div>
-                  <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{card.d}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '700', color: SR.text, marginBottom: '6px' }}>{card.t}</div>
+                  <div style={{ fontSize: '12px', color: SR.textSec, lineHeight: '1.6' }}>{card.d}</div>
                 </div>
               ))}
             </div>
@@ -653,37 +722,48 @@ export default function Home() {
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ borderTop: '1px solid #E2E8F0', padding: '80px 0', background: '#F8FAFC' }}>
+        <section style={{ padding: '80px 0', background: SR.bgCard, borderTop: `1px solid ${SR.border}`, borderBottom: `1px solid ${SR.border}` }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
-            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '32px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Fonctionnement des prêts crypto collatéralisés</h2>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: SR.textMuted, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
+            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: SR.text, marginBottom: '32px' }}>
+              Fonctionnement des prêts crypto collatéralisés
+            </h2>
             {FAQ.map((item, i) => (
-              <div key={i} style={{ borderBottom: '1px solid #EBEBEB' }}>
+              <div key={i} style={{ borderBottom: `1px solid ${SR.border}` }}>
                 <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: '16px' }}>
-                  <span style={{ fontSize: '14px', fontWeight: '600', color: '#222' }}>{item.q}</span>
-                  <span style={{ fontSize: '12px', color: '#888', flexShrink: 0, display: 'inline-block', transition: 'transform .2s', transform: openFaq === i ? 'rotate(180deg)' : 'none' }}>▾</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', color: SR.text }}>{item.q}</span>
+                  <span style={{ fontSize: '12px', color: SR.textMuted, flexShrink: 0, display: 'inline-block', transition: 'transform .2s', transform: openFaq === i ? 'rotate(180deg)' : 'none' }}>▾</span>
                 </div>
-                {openFaq === i && <div style={{ paddingBottom: '16px', fontSize: '13px', color: '#555', lineHeight: '1.7' }}>{item.a}</div>}
+                {openFaq === i && <div style={{ paddingBottom: '16px', fontSize: '13px', color: SR.textSec, lineHeight: '1.7' }}>{item.a}</div>}
               </div>
             ))}
           </div>
         </section>
 
         {/* ── BLOG ── */}
-        <section style={{ borderTop: '1px solid #E2E8F0', padding: '80px 0', background: '#fff' }}>
+        <section style={{ padding: '80px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
-            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '28px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Ressources et guides</h2>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: SR.textMuted, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
+            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: SR.text, marginBottom: '28px' }}>Ressources et guides</h2>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: '16px' }}>
               {BLOG.map(b => (
-                <div key={b.title} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer', transition: 'box-shadow .15s' }}
-                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,.06)'}
-                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
+                <div key={b.title} style={{
+                  background: SR.bgCard,
+                  border: `1px solid ${SR.border}`,
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'box-shadow .15s, transform .15s',
+                  boxShadow: '0 1px 4px rgba(0,0,0,.04)',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,.08)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,.04)'; e.currentTarget.style.transform = 'none' }}
+                >
                   <div style={{ height: '80px', background: b.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>{b.icon}</div>
                   <div style={{ padding: '14px 16px' }}>
-                    <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>{b.tag}</div>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', lineHeight: '1.4', marginBottom: '6px' }}>{b.title}</div>
-                    <div style={{ fontSize: '11px', color: '#888' }}>{b.date} · {b.read}</div>
+                    <div style={{ fontSize: '10px', fontWeight: '700', color: SR.textMuted, textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>{b.tag}</div>
+                    <div style={{ fontSize: '13px', fontWeight: '700', color: SR.text, lineHeight: '1.4', marginBottom: '6px' }}>{b.title}</div>
+                    <div style={{ fontSize: '11px', color: SR.textMuted }}>{b.date} · {b.read}</div>
                   </div>
                 </div>
               ))}
@@ -692,17 +772,36 @@ export default function Home() {
         </section>
 
         {/* ── NEWSLETTER ── */}
-        <section style={{ borderTop: '1px solid #EDE9E3', padding: '52px 0', background: '#F9F8F6' }}>
+        <section style={{ padding: '52px 0', background: SR.bgCard, borderTop: `1px solid ${SR.border}` }}>
           <div style={wrap}>
-            <div style={{ background: '#FAFAFA', border: '1px solid #EBEBEB', borderRadius: '12px', padding: '36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
+            <div style={{
+              background: SR.bgCardAlt,
+              border: `1px solid ${SR.border}`,
+              borderRadius: '14px',
+              padding: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '32px',
+              flexWrap: 'wrap',
+            }}>
               <div style={{ maxWidth: '420px' }}>
-                <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.4px', marginBottom: '6px' }}>Suivi des taux</div>
-                <div style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', marginBottom: '8px' }}>Recevez un récapitulatif hebdomadaire des variations de taux sur les principales plateformes.</div>
-                <div style={{ fontSize: '12px', color: '#888' }}>Fréquence maximale : 1 email par semaine.</div>
+                <div style={{ fontSize: '20px', fontWeight: '700', color: SR.text, letterSpacing: '-.4px', marginBottom: '6px' }}>Suivi des taux</div>
+                <div style={{ fontSize: '14px', color: SR.textSec, lineHeight: '1.6', marginBottom: '8px' }}>Recevez un récapitulatif hebdomadaire des variations de taux sur les principales plateformes.</div>
+                <div style={{ fontSize: '12px', color: SR.textMuted }}>Fréquence maximale : 1 email par semaine.</div>
               </div>
               <div style={{ display: 'flex', gap: '8px', flexShrink: 0, width: isMobile ? '100%' : 'auto', flexDirection: isMobile ? 'column' : 'row' }}>
-                <input type="email" placeholder="votre@email.com" style={{ border: '1px solid #E0E0E0', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', outline: 'none', width: isMobile ? '100%' : '220px', color: '#111', boxSizing: 'border-box' }} />
-                <button style={{ background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>S'abonner</button>
+                <input type="email" placeholder="votre@email.com" style={{
+                  border: `1px solid ${SR.border}`, borderRadius: '8px',
+                  padding: '10px 14px', fontSize: '13px', outline: 'none',
+                  width: isMobile ? '100%' : '220px', color: SR.text,
+                  background: SR.bgCard, boxSizing: 'border-box',
+                }} />
+                <button style={{
+                  background: SR.blue, color: '#fff', border: 'none',
+                  borderRadius: '8px', padding: '10px 20px',
+                  fontSize: '13px', fontWeight: '700', cursor: 'pointer',
+                }}>S'abonner</button>
               </div>
             </div>
           </div>
