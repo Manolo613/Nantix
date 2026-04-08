@@ -78,7 +78,7 @@ const FAQ = [
   { q: "Quelle est la différence entre CeFi et DeFi ?", a: "CeFi (Nexo, Ledn) : plateforme centralisée, plus simple, support client, mais ils détiennent vos fonds. DeFi (Aave, Morpho) : smart contracts, vous gardez le contrôle de vos fonds. Plus technique, mais aucune entité ne peut geler vos actifs." },
   { q: "Est-ce que je dois payer des impôts sur un prêt crypto ?", a: "En France, un prêt collatéralisé n'est pas un événement imposable car vous ne vendez pas votre crypto. Vous ne payez pas la flat tax de 30%. En revanche, si votre collatéral est liquidé, cette liquidation peut être considérée comme une vente imposable. Consultez un comptable." },
   { q: "Quel est le montant minimum pour emprunter ?", a: "Sur CeFi (Nexo, Ledn), les minimums sont généralement autour de 500–1 000 €. Sur DeFi (Aave, Morpho), pas de minimum officiel, mais les frais de gas rendent les petits montants peu rentables en dessous de ~5 000 €." },
-  { q: "Nantix est-il indépendant ?", a: "Oui. Nantix ne reçoit aucune rémunération pour modifier les données affichées. Nous percevons une commission d'affiliation standard si vous vous inscrivez via nos liens — cela ne biaise pas notre comparaison." },
+
 ]
 
 const BLOG = [
@@ -184,19 +184,22 @@ export default function Home() {
 
   const PlatformLogo = ({ name, color }) => {
     const src = PLATFORM_LOGOS[name]
+    const bg = color + '18'
     if (src && !imgErrors[name]) {
       return (
-        <img
-          src={src}
-          alt={name}
-          width={38} height={38}
-          style={{ borderRadius: '10px', objectFit: 'cover', flexShrink: 0 }}
-          onError={() => setImgErrors(prev => ({ ...prev, [name]: true }))}
-        />
+        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid ' + color + '22' }}>
+          <img
+            src={src}
+            alt={name}
+            width={28} height={28}
+            style={{ borderRadius: '6px', objectFit: 'cover' }}
+            onError={() => setImgErrors(prev => ({ ...prev, [name]: true }))}
+          />
+        </div>
       )
     }
     return (
-      <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: '800', fontSize: '15px', flexShrink: 0 }}>
+      <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: bg, border: '1px solid ' + color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', color: color, fontWeight: '800', fontSize: '16px', flexShrink: 0, fontFamily: "'Bricolage Grotesque', sans-serif" }}>
         {name[0]}
       </div>
     )
@@ -206,7 +209,20 @@ export default function Home() {
     <>
       <Head>
         <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
-        <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both} .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease} .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}`}</style>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+        <style>{`
+          *, *::before, *::after { font-family: 'DM Sans', sans-serif; box-sizing: border-box; }
+          h1, h2, h3 { font-family: 'Bricolage Grotesque', sans-serif; }
+          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+          @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+          .fade-row{animation:fadeInUp .4s cubic-bezier(.16,1,.3,1) both}
+          .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease}
+          .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}
+          .platform-row:hover{background:#F8F8F8 !important; box-shadow:inset 3px 0 0 #111}
+          .cta-btn:hover{border-color:#111 !important; color:#111 !important}
+        `}</style>
         <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC ou ETH. Données en temps réel." />
       </Head>
       <Navbar />
@@ -214,52 +230,36 @@ export default function Home() {
       <main style={{ background: '#fff', minHeight: '100vh', paddingTop: '52px' }}>
 
         {/* ── HERO ── */}
-        <section style={{ borderBottom: '1px solid #F0F0F0', padding: isMobile ? '24px 0 20px' : '40px 0 28px' }}>
+        <section style={{ borderBottom: '1px solid #F0F0F0', padding: isMobile ? '40px 0 28px' : '80px 0 56px' }}>
           <div style={wrap}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '24px', marginBottom: '20px', flexWrap: 'wrap' }}>
-              <div>
-                <h1 style={{ fontSize: isMobile ? '30px' : '56px', fontWeight: '800', letterSpacing: isMobile ? '-1px' : '-2px', color: '#111', lineHeight: '1.2', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
+              <div style={{ maxWidth: '600px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '20px', padding: '5px 12px', marginBottom: '24px' }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
+                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#16A34A', letterSpacing: '0.3px' }}>Taux Aave & Morpho en temps réel</span>
+                </div>
+                <h1 style={{ fontSize: isMobile ? '36px' : '64px', fontWeight: '800', letterSpacing: isMobile ? '-1.5px' : '-3px', color: '#111', lineHeight: '1.1', marginBottom: '16px' }}>
                   Empruntez sans<br />vendre votre crypto.
                 </h1>
-                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', maxWidth: '420px' }}>
-                  Déposez du BTC ou ETH et empruntez de l'USDC ou USDT. Comparez les meilleurs taux.
+                <p style={{ fontSize: '16px', color: '#777', lineHeight: '1.7', maxWidth: '440px', fontWeight: '400' }}>
+                  Déposez du BTC ou ETH, empruntez de l'USDC ou USDT. Comparez les meilleurs taux en une vue.
                 </p>
               </div>
               {!isMobile && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#555' }}>
-                    <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                    Taux Aave & Morpho en temps réel
-                  </div>
-                  <div style={{ display: 'flex', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
-                    {[{ v: '5', l: 'Plateformes' }, { v: '2,56%', l: 'Meilleur taux' }, { v: '97%', l: 'LTV max' }].map((s, i) => (
-                      <div key={s.l} style={{ padding: '14px 22px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', textAlign: 'center' }}>
-                        <div style={{ fontSize: '22px', fontWeight: '800', color: '#111', letterSpacing: '-0.7px' }}>{s.v}</div>
-                        <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{s.l}</div>
-                      </div>
-                    ))}
-                  </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #EBEBEB', borderRadius: '16px', overflow: 'hidden', flexShrink: 0, alignSelf: 'flex-start', marginTop: '8px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+                  {[
+                    { v: '6', l: 'Plateformes', sub: 'comparées' },
+                    { v: '2,56%', l: 'Meilleur taux', sub: 'du marché' },
+                    { v: '97%', l: 'LTV max', sub: 'disponible' },
+                  ].map((s, i) => (
+                    <div key={s.l} style={{ padding: '20px 32px', borderBottom: i < 2 ? '1px solid #F0F0F0' : 'none', textAlign: 'center', minWidth: '150px', background: i === 0 ? '#FAFAFA' : '#fff' }}>
+                      <div style={{ fontSize: '28px', fontWeight: '800', color: '#111', letterSpacing: '-1.5px', fontFamily: "'Bricolage Grotesque', sans-serif", lineHeight: 1 }}>{s.v}</div>
+                      <div style={{ fontSize: '11px', color: '#888', marginTop: '6px', fontWeight: '500' }}>{s.l}</div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
-
-            {!isMobile && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
-                {[
-                  { n: '01', t: 'Choisissez le stablecoin',      d: 'USDC ou USDT — le montant que vous souhaitez emprunter.' },
-                  { n: '02', t: 'Sélectionnez votre collatéral', d: 'BTC ou ETH à déposer en garantie.' },
-                  { n: '03', t: 'Comparez et empruntez',         d: 'Taux, LTV et seuil de liquidation côte à côte.' },
-                ].map((step, i) => (
-                  <div key={step.n} style={{ padding: '14px 20px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#BBB', flexShrink: 0 }}>{step.n}</span>
-                    <div>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{step.t}</div>
-                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{step.d}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </section>
 
@@ -348,10 +348,11 @@ export default function Home() {
             <div style={{
               display: 'grid',
               gridTemplateColumns: GRID,
-              padding: '10px 16px',
-              fontSize: '10px', fontWeight: '700', color: '#999',
-              textTransform: 'uppercase', letterSpacing: '.9px',
+              padding: '12px 20px',
+              fontSize: '10px', fontWeight: '700', color: '#AAA',
+              textTransform: 'uppercase', letterSpacing: '1px',
               borderBottom: '1px solid #EBEBEB',
+              background: '#FAFAFA',
             }}>
               <span>Plateforme</span>
               <span>Taux / an</span>
@@ -381,7 +382,7 @@ export default function Home() {
             const AprBadge = () => (
               <div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
-                  <div style={{ fontSize: isMobile ? '22px' : '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: isMobile ? '22px' : '20px', fontWeight: '700', color: '#111', letterSpacing: '-.5px', whiteSpace: 'nowrap', fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                     {isYouHodler ? `${displayApr}%` : (p.aprLabel ? `${p.aprLabel}%` : `${p.apr}%`)}
                   </div>
                   {isYouHodler && !isMobile && (
@@ -429,29 +430,27 @@ export default function Home() {
             )
 
             const AccesBadges = () => (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '5px',
-                  fontSize: '11px', fontWeight: '600', color: '#444',
-                }}>
-                  <div style={{
-                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
-                    background: p.type === 'DeFi' ? '#999' : '#16A34A',
-                  }} />
-                  {p.type === 'DeFi' ? 'Wallet requis' : 'Sans wallet'}
-                </div>
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '5px',
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start' }}>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '4px',
                   fontSize: '11px', fontWeight: '600',
-                  color: p.type === 'CeFi' ? '#2563EB' : 'transparent',
-                  pointerEvents: 'none', userSelect: 'none',
+                  color: p.type === 'DeFi' ? '#666' : '#16A34A',
+                  background: p.type === 'DeFi' ? '#F5F5F5' : '#F0FDF4',
+                  border: `1px solid ${p.type === 'DeFi' ? '#E8E8E8' : '#BBF7D0'}`,
+                  borderRadius: '20px', padding: '3px 8px', whiteSpace: 'nowrap',
                 }}>
-                  <div style={{
-                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
-                    background: p.type === 'CeFi' ? '#2563EB' : 'transparent',
-                  }} />
-                  Régulé
-                </div>
+                  {p.type === 'DeFi' ? '⚙ Wallet' : '✓ Sans wallet'}
+                </span>
+                {p.type === 'CeFi' && (
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '4px',
+                    fontSize: '11px', fontWeight: '600', color: '#2563EB',
+                    background: '#EFF6FF', border: '1px solid #BFDBFE',
+                    borderRadius: '20px', padding: '3px 8px', whiteSpace: 'nowrap',
+                  }}>
+                    🔒 Régulé
+                  </span>
+                )}
               </div>
             )
 
@@ -498,26 +497,28 @@ export default function Home() {
 
                   <div
                     onClick={() => {}}
-                    className='fade-row'
+                    className="fade-row platform-row"
                     style={{
                       animationDelay: `${i * 0.06}s`,
                       display: 'grid',
                       gridTemplateColumns: GRID,
-                      padding: '0 16px',
+                      padding: '0 20px',
                       alignItems: 'center',
-                      minHeight: isYouHodler ? '84px' : '72px',
+                      minHeight: isYouHodler ? '92px' : '80px',
                       background: p.best ? '#FAFAFA' : '#fff',
                       cursor: 'default',
+                      borderLeft: '3px solid transparent',
+                      transition: 'all .15s ease',
                     }}
-                    onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
-                    onMouseLeave={e => e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'}
+                    onMouseEnter={e => { e.currentTarget.style.background = '#F8F8F8'; e.currentTarget.style.borderLeftColor = '#111' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'; e.currentTarget.style.borderLeftColor = 'transparent' }}
                   >
                     {/* Col 1 — Plateforme */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                       <PlatformLogo name={p.name} color={p.color} />
                       <div>
-                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>{p.name}</div>
-                        <div style={{ fontSize: '10px', fontWeight: '600', marginTop: '2px', color: p.type === 'DeFi' ? '#999' : '#2563EB' }}>{p.type}</div>
+                        <div style={{ fontSize: '15px', fontWeight: '700', color: '#111', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{p.name}</div>
+                        <div style={{ fontSize: '10px', fontWeight: '600', marginTop: '3px', color: p.type === 'DeFi' ? '#999' : '#2563EB', letterSpacing: '0.3px' }}>{p.type}</div>
                       </div>
                     </div>
 
@@ -527,7 +528,7 @@ export default function Home() {
                     {/* Col 3 — LTV max */}
                     <div>
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
-                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
+                        <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.5px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{displayLtv}%</div>
                         {p.ltvDynamic && (
                           <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '1px' }}>
                             <span style={{ width: '13px', height: '13px', borderRadius: '50%', background: '#E8E8E8', color: '#888', fontSize: '9px', fontWeight: '800', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'default', userSelect: 'none', flexShrink: 0 }}>?</span>
@@ -545,13 +546,13 @@ export default function Home() {
                     </div>
 
                     {/* Col 4 — Emprunt max */}
-                    <div style={{ fontSize: '16px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.3px' }}>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.5px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                       {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
                     </div>
 
                     {/* Col 5 — Liquidation */}
                     <div>
-                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.3px' }}>
+                      <div style={{ fontSize: '20px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.5px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                         {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
                       </div>
                       <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
@@ -575,13 +576,13 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={e => e.stopPropagation()}
+                      className="cta-btn"
                       style={{
-                        display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px',
-                        fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap',
-                        background: '#fff', color: '#444', border: '1.5px solid #DCDCDC',
+                        display: 'block', textAlign: 'center', padding: '10px 16px', borderRadius: '10px',
+                        fontSize: '12px', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap',
+                        background: '#fff', color: '#444', border: '1.5px solid #E0E0E0',
+                        letterSpacing: '0.2px', transition: 'all .15s ease',
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#111'; e.currentTarget.style.color = '#111' }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#DCDCDC'; e.currentTarget.style.color = '#444' }}
                     >
                       Emprunter →
                     </a>
@@ -607,10 +608,10 @@ export default function Home() {
         </div>
 
         {/* ── VENDRE VS EMPRUNTER ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        <section style={{ borderTop: '1px solid #EBEBEB', padding: '80px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '8px' }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
+            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '8px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Un prêt collatéralisé permet d'obtenir des liquidités sans vendre sa crypto. Voici les principales différences entre les deux options.</p>
 
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1px 1fr', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px' }}>
@@ -651,10 +652,10 @@ export default function Home() {
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        <section style={{ borderTop: '1px solid #EBEBEB', padding: '80px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '28px' }}>Fonctionnement des prêts crypto collatéralisés</h2>
+            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '32px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Fonctionnement des prêts crypto collatéralisés</h2>
             {FAQ.map((item, i) => (
               <div key={i} style={{ borderBottom: '1px solid #EBEBEB' }}>
                 <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: '16px' }}>
@@ -668,10 +669,10 @@ export default function Home() {
         </section>
 
         {/* ── BLOG ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        <section style={{ borderTop: '1px solid #EBEBEB', padding: '80px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '24px' }}>Ressources et guides</h2>
+            <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '28px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Ressources et guides</h2>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: '16px' }}>
               {BLOG.map(b => (
                 <div key={b.title} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer', transition: 'box-shadow .15s' }}
