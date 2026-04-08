@@ -1,5 +1,3 @@
-Avant le changement de tout 
-
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
