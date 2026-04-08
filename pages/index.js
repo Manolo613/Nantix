@@ -47,14 +47,14 @@ const PLATFORMS = {
       { name: 'Morpho',    apr: 2.56,  ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',    users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
       { name: 'Ledn',      apr: 11.49, ltv: 50, liq: 80,   type: 'CeFi', color: '#0D4A45', link: 'https://ledn.io',          best: false, founded: '2018', country: 'Canada',           users: '100K+', regulated: true,  manualUpdate: 'avr. 2026', about: 'Spécialiste Bitcoin uniquement. Funded in USDC. Proof-of-Reserves publique. Taux à partir de 11.49% APR (9.99% dès 1M USD).' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97, liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Plateforme CeFi suisse. Taux variable selon le CVR choisi : 8% APR à 97% CVR (risque élevé, liquidation dès -1,5%) jusqu\'à 16% APR à 50% CVR (liquidation à -45%). Prêts en USDC/USDT, durée max 60 jours.' },
-      { name: 'Nexo',      apr: 13.9,  ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token (6.9% Platinum → 13.9% Base).' },
+      { name: 'Nexo', apr: 17.9, ltv: 50, liq: 83, ltvDynamic: true, type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com', best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '9.9 – 17.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token (9.9% Platinum → 17.9% Base). LTV déterminé dynamiquement par Nexo.' },
       { name: 'Nebeus',    apr: 6.0,   ltv: 65, liq: 80,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', about: 'Plateforme FCA-régulée au Royaume-Uni. Interest Only Loan (6% / an, LTV 65%) ou Flexible Loan (16.5%, LTV 70%). KYC requis.' },
     ],
     ethereum: [
       { name: 'Aave',      apr: 3.6,   ltv: 80,  liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDC.' },
       { name: 'Morpho',    apr: 2.59,  ltv: 86,  liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',    users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux déterminés par chaque marché indépendamment.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97,  liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDC/USDT adossés à ETH. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
-      { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token.' },
+      { name: 'Nexo', apr: 17.9, ltv: 50, liq: 83, ltvDynamic: true, type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com', best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '9.9 – 17.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token. LTV déterminé dynamiquement par Nexo.' },
       { name: 'Nebeus',    apr: 7.0,   ltv: 65,  liq: 80,   type: 'CeFi', color: '#6C3CE1', link: 'https://nebeus.com',       best: false, founded: '2014', country: 'Royaume-Uni',    users: '200K+', regulated: true,  manualUpdate: 'avr. 2026', about: 'Prêt ETH sur Nebeus. Interest Only Loan (7% APR, LTV 65%). FCA-régulée.' },
     ],
   },
@@ -63,13 +63,13 @@ const PLATFORMS = {
       { name: 'Aave',      apr: 3.8,   ltv: 73, liq: 78,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi. Déposez du WBTC, empruntez de l\'USDT. Smart contracts audités, pas de KYC.' },
       { name: 'Morpho',    apr: 3.88,  ltv: 86, liq: 86,   type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',    users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. Marchés isolés, LTV élevée (86%). Taux variables par marché.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97, liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDT adossés à BTC. Taux de 8% APR (CVR 97%, liquidation dès -1,5%) à 16% APR (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
-      { name: 'Nexo',      apr: 13.9,  ltv: 50, liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Taux selon niveau fidélité NEXO token.' },
+      { name: 'Nexo', apr: 17.9, ltv: 50, liq: 83, ltvDynamic: true, type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com', best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '9.9 – 17.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Prêt USDT non disponible pour les résidents EEA (France, Belgique...). LTV déterminé dynamiquement par Nexo.' },
     ],
     ethereum: [
       { name: 'Aave',      apr: 3.8,   ltv: 80,  liq: 83,   type: 'DeFi', color: '#B6509E', link: 'https://aave.com',         best: true,  founded: '2020', country: 'Décentralisé',    users: '500K+', regulated: false, about: 'Leader DeFi sur ETH. LTV la plus haute (80%). Déposez de l\'ETH, empruntez de l\'USDT.' },
       { name: 'Morpho',    apr: 9.61,  ltv: 91.5, liq: 91.5, type: 'DeFi', color: '#4C6FFF', link: 'https://app.morpho.org',   best: false, founded: '2022', country: 'Décentralisé',   users: '80K+',  regulated: false, about: 'Protocole DeFi permissionless sur Ethereum. LTV très haute (91.5%). Taux variables par marché.' },
       { name: 'YouHodler', apr: 8.0,   ltv: 97,  liq: 98.5, type: 'CeFi', color: '#1EBDD2', link: 'https://youhodler.com',    best: false, founded: '2018', country: 'Suisse / Chypre', users: '1M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '8 – 16', about: 'Prêts en USDT adossés à ETH. Taux de 8% / an (CVR 97%, liquidation dès -1,5%) à 16% / an (CVR 50%, liquidation à -45%). Durée max 60 jours.' },
-      { name: 'Nexo',      apr: 13.9,  ltv: 50,  liq: 83,   type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com',         best: false, founded: '2018', country: 'UE / Caïmans',   users: '7M+',   regulated: true,  manualUpdate: 'avr. 2026', aprLabel: '6.9 – 13.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Système de fidélité NEXO token.' },
+      { name: 'Nexo', apr: 17.9, ltv: 50, liq: 83, ltvDynamic: true, type: 'CeFi', color: '#0EA5E9', link: 'https://nexo.com', best: false, founded: '2018', country: 'UE / Caïmans', users: '7M+', regulated: true, manualUpdate: 'avr. 2026', aprLabel: '9.9 – 17.9', about: 'Plateforme CeFi régulée, 7M+ utilisateurs. Prêt USDT non disponible pour les résidents EEA (France, Belgique...). LTV déterminé dynamiquement par Nexo.' },
     ],
   },
 }
@@ -527,8 +527,21 @@ export default function Home() {
                     <AprBadge />
 
                     {/* Col 3 — LTV max */}
+                    {/* Col 3 — LTV max */}
                     <div>
-                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', letterSpacing: '-.3px' }}>{displayLtv}%</div>
+                        {p.ltvDynamic && (
+                          <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '1px' }}>
+                            <span style={{ width: '13px', height: '13px', borderRadius: '50%', background: '#E8E8E8', color: '#888', fontSize: '9px', fontWeight: '800', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'default', userSelect: 'none', flexShrink: 0 }}>?</span>
+                            <div className="yh-tooltip" style={{ position: 'absolute', bottom: '22px', left: '50%', transform: 'translateX(-50%)', background: '#111', color: '#fff', borderRadius: '7px', padding: '10px 12px', fontSize: '11px', lineHeight: '1.6', width: '210px', zIndex: 100, pointerEvents: 'none', boxShadow: '0 4px 16px rgba(0,0,0,.18)' }}>
+                              <div style={{ fontWeight: '700', marginBottom: '4px' }}>LTV variable</div>
+                              <div style={{ fontSize: '10px', color: '#AAA' }}>Le LTV est déterminé dynamiquement par Nexo selon la volatilité et la liquidité du marché. 50% est la valeur de référence actuelle.</div>
+                              <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '10px', height: '10px', background: '#111' }} />
+                            </div>
+                          </div>
+                        )}
+                      </div>
                       <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
                         <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
                       </div>
