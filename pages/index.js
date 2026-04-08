@@ -227,16 +227,16 @@ export default function Home() {
       </Head>
       <Navbar />
 
-      <main style={{ background: '#fff', minHeight: '100vh', paddingTop: '52px' }}>
+      <main style={{ background: '#F9F8F6', minHeight: '100vh', paddingTop: '52px' }}>
 
         {/* ── HERO ── */}
-        <section style={{ borderBottom: '1px solid #F0F0F0', padding: isMobile ? '40px 0 28px' : '80px 0 56px' }}>
+        <section style={{ borderBottom: '1px solid #EDE9E3', padding: isMobile ? '40px 0 28px' : '80px 0 56px', background: '#fff' }}>
           <div style={wrap}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
               <div style={{ maxWidth: '600px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '20px', padding: '5px 12px', marginBottom: '24px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F5F5F5', border: '1px solid #EBEBEB', borderRadius: '20px', padding: '5px 12px', marginBottom: '24px' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#16A34A', letterSpacing: '0.3px' }}>Taux Aave & Morpho en temps réel</span>
+                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#555', letterSpacing: '0.3px' }}>Taux Aave & Morpho en temps réel</span>
                 </div>
                 <h1 style={{ fontSize: isMobile ? '36px' : '64px', fontWeight: '800', letterSpacing: isMobile ? '-1.5px' : '-3px', color: '#111', lineHeight: '1.1', marginBottom: '16px' }}>
                   Empruntez sans<br />vendre votre crypto.
@@ -246,15 +246,11 @@ export default function Home() {
                 </p>
               </div>
               {!isMobile && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #EBEBEB', borderRadius: '16px', overflow: 'hidden', flexShrink: 0, alignSelf: 'flex-start', marginTop: '8px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-                  {[
-                    { v: '6', l: 'Plateformes', sub: 'comparées' },
-                    { v: '2,56%', l: 'Meilleur taux', sub: 'du marché' },
-                    { v: '97%', l: 'LTV max', sub: 'disponible' },
-                  ].map((s, i) => (
-                    <div key={s.l} style={{ padding: '20px 32px', borderBottom: i < 2 ? '1px solid #F0F0F0' : 'none', textAlign: 'center', minWidth: '150px', background: i === 0 ? '#FAFAFA' : '#fff' }}>
-                      <div style={{ fontSize: '28px', fontWeight: '800', color: '#111', letterSpacing: '-1.5px', fontFamily: "'Bricolage Grotesque', sans-serif", lineHeight: 1 }}>{s.v}</div>
-                      <div style={{ fontSize: '11px', color: '#888', marginTop: '6px', fontWeight: '500' }}>{s.l}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #EBEBEB', borderRadius: '16px', overflow: 'hidden', flexShrink: 0, alignSelf: 'flex-start', marginTop: '16px' }}>
+                  {[{ v: '6', l: 'Plateformes' }, { v: '2,56%', l: 'Meilleur taux' }, { v: '97%', l: 'LTV max' }].map((s, i) => (
+                    <div key={s.l} style={{ padding: '18px 28px', borderBottom: i < 2 ? '1px solid #EBEBEB' : 'none', textAlign: 'center', minWidth: '130px' }}>
+                      <div style={{ fontSize: '26px', fontWeight: '800', color: '#111', letterSpacing: '-1px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{s.v}</div>
+                      <div style={{ fontSize: '11px', color: '#999', marginTop: '3px', fontWeight: '500' }}>{s.l}</div>
                     </div>
                   ))}
                 </div>
@@ -264,7 +260,7 @@ export default function Home() {
         </section>
 
         {/* ── RISQUE ── */}
-        <div style={{ ...wrap, paddingTop: '16px' }}>
+        <div style={{ ...wrap, paddingTop: '24px', paddingBottom: '8px' }}>
           <div style={{ border: '1px solid #FEF3C7', background: '#FFFBEB', borderRadius: '8px', padding: '12px 16px', display: 'flex', gap: '10px' }}>
             <span style={{ fontSize: '14px', flexShrink: 0 }}>⚠️</span>
             <div>
@@ -277,7 +273,7 @@ export default function Home() {
         </div>
 
         {/* ── NIVEAU 1 : onglets stablecoin ── */}
-        <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', marginTop: '16px', background: '#fff' }}>
+        <div style={{ borderBottom: '1px solid #EDE9E3', borderTop: '1px solid #EDE9E3', marginTop: '16px', background: '#fff' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
             {STABLECOINS.map(x => (
               <button key={x.id} onClick={() => { setStablecoin(x.id); setFilter('all') }} style={{
@@ -300,7 +296,7 @@ export default function Home() {
         </div>
 
         {/* ── NIVEAU 2 : collatéral + filtres ── */}
-        <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
+        <div style={{ borderBottom: '1px solid #EDE9E3', background: '#F2F0EC' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
 
             <div style={{ display: 'flex', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
@@ -343,16 +339,15 @@ export default function Home() {
         </div>
 
         {/* ── TABLEAU ── */}
-        <div style={wrap}>
+        <div style={{ ...wrap, background: '#fff', borderRadius: '16px', marginTop: '16px', border: '1px solid #EDE9E3', overflow: 'hidden' }}>
           {!isMobile && (
             <div style={{
               display: 'grid',
               gridTemplateColumns: GRID,
-              padding: '12px 20px',
-              fontSize: '10px', fontWeight: '700', color: '#AAA',
-              textTransform: 'uppercase', letterSpacing: '1px',
+              padding: '10px 16px',
+              fontSize: '10px', fontWeight: '700', color: '#999',
+              textTransform: 'uppercase', letterSpacing: '.9px',
               borderBottom: '1px solid #EBEBEB',
-              background: '#FAFAFA',
             }}>
               <span>Plateforme</span>
               <span>Taux / an</span>
@@ -430,27 +425,29 @@ export default function Home() {
             )
 
             const AccesBadges = () => (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start' }}>
-                <span style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '4px',
-                  fontSize: '11px', fontWeight: '600',
-                  color: p.type === 'DeFi' ? '#666' : '#16A34A',
-                  background: p.type === 'DeFi' ? '#F5F5F5' : '#F0FDF4',
-                  border: `1px solid ${p.type === 'DeFi' ? '#E8E8E8' : '#BBF7D0'}`,
-                  borderRadius: '20px', padding: '3px 8px', whiteSpace: 'nowrap',
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '5px',
+                  fontSize: '11px', fontWeight: '600', color: '#444',
                 }}>
-                  {p.type === 'DeFi' ? '⚙ Wallet' : '✓ Sans wallet'}
-                </span>
-                {p.type === 'CeFi' && (
-                  <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '4px',
-                    fontSize: '11px', fontWeight: '600', color: '#2563EB',
-                    background: '#EFF6FF', border: '1px solid #BFDBFE',
-                    borderRadius: '20px', padding: '3px 8px', whiteSpace: 'nowrap',
-                  }}>
-                    🔒 Régulé
-                  </span>
-                )}
+                  <div style={{
+                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+                    background: p.type === 'DeFi' ? '#999' : '#16A34A',
+                  }} />
+                  {p.type === 'DeFi' ? 'Wallet requis' : 'Sans wallet'}
+                </div>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '5px',
+                  fontSize: '11px', fontWeight: '600',
+                  color: p.type === 'CeFi' ? '#2563EB' : 'transparent',
+                  pointerEvents: 'none', userSelect: 'none',
+                }}>
+                  <div style={{
+                    width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+                    background: p.type === 'CeFi' ? '#2563EB' : 'transparent',
+                  }} />
+                  Régulé
+                </div>
               </div>
             )
 
@@ -608,7 +605,7 @@ export default function Home() {
         </div>
 
         {/* ── VENDRE VS EMPRUNTER ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '80px 0' }}>
+        <section style={{ borderTop: '1px solid #EDE9E3', padding: '80px 0', background: '#fff' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
             <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '8px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
@@ -652,7 +649,7 @@ export default function Home() {
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '80px 0' }}>
+        <section style={{ borderTop: '1px solid #EDE9E3', padding: '80px 0', background: '#F9F8F6' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
             <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '32px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Fonctionnement des prêts crypto collatéralisés</h2>
@@ -669,7 +666,7 @@ export default function Home() {
         </section>
 
         {/* ── BLOG ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '80px 0' }}>
+        <section style={{ borderTop: '1px solid #EDE9E3', padding: '80px 0', background: '#fff' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
             <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '28px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Ressources et guides</h2>
@@ -691,7 +688,7 @@ export default function Home() {
         </section>
 
         {/* ── NEWSLETTER ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        <section style={{ borderTop: '1px solid #EDE9E3', padding: '52px 0', background: '#F9F8F6' }}>
           <div style={wrap}>
             <div style={{ background: '#FAFAFA', border: '1px solid #EBEBEB', borderRadius: '12px', padding: '36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
               <div style={{ maxWidth: '420px' }}>
