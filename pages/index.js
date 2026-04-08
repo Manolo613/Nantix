@@ -211,46 +211,49 @@ export default function Home() {
         <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <style>{`
-          *, *::before, *::after { font-family: 'DM Sans', sans-serif; box-sizing: border-box; }
-          h1, h2, h3 { font-family: 'Bricolage Grotesque', sans-serif; }
-          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-          @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-          .fade-row{animation:fadeInUp .4s cubic-bezier(.16,1,.3,1) both}
+          *, *::before, *::after { font-family: 'Inter', sans-serif; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+          @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+          .fade-row{animation:fadeInUp .35s cubic-bezier(.16,1,.3,1) both}
           .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease}
           .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}
-          .platform-row:hover{background:#F8F8F8 !important; box-shadow:inset 3px 0 0 #111}
-          .cta-btn:hover{border-color:#111 !important; color:#111 !important}
+          .platform-row{transition:background .1s ease}
+          .platform-row:hover{background:#F8FAFC !important}
+          .cta-btn{transition:all .15s ease}
+          .cta-btn:hover{background:#0F172A !important; color:#fff !important; border-color:#0F172A !important}
+          input[type=number]::-webkit-inner-spin-button,
+          input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         `}</style>
         <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC ou ETH. Données en temps réel." />
       </Head>
       <Navbar />
 
-      <main style={{ background: '#F9F8F6', minHeight: '100vh', paddingTop: '52px' }}>
+      <main style={{ background: '#ffffff', minHeight: '100vh', paddingTop: '52px' }}>
 
         {/* ── HERO ── */}
-        <section style={{ borderBottom: '1px solid #EDE9E3', padding: isMobile ? '40px 0 28px' : '80px 0 56px', background: '#fff' }}>
+        <section style={{ borderBottom: '1px solid #E2E8F0', padding: isMobile ? '40px 0 32px' : '96px 0 72px', background: '#ffffff' }}>
           <div style={wrap}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
-              <div style={{ maxWidth: '600px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F5F5F5', border: '1px solid #EBEBEB', borderRadius: '20px', padding: '5px 12px', marginBottom: '24px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#555', letterSpacing: '0.3px' }}>Taux Aave & Morpho en temps réel</span>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '48px', flexWrap: 'wrap' }}>
+              <div style={{ maxWidth: '580px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '6px', padding: '4px 10px', marginBottom: '28px' }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', animation: 'pulse 2s infinite' }} />
+                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#16A34A', letterSpacing: '0.2px' }}>Taux Aave & Morpho en temps réel</span>
                 </div>
-                <h1 style={{ fontSize: isMobile ? '36px' : '64px', fontWeight: '800', letterSpacing: isMobile ? '-1.5px' : '-3px', color: '#111', lineHeight: '1.1', marginBottom: '16px' }}>
+                <h1 style={{ fontSize: isMobile ? '32px' : '56px', fontWeight: '800', letterSpacing: isMobile ? '-1px' : '-2.5px', color: '#0F172A', lineHeight: '1.1', marginBottom: '20px' }}>
                   Empruntez sans<br />vendre votre crypto.
                 </h1>
-                <p style={{ fontSize: '16px', color: '#777', lineHeight: '1.7', maxWidth: '440px', fontWeight: '400' }}>
+                <p style={{ fontSize: '17px', color: '#64748B', lineHeight: '1.7', maxWidth: '460px', fontWeight: '400' }}>
                   Déposez du BTC ou ETH, empruntez de l'USDC ou USDT. Comparez les meilleurs taux en une vue.
                 </p>
               </div>
               {!isMobile && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #EBEBEB', borderRadius: '16px', overflow: 'hidden', flexShrink: 0, alignSelf: 'flex-start', marginTop: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #E2E8F0', borderRadius: '12px', overflow: 'hidden', flexShrink: 0, alignSelf: 'flex-start', marginTop: '8px', background: '#fff' }}>
                   {[{ v: '6', l: 'Plateformes' }, { v: '2,56%', l: 'Meilleur taux' }, { v: '97%', l: 'LTV max' }].map((s, i) => (
-                    <div key={s.l} style={{ padding: '18px 28px', borderBottom: i < 2 ? '1px solid #EBEBEB' : 'none', textAlign: 'center', minWidth: '130px' }}>
-                      <div style={{ fontSize: '26px', fontWeight: '800', color: '#111', letterSpacing: '-1px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{s.v}</div>
-                      <div style={{ fontSize: '11px', color: '#999', marginTop: '3px', fontWeight: '500' }}>{s.l}</div>
+                    <div key={s.l} style={{ padding: '20px 32px', borderBottom: i < 2 ? '1px solid #E2E8F0' : 'none', textAlign: 'center', minWidth: '140px' }}>
+                      <div style={{ fontSize: '28px', fontWeight: '700', color: '#0F172A', letterSpacing: '-1px' }}>{s.v}</div>
+                      <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '4px', fontWeight: '500' }}>{s.l}</div>
                     </div>
                   ))}
                 </div>
@@ -264,7 +267,7 @@ export default function Home() {
           <div style={{ border: '1px solid #FEF3C7', background: '#FFFBEB', borderRadius: '8px', padding: '12px 16px', display: 'flex', gap: '10px' }}>
             <span style={{ fontSize: '14px', flexShrink: 0 }}>⚠️</span>
             <div>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: '#92400E', marginBottom: '3px' }}>Qu'est-ce que le risque de liquidation ?</div>
+              <div style={{ fontSize: '12px', fontWeight: '600', color: '#92400E', marginBottom: '3px' }}>Qu'est-ce que le risque de liquidation ?</div>
               <div style={{ fontSize: '12px', color: '#B45309', lineHeight: '1.6' }}>
                 Dans un prêt collatéralisé, si le prix de la crypto baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie du collatéral pour couvrir le prêt. La colonne <strong>Liquidation</strong> indique ce seuil pour chaque plateforme selon le montant saisi.
               </div>
@@ -273,40 +276,40 @@ export default function Home() {
         </div>
 
         {/* ── NIVEAU 1 : onglets stablecoin ── */}
-        <div style={{ borderBottom: '1px solid #EDE9E3', borderTop: '1px solid #EDE9E3', marginTop: '16px', background: '#fff' }}>
+        <div style={{ borderBottom: '1px solid #E2E8F0', borderTop: '1px solid #E2E8F0', marginTop: '24px', background: '#fff' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
             {STABLECOINS.map(x => (
               <button key={x.id} onClick={() => { setStablecoin(x.id); setFilter('all') }} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
                 padding: '14px 20px',
-                fontSize: '14px', fontWeight: '600',
-                color: stablecoin === x.id ? '#111' : '#888',
+                fontSize: '13px', fontWeight: '600',
+                color: stablecoin === x.id ? '#0F172A' : '#94A3B8',
                 background: 'transparent', border: 'none',
-                borderBottom: `2.5px solid ${stablecoin === x.id ? '#111' : 'transparent'}`,
+                borderBottom: `2px solid ${stablecoin === x.id ? '#0F172A' : 'transparent'}`,
                 cursor: 'pointer', transition: 'all .15s', whiteSpace: 'nowrap',
               }}>
-                <img src={x.logo} alt={x.symbol} width={20} height={20} style={{ borderRadius: '50%' }} />
+                <img src={x.logo} alt={x.symbol} width={18} height={18} style={{ borderRadius: '50%' }} />
                 {x.name}
               </button>
             ))}
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', padding: '0 4px', gap: '6px' }}>
-              <span style={{ fontSize: '11px', color: '#AAA' }}>Emprunter</span>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', padding: '0 4px' }}>
+              <span style={{ fontSize: '11px', color: '#CBD5E1' }}>Emprunter</span>
             </div>
           </div>
         </div>
 
         {/* ── NIVEAU 2 : collatéral + filtres ── */}
-        <div style={{ borderBottom: '1px solid #EDE9E3', background: '#F2F0EC' }}>
-          <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        <div style={{ borderBottom: '1px solid #E2E8F0', background: '#F8FAFC' }}>
+          <div style={{ maxWidth: W, margin: '0 auto', padding: `10px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
 
-            <div style={{ display: 'flex', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', background: '#fff', border: '1px solid #E2E8F0', borderRadius: '8px', overflow: 'hidden' }}>
               {COLLATERALS.map(x => (
                 <button key={x.id} onClick={() => { setCollateral(x.id); setAmount(1); setOpenRow(null) }} style={{
                   display: 'flex', alignItems: 'center', gap: '5px',
-                  padding: '6px 12px',
-                  fontSize: '12px', fontWeight: '600',
-                  color: collateral === x.id ? '#fff' : '#666',
-                  background: collateral === x.id ? '#111' : 'transparent',
+                  padding: '7px 14px',
+                  fontSize: '13px', fontWeight: '600',
+                  color: collateral === x.id ? '#fff' : '#64748B',
+                  background: collateral === x.id ? '#0F172A' : 'transparent',
                   border: 'none', cursor: 'pointer', transition: 'all .15s',
                 }}>
                   <img src={x.logo} alt={x.symbol} width={14} height={14} style={{ borderRadius: '50%' }} />
@@ -315,23 +318,24 @@ export default function Home() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E2E8F0', borderRadius: '8px', overflow: 'hidden' }}>
               <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
-                style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
-              <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#999' }}>{c.symbol}</span>
+                style={{ border: 'none', padding: '7px 10px', fontSize: '14px', width: '70px', outline: 'none', color: '#0F172A', background: 'transparent', fontWeight: '600' }} />
+              <span style={{ padding: '0 12px', fontSize: '12px', fontWeight: '600', color: '#94A3B8' }}>{c.symbol}</span>
             </div>
-            <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
+            <span style={{ fontSize: '13px', color: '#64748B', whiteSpace: 'nowrap' }}>≈ {mounted && price > 0 ? fmt(col) : '—'} €</span>
 
             {!isMobile && <div style={{ marginLeft: 'auto' }} />}
 
-            <div style={{ display: 'flex', background: '#EBEBEB', borderRadius: '7px', padding: '2px', marginLeft: isMobile ? 'auto' : '0' }}>
+            <div style={{ display: 'flex', background: '#E2E8F0', borderRadius: '8px', padding: '3px', marginLeft: isMobile ? 'auto' : '0' }}>
               {['all', 'CeFi', 'DeFi'].map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
-                  padding: '5px 12px', fontSize: '12px', fontWeight: '600',
+                  padding: '5px 14px', fontSize: '12px', fontWeight: '600',
                   background: filter === f ? '#fff' : 'transparent',
-                  color: filter === f ? '#111' : '#666',
-                  border: 'none', cursor: 'pointer', borderRadius: '5px',
-                  boxShadow: filter === f ? '0 1px 2px rgba(0,0,0,.08)' : 'none',
+                  color: filter === f ? '#0F172A' : '#64748B',
+                  border: 'none', cursor: 'pointer', borderRadius: '6px',
+                  boxShadow: filter === f ? '0 1px 3px rgba(0,0,0,.08)' : 'none',
+                  transition: 'all .15s',
                 }}>{f === 'all' ? 'Tout' : f}</button>
               ))}
             </div>
@@ -344,10 +348,11 @@ export default function Home() {
             <div style={{
               display: 'grid',
               gridTemplateColumns: GRID,
-              padding: '10px 16px',
-              fontSize: '10px', fontWeight: '700', color: '#999',
-              textTransform: 'uppercase', letterSpacing: '.9px',
-              borderBottom: '1px solid #EBEBEB',
+              padding: '10px 20px',
+              fontSize: '11px', fontWeight: '600', color: '#94A3B8',
+              textTransform: 'uppercase', letterSpacing: '0.6px',
+              borderBottom: '1px solid #E2E8F0',
+              background: '#F8FAFC',
             }}>
               <span>Plateforme</span>
               <span>Taux / an</span>
@@ -496,26 +501,25 @@ export default function Home() {
                     onClick={() => {}}
                     className="fade-row platform-row"
                     style={{
-                      animationDelay: `${i * 0.06}s`,
+                      animationDelay: `${i * 0.05}s`,
                       display: 'grid',
                       gridTemplateColumns: GRID,
                       padding: '0 20px',
                       alignItems: 'center',
-                      minHeight: isYouHodler ? '92px' : '80px',
-                      background: p.best ? '#FAFAFA' : '#fff',
+                      minHeight: isYouHodler ? '88px' : '76px',
+                      background: '#fff',
                       cursor: 'default',
-                      borderLeft: '3px solid transparent',
-                      transition: 'all .15s ease',
+                      borderBottom: '1px solid #F1F5F9',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#F8F8F8'; e.currentTarget.style.borderLeftColor = '#111' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = p.best ? '#FAFAFA' : '#fff'; e.currentTarget.style.borderLeftColor = 'transparent' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = '#F8FAFC' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = '#fff' }}
                   >
                     {/* Col 1 — Plateforme */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                       <PlatformLogo name={p.name} color={p.color} />
                       <div>
-                        <div style={{ fontSize: '15px', fontWeight: '700', color: '#111', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{p.name}</div>
-                        <div style={{ fontSize: '10px', fontWeight: '600', marginTop: '3px', color: p.type === 'DeFi' ? '#999' : '#2563EB', letterSpacing: '0.3px' }}>{p.type}</div>
+                        <div style={{ fontSize: '14px', fontWeight: '600', color: '#0F172A' }}>{p.name}</div>
+                        <div style={{ fontSize: '11px', fontWeight: '500', marginTop: '3px', color: p.type === 'DeFi' ? '#94A3B8' : '#3B82F6', letterSpacing: '0.2px' }}>{p.type}</div>
                       </div>
                     </div>
 
@@ -525,7 +529,7 @@ export default function Home() {
                     {/* Col 3 — LTV max */}
                     <div>
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
-                        <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.5px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{displayLtv}%</div>
+                        <div style={{ fontSize: '18px', fontWeight: '700', color: '#0F172A', letterSpacing: '-.5px' }}>{displayLtv}%</div>
                         {p.ltvDynamic && (
                           <div className="yh-tooltip-wrap" style={{ position: 'relative', display: 'inline-flex', marginTop: '1px' }}>
                             <span style={{ width: '13px', height: '13px', borderRadius: '50%', background: '#E8E8E8', color: '#888', fontSize: '9px', fontWeight: '800', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'default', userSelect: 'none', flexShrink: 0 }}>?</span>
@@ -537,25 +541,25 @@ export default function Home() {
                           </div>
                         )}
                       </div>
-                      <div style={{ height: '2px', background: '#EBEBEB', borderRadius: '2px', marginTop: '6px', width: '64px' }}>
-                        <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#111', borderRadius: '2px' }} />
+                      <div style={{ height: '3px', background: '#E2E8F0', borderRadius: '3px', marginTop: '8px', width: '56px' }}>
+                        <div style={{ height: '100%', width: `${ltvBarWidth}%`, background: '#22C55E', borderRadius: '3px' }} />
                       </div>
                     </div>
 
                     {/* Col 4 — Emprunt max */}
-                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#16A34A', letterSpacing: '-.5px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#22C55E', letterSpacing: '-.3px' }}>
                       {mounted && price > 0 ? fmt(maxBorrow) + ' €' : '—'}
                     </div>
 
                     {/* Col 5 — Liquidation */}
                     <div>
-                      <div style={{ fontSize: '20px', fontWeight: '700', color: '#DC2626', letterSpacing: '-.5px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>
+                      <div style={{ fontSize: '18px', fontWeight: '700', color: '#EF4444', letterSpacing: '-.3px' }}>
                         {mounted && price > 0 ? fmt(liqPrice) + ' €' : '—'}
                       </div>
-                      <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
+                      <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '3px' }}>
                         {mounted && price > 0 && (
                           <>
-                            <span style={{ color: '#DC2626', fontWeight: '600' }}>
+                            <span style={{ color: '#EF4444', fontWeight: '600' }}>
                               −{Math.round((1 - displayLiq / 100) * 100)}%
                             </span>
                             {' '}avant liquidation
@@ -575,10 +579,10 @@ export default function Home() {
                       onClick={e => e.stopPropagation()}
                       className="cta-btn"
                       style={{
-                        display: 'block', textAlign: 'center', padding: '10px 16px', borderRadius: '10px',
-                        fontSize: '12px', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap',
-                        background: '#fff', color: '#444', border: '1.5px solid #E0E0E0',
-                        letterSpacing: '0.2px', transition: 'all .15s ease',
+                        display: 'block', textAlign: 'center', padding: '9px 16px', borderRadius: '8px',
+                        fontSize: '13px', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap',
+                        background: '#fff', color: '#0F172A', border: '1px solid #E2E8F0',
+                        letterSpacing: '0.1px',
                       }}
                     >
                       Emprunter →
@@ -605,7 +609,7 @@ export default function Home() {
         </div>
 
         {/* ── VENDRE VS EMPRUNTER ── */}
-        <section style={{ borderTop: '1px solid #EDE9E3', padding: '80px 0', background: '#fff' }}>
+        <section style={{ borderTop: '1px solid #E2E8F0', padding: '80px 0', background: '#fff' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
             <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '8px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
@@ -649,7 +653,7 @@ export default function Home() {
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ borderTop: '1px solid #EDE9E3', padding: '80px 0', background: '#F9F8F6' }}>
+        <section style={{ borderTop: '1px solid #E2E8F0', padding: '80px 0', background: '#F8FAFC' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
             <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '32px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Fonctionnement des prêts crypto collatéralisés</h2>
@@ -666,7 +670,7 @@ export default function Home() {
         </section>
 
         {/* ── BLOG ── */}
-        <section style={{ borderTop: '1px solid #EDE9E3', padding: '80px 0', background: '#fff' }}>
+        <section style={{ borderTop: '1px solid #E2E8F0', padding: '80px 0', background: '#fff' }}>
           <div style={wrap}>
             <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
             <h2 style={{ fontSize: '28px', fontWeight: '700', letterSpacing: '-.8px', color: '#111', marginBottom: '28px', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Ressources et guides</h2>
