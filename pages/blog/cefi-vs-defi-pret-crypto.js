@@ -7,8 +7,8 @@ export default function ArticleCeFiDeFi() {
   return (
     <>
       <Head>
-        <title>CeFi vs DeFi : quel prêt crypto choisir en 2025 ? — Nantix</title>
-        <meta name="description" content="Différences entre prêts CeFi et DeFi en crypto. Nexo, Ledn vs Aave, Compound : sécurité, taux, conditions. Guide comparatif indépendant." />
+        <title>CeFi vs DeFi : quel prêt crypto choisir en 2026 ? — Nantix</title>
+        <meta name="description" content="Différences entre prêts CeFi et DeFi en crypto. Nexo, Ledn vs Aave, Morpho : sécurité, taux, conditions. Guide comparatif indépendant." />
       </Head>
       <Navbar />
 
@@ -22,14 +22,14 @@ export default function ArticleCeFiDeFi() {
               <span style={{ fontSize: '12px', color: '#AAA' }}>Analyse</span>
             </div>
             <h1 style={{ fontSize: '36px', fontWeight: '800', letterSpacing: '-1.2px', color: '#111', lineHeight: '1.15', marginBottom: '16px' }}>
-              CeFi vs DeFi : quel prêt crypto choisir en 2025 ?
+              CeFi vs DeFi : quel prêt crypto choisir en 2026 ?
             </h1>
             <p style={{ fontSize: '16px', color: '#666', lineHeight: '1.7', marginBottom: '20px' }}>
-              Nexo et Ledn d'un côté, Aave et Compound de l'autre. Les deux permettent d'emprunter sur sa crypto — mais leur fonctionnement, leurs risques et leurs conditions sont fondamentalement différents.
+              Nexo et Ledn d'un côté, Aave et Morpho de l'autre. Les deux permettent d'emprunter sur sa crypto — mais leur fonctionnement, leurs risques et leurs conditions sont fondamentalement différents.
             </p>
             <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: '#AAA', paddingBottom: '24px', borderBottom: '1px solid #F0F0F0' }}>
               <span>Analyse · 8 min de lecture</span>
-              <span>Mis à jour mars 2025</span>
+              <span>Mis à jour avr. 2026</span>
             </div>
           </div>
 
@@ -70,7 +70,7 @@ export default function ArticleCeFiDeFi() {
 
             <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#111', letterSpacing: '-0.5px', margin: '36px 0 14px' }}>Le modèle DeFi : autonomie contre complexité</h2>
             <p style={{ marginBottom: '16px' }}>
-              Sur Aave ou Compound, il n'y a pas d'entreprise qui détient vos fonds. Tout est géré par des smart contracts — du code déployé sur la blockchain qui exécute automatiquement les conditions convenues. Personne ne peut bloquer votre accès, geler vos actifs, ou faire faillite au sens traditionnel du terme.
+              Sur Aave ou Morpho, il n'y a pas d'entreprise qui détient vos fonds. Tout est géré par des smart contracts — du code déployé sur la blockchain qui exécute automatiquement les conditions convenues. Personne ne peut bloquer votre accès, geler vos actifs, ou faire faillite au sens traditionnel du terme.
             </p>
             <p style={{ marginBottom: '16px' }}>
               En échange de cette autonomie, vous assumez la responsabilité technique. Vous avez besoin d'un wallet compatible, de comprendre les frais de gas, et d'interagir directement avec des interfaces qui supposent une certaine familiarité avec l'écosystème. Les taux sont variables — déterminés algorithmiquement selon l'offre et la demande sur le protocole.
@@ -120,7 +120,7 @@ export default function ArticleCeFiDeFi() {
                 <div style={{ fontSize: '15px', fontWeight: '700', color: '#111', marginBottom: '4px' }}>Comparez CeFi et DeFi côte à côte</div>
                 <div style={{ fontSize: '13px', color: '#888' }}>Taux, LTV et seuils de liquidation en temps réel.</div>
               </div>
-              <Link href="/" style={{ padding: '10px 20px', background: '#111', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              <Link href="/" style={{ padding: '10px 20px', background: '#2563EB', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
                 Voir le comparateur →
               </Link>
             </div>
