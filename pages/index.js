@@ -82,14 +82,36 @@ const FAQ = [
 ]
 
 const BLOG = [
-  { tag: 'Guide',   title: "Qu'est-ce qu'un prêt Bitcoin collatéralisé ?", date: '12 mars 2025', read: '5 min', bg: '#FFF8F0', icon: '₿' },
-  { tag: 'Analyse', title: 'CeFi vs DeFi : quel prêt choisir en 2025 ?',   date: '5 mars 2025',  read: '8 min', bg: '#F0FDF4', icon: '📊' },
-  { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '28 fév 2025', read: '6 min', bg: '#EFF6FF', icon: '⚠️' },
+  { tag: 'Guide',   title: "Qu'est-ce qu'un prêt Bitcoin collatéralisé ?", date: '12 mars 2025', read: '5 min', bg: '#FFF8F0', icon: '₿', href: '/blog/quest-ce-que-le-pret-bitcoin' },
+  { tag: 'Analyse', title: 'CeFi vs DeFi : quel prêt choisir en 2025 ?',   date: '5 mars 2025',  read: '8 min', bg: '#F0FDF4', icon: '📊', href: '/blog/cefi-vs-defi-pret-crypto' },
+  { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '28 fév 2025', read: '6 min', bg: '#EFF6FF', icon: '⚠️', href: '/blog/eviter-liquidation-crypto' },
 ]
 
-const W  = '1320px'
-const PX = '32px'
+const CONSEILS = [
+  {
+    icon: '🎯',
+    title: 'Ne dépassez pas 50% LTV',
+    body: 'Même si certaines plateformes proposent jusqu\'à 97% LTV, emprunter au-delà de 50% de la valeur de votre collatéral est risqué. Une correction de 30% sur le BTC suffit à déclencher une liquidation à 70% LTV.',
+  },
+  {
+    icon: '🛡️',
+    title: 'Gardez un coussin de sécurité',
+    body: 'Conservez 20 à 30% de la valeur de votre prêt en crypto liquide, prêt à reconstituer votre collatéral si les prix chutent rapidement. Ce coussin peut vous éviter une liquidation forcée.',
+  },
+  {
+    icon: '📊',
+    title: 'Surveillez votre position en période volatile',
+    body: 'Vérifiez votre ratio LTV au moins une fois par jour lorsque les marchés sont agités. Activez les alertes de prix disponibles sur Nexo et YouHodler pour réagir avant d\'atteindre le seuil critique.',
+  },
+  {
+    icon: '⚖️',
+    title: 'CeFi ou DeFi selon votre montant',
+    body: 'Pour moins de 10 000€, CeFi (Nexo, Nebeus) est souvent plus économique — sans frais de gas. Au-delà, Aave et Morpho deviennent plus compétitifs avec des taux structurellement plus bas.',
+  },
+]
 
+const W    = '1320px'
+const PX   = '32px'
 const GRID = '230px 160px 120px 1fr 1fr 140px 150px'
 
 export default function Home() {
@@ -180,7 +202,6 @@ export default function Home() {
   }
 
   const wrap = { maxWidth: W, margin: '0 auto', padding: `0 ${PX}` }
-  const sep  = <div style={{ width: '1px', height: '18px', background: '#E0E0E0' }} />
 
   const PlatformLogo = ({ name, color }) => {
     const src = PLATFORM_LOGOS[name]
@@ -206,7 +227,17 @@ export default function Home() {
     <>
       <Head>
         <title>Nantix — Comparateur de prêts crypto collatéralisés</title>
-        <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}} @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-row{animation:fadeInUp .3s ease both} .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease} .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}`}</style>
+        <style>{`
+          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+          @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+          .fade-row{animation:fadeInUp .3s ease both}
+          .yh-tooltip{opacity:0;visibility:hidden;transition:opacity .15s ease}
+          .yh-tooltip-wrap:hover .yh-tooltip{opacity:1;visibility:visible}
+          .conseil-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.07);transform:translateY(-1px)}
+          .conseil-card{transition:box-shadow .2s ease, transform .2s ease}
+          .blog-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
+          .blog-card{transition:box-shadow .2s ease, transform .2s ease}
+        `}</style>
         <meta name="description" content="Comparez les taux pour emprunter de l'USDC ou USDT en déposant du BTC ou ETH. Données en temps réel." />
       </Head>
       <Navbar />
@@ -214,70 +245,44 @@ export default function Home() {
       <main style={{ background: '#fff', minHeight: '100vh', paddingTop: '52px' }}>
 
         {/* ── HERO ── */}
-        <section style={{ borderBottom: '1px solid #F0F0F0', padding: isMobile ? '24px 0 20px' : '40px 0 28px' }}>
+        <section style={{ background: 'linear-gradient(160deg, #F8F9FA 0%, #fff 60%)', borderBottom: '1px solid #EBEBEB', padding: isMobile ? '32px 0 28px' : '52px 0 40px' }}>
           <div style={wrap}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '24px', marginBottom: '20px', flexWrap: 'wrap' }}>
-              <div>
-                <h1 style={{ fontSize: isMobile ? '30px' : '56px', fontWeight: '800', letterSpacing: isMobile ? '-1px' : '-2px', color: '#111', lineHeight: '1.2', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '40px', flexWrap: 'wrap' }}>
+              <div style={{ maxWidth: '540px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', border: '1px solid #EBEBEB', borderRadius: '20px', padding: '5px 12px', fontSize: '11px', fontWeight: '600', color: '#555', marginBottom: '20px', boxShadow: '0 1px 3px rgba(0,0,0,.06)' }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
+                  Taux Aave & Morpho en temps réel
+                </div>
+                <h1 style={{ fontSize: isMobile ? '34px' : '60px', fontWeight: '800', letterSpacing: isMobile ? '-1.5px' : '-2.5px', color: '#111', lineHeight: '1.1', marginBottom: '16px' }}>
                   Empruntez sans<br />vendre votre crypto.
                 </h1>
-                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', maxWidth: '420px' }}>
-                  Déposez du BTC ou ETH et empruntez de l'USDC ou USDT. Comparez les meilleurs taux.
+                <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.75', maxWidth: '440px' }}>
+                  Déposez du BTC ou ETH et empruntez de l'USDC ou USDT. Comparez les taux, LTV et seuils de liquidation sur 6 plateformes CeFi et DeFi.
                 </p>
               </div>
+
               {!isMobile && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#555' }}>
-                    <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                    Taux Aave & Morpho en temps réel
-                  </div>
-                  <div style={{ display: 'flex', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
-                    {[{ v: '5', l: 'Plateformes' }, { v: '2,56%', l: 'Meilleur taux' }, { v: '97%', l: 'LTV max' }].map((s, i) => (
-                      <div key={s.l} style={{ padding: '14px 22px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', textAlign: 'center' }}>
-                        <div style={{ fontSize: '22px', fontWeight: '800', color: '#111', letterSpacing: '-0.7px' }}>{s.v}</div>
-                        <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{s.l}</div>
+                <div style={{ flexShrink: 0 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1px', background: '#E8E8E8', border: '1px solid #E8E8E8', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,.06)' }}>
+                    {[
+                      { v: '6', l: 'Plateformes' },
+                      { v: '2,56%', l: 'Meilleur taux' },
+                      { v: '97%', l: 'LTV max' },
+                    ].map(stat => (
+                      <div key={stat.l} style={{ background: '#fff', padding: '22px 28px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '28px', fontWeight: '800', color: '#111', letterSpacing: '-1px' }}>{stat.v}</div>
+                        <div style={{ fontSize: '11px', color: '#888', marginTop: '4px', fontWeight: '500' }}>{stat.l}</div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
             </div>
-
-            {!isMobile && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden' }}>
-                {[
-                  { n: '01', t: 'Choisissez le stablecoin',      d: 'USDC ou USDT — le montant que vous souhaitez emprunter.' },
-                  { n: '02', t: 'Sélectionnez votre collatéral', d: 'BTC ou ETH à déposer en garantie.' },
-                  { n: '03', t: 'Comparez et empruntez',         d: 'Taux, LTV et seuil de liquidation côte à côte.' },
-                ].map((step, i) => (
-                  <div key={step.n} style={{ padding: '14px 20px', borderRight: i < 2 ? '1px solid #EBEBEB' : 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#BBB', flexShrink: 0 }}>{step.n}</span>
-                    <div>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{step.t}</div>
-                      <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{step.d}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </section>
 
-        {/* ── RISQUE ── */}
-        <div style={{ ...wrap, paddingTop: '16px' }}>
-          <div style={{ border: '1px solid #FEF3C7', background: '#FFFBEB', borderRadius: '8px', padding: '12px 16px', display: 'flex', gap: '10px' }}>
-            <span style={{ fontSize: '14px', flexShrink: 0 }}>⚠️</span>
-            <div>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: '#92400E', marginBottom: '3px' }}>Qu'est-ce que le risque de liquidation ?</div>
-              <div style={{ fontSize: '12px', color: '#B45309', lineHeight: '1.6' }}>
-                Dans un prêt collatéralisé, si le prix de la crypto baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie du collatéral pour couvrir le prêt. La colonne <strong>Liquidation</strong> indique ce seuil pour chaque plateforme selon le montant saisi.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── NIVEAU 1 : onglets stablecoin ── */}
-        <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', marginTop: '16px', background: '#fff' }}>
+        {/* ── ONGLETS STABLECOIN ── */}
+        <div style={{ borderBottom: '1px solid #EBEBEB', background: '#fff' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
             {STABLECOINS.map(x => (
               <button key={x.id} onClick={() => { setStablecoin(x.id); setFilter('all') }} style={{
@@ -299,7 +304,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── NIVEAU 2 : collatéral + filtres ── */}
+        {/* ── COLLATÉRAL + FILTRES ── */}
         <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
 
@@ -606,44 +611,82 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── VENDRE VS EMPRUNTER ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        {/* ── CONSEILS ── */}
+        <section style={{ borderTop: '1px solid #EBEBEB', background: '#F8F9FA', padding: isMobile ? '40px 0' : '60px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Comment ça fonctionne ?</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '8px' }}>Vente vs prêt collatéralisé : quelles différences ?</h2>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', maxWidth: '500px', marginBottom: '28px' }}>Un prêt collatéralisé permet d'obtenir des liquidités sans vendre sa crypto. Voici les principales différences entre les deux options.</p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1px 1fr', border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px' }}>
-              {[
-                { header: '✕ Vendre votre crypto', color: '#DC2626', rows: [['Impôt plus-values', '30% flat tax', true], ['Exposition marché', 'Perdue', true], ['Délai', '1–3 jours', false], ['Montant net', '~70% après impôt', true]] },
-                null,
-                { header: '✓ Prêt collatéralisé', color: '#16A34A', rows: [['Impôt plus-values', 'Aucun', false], ['Exposition marché', 'Conservée', false], ['Délai', 'Quelques minutes', false], ['Montant accessible', '50–80% collatéral', false]] },
-              ].map((col, ci) => col === null
-                ? <div key={ci} style={{ background: '#EBEBEB' }} />
-                : (
-                  <div key={ci} style={{ padding: '20px 24px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: col.color, marginBottom: '16px' }}>{col.header}</div>
-                    {col.rows.map(r => (
-                      <div key={r[0]} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderBottom: '1px solid #F5F5F5', fontSize: '13px' }}>
-                        <span style={{ color: '#666' }}>{r[0]}</span>
-                        <span style={{ fontWeight: '600', color: r[2] ? col.color : '#111' }}>{r[1]}</span>
-                      </div>
-                    ))}
-                  </div>
-                )
-              )}
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Conseils</div>
+            <h2 style={{ fontSize: isMobile ? '22px' : '28px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '8px' }}>Emprunter intelligemment</h2>
+            <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.65', maxWidth: '480px', marginBottom: '32px' }}>
+              Les prêts collatéralisés sont puissants mais mal utilisés, ils peuvent mener à une liquidation. Voici les règles essentielles.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)', gap: '14px' }}>
+              {CONSEILS.map(tip => (
+                <div key={tip.title} className="conseil-card" style={{
+                  background: '#fff', border: '1px solid #E8E8E8', borderRadius: '14px',
+                  padding: '24px 28px',
+                  boxShadow: '0 1px 3px rgba(0,0,0,.05)',
+                }}>
+                  <div style={{ fontSize: '24px', marginBottom: '14px' }}>{tip.icon}</div>
+                  <div style={{ fontSize: '15px', fontWeight: '700', color: '#111', marginBottom: '8px', letterSpacing: '-.2px' }}>{tip.title}</div>
+                  <div style={{ fontSize: '13px', color: '#555', lineHeight: '1.75' }}>{tip.body}</div>
+                </div>
+              ))}
             </div>
+          </div>
+        </section>
 
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: '12px' }}>
+        {/* ── VENDRE VS EMPRUNTER ── */}
+        <section style={{ borderTop: '1px solid #EBEBEB', padding: isMobile ? '40px 0' : '60px 0' }}>
+          <div style={wrap}>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Comprendre</div>
+            <h2 style={{ fontSize: isMobile ? '22px' : '28px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '8px' }}>Vendre vs emprunter : que choisir ?</h2>
+            <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.65', maxWidth: '480px', marginBottom: '36px' }}>
+              Un prêt collatéralisé vous permet d'obtenir des liquidités immédiates sans déclencher d'événement fiscal, tout en conservant votre exposition haussière.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '16px' }}>
               {[
-                { icon: '🏦', t: 'Pas de score de crédit requis', d: 'Les prêts crypto utilisent votre collatéral comme garantie. Aucun historique de crédit n\'est nécessaire.' },
-                { icon: '📊', t: 'Collatéral récupéré au remboursement', d: 'Au remboursement du prêt, le collatéral est restitué. L\'exposition au marché est maintenue pendant la durée du prêt.' },
-                { icon: '⏱', t: 'Délais de traitement variables', d: 'Sur CeFi, les fonds sont généralement disponibles en quelques minutes à quelques heures. Sur DeFi, le traitement est quasi-instantané.' },
-              ].map(card => (
-                <div key={card.t} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', padding: '18px 20px' }}>
-                  <div style={{ fontSize: '20px', marginBottom: '10px' }}>{card.icon}</div>
-                  <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', marginBottom: '6px' }}>{card.t}</div>
-                  <div style={{ fontSize: '12px', color: '#555', lineHeight: '1.6' }}>{card.d}</div>
+                {
+                  header: 'Vendre votre crypto',
+                  sign: '✕',
+                  signColor: '#DC2626',
+                  bg: '#FEF2F2',
+                  border: '#FECACA',
+                  rows: [
+                    ['Flat tax', '30% sur les plus-values'],
+                    ['Exposition marché', 'Perdue'],
+                    ['Délai', '1 à 3 jours ouvrés'],
+                    ['Montant net', '~70% après imposition'],
+                  ],
+                },
+                {
+                  header: 'Prêt collatéralisé',
+                  sign: '✓',
+                  signColor: '#16A34A',
+                  bg: '#F0FDF4',
+                  border: '#BBF7D0',
+                  rows: [
+                    ['Flat tax', 'Aucune'],
+                    ['Exposition marché', 'Conservée'],
+                    ['Délai', 'Quelques minutes'],
+                    ['Montant accessible', '50 à 80% du collatéral'],
+                  ],
+                },
+              ].map(col => (
+                <div key={col.header} style={{ background: col.bg, border: `1px solid ${col.border}`, borderRadius: '14px', overflow: 'hidden' }}>
+                  <div style={{ padding: '16px 22px', borderBottom: `1px solid ${col.border}`, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: '800', color: col.signColor }}>{col.sign}</span>
+                    <span style={{ fontSize: '14px', fontWeight: '700', color: '#111' }}>{col.header}</span>
+                  </div>
+                  {col.rows.map((r, ri) => (
+                    <div key={r[0]} style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      padding: '13px 22px',
+                      borderBottom: ri < col.rows.length - 1 ? `1px solid ${col.border}` : 'none',
+                    }}>
+                      <span style={{ fontSize: '13px', color: '#555' }}>{r[0]}</span>
+                      <span style={{ fontSize: '13px', fontWeight: '700', color: '#111' }}>{r[1]}</span>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
@@ -651,56 +694,94 @@ export default function Home() {
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        <section style={{ borderTop: '1px solid #EBEBEB', background: '#F8F9FA', padding: isMobile ? '40px 0' : '60px 0' }}>
           <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Questions fréquentes</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '28px' }}>Fonctionnement des prêts crypto collatéralisés</h2>
-            {FAQ.map((item, i) => (
-              <div key={i} style={{ borderBottom: '1px solid #EBEBEB' }}>
-                <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: '16px' }}>
-                  <span style={{ fontSize: '14px', fontWeight: '600', color: '#222' }}>{item.q}</span>
-                  <span style={{ fontSize: '12px', color: '#888', flexShrink: 0, display: 'inline-block', transition: 'transform .2s', transform: openFaq === i ? 'rotate(180deg)' : 'none' }}>▾</span>
-                </div>
-                {openFaq === i && <div style={{ paddingBottom: '16px', fontSize: '13px', color: '#555', lineHeight: '1.7' }}>{item.a}</div>}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── BLOG ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
-          <div style={wrap}>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Ressources</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '-.6px', color: '#111', marginBottom: '24px' }}>Ressources et guides</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: '16px' }}>
-              {BLOG.map(b => (
-                <div key={b.title} style={{ border: '1px solid #EBEBEB', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer', transition: 'box-shadow .15s' }}
-                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,.06)'}
-                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
-                  <div style={{ height: '80px', background: b.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>{b.icon}</div>
-                  <div style={{ padding: '14px 16px' }}>
-                    <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '.7px', marginBottom: '6px' }}>{b.tag}</div>
-                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#111', lineHeight: '1.4', marginBottom: '6px' }}>{b.title}</div>
-                    <div style={{ fontSize: '11px', color: '#888' }}>{b.date} · {b.read}</div>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>FAQ</div>
+            <h2 style={{ fontSize: isMobile ? '22px' : '28px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '32px' }}>Questions fréquentes</h2>
+            <div style={{ background: '#fff', border: '1px solid #E8E8E8', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,.05)' }}>
+              {FAQ.map((item, i) => (
+                <div key={i} style={{ borderBottom: i < FAQ.length - 1 ? '1px solid #EBEBEB' : 'none' }}>
+                  <div
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    style={{
+                      padding: '20px 24px', display: 'flex', justifyContent: 'space-between',
+                      alignItems: 'center', cursor: 'pointer', gap: '16px',
+                      background: openFaq === i ? '#FAFAFA' : '#fff',
+                    }}
+                  >
+                    <span style={{ fontSize: '14px', fontWeight: '600', color: '#111', lineHeight: '1.5' }}>{item.q}</span>
+                    <span style={{
+                      fontSize: '20px', color: '#AAA', flexShrink: 0, fontWeight: '300',
+                      display: 'inline-block', transition: 'transform .2s',
+                      transform: openFaq === i ? 'rotate(45deg)' : 'none',
+                    }}>+</span>
                   </div>
+                  {openFaq === i && (
+                    <div style={{ padding: '0 24px 20px', fontSize: '13px', color: '#555', lineHeight: '1.8' }}>
+                      {item.a}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── NEWSLETTER ── */}
-        <section style={{ borderTop: '1px solid #EBEBEB', padding: '52px 0' }}>
+        {/* ── BLOG ── */}
+        <section style={{ borderTop: '1px solid #EBEBEB', padding: isMobile ? '40px 0' : '60px 0' }}>
           <div style={wrap}>
-            <div style={{ background: '#FAFAFA', border: '1px solid #EBEBEB', borderRadius: '12px', padding: '36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
-              <div style={{ maxWidth: '420px' }}>
-                <div style={{ fontSize: '20px', fontWeight: '700', color: '#111', letterSpacing: '-.4px', marginBottom: '6px' }}>Suivi des taux</div>
-                <div style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', marginBottom: '8px' }}>Recevez un récapitulatif hebdomadaire des variations de taux sur les principales plateformes.</div>
-                <div style={{ fontSize: '12px', color: '#888' }}>Fréquence maximale : 1 email par semaine.</div>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Ressources</div>
+            <h2 style={{ fontSize: isMobile ? '22px' : '28px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '32px' }}>Guides et analyses</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: '16px' }}>
+              {BLOG.map(b => (
+                <a key={b.title} href={b.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="blog-card" style={{
+                    border: '1px solid #E8E8E8', borderRadius: '14px', overflow: 'hidden',
+                    background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,.05)',
+                  }}>
+                    <div style={{ height: '90px', background: b.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '34px' }}>{b.icon}</div>
+                    <div style={{ padding: '18px 20px' }}>
+                      <div style={{
+                        display: 'inline-block', fontSize: '10px', fontWeight: '700', color: '#555',
+                        textTransform: 'uppercase', letterSpacing: '.8px', marginBottom: '8px',
+                        background: '#F5F5F5', borderRadius: '4px', padding: '2px 7px',
+                      }}>{b.tag}</div>
+                      <div style={{ fontSize: '14px', fontWeight: '700', color: '#111', lineHeight: '1.45', marginBottom: '10px' }}>{b.title}</div>
+                      <div style={{ fontSize: '11px', color: '#999', fontWeight: '500' }}>{b.date} · {b.read} de lecture</div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── NEWSLETTER ── */}
+        <section style={{ background: '#111', padding: isMobile ? '48px 0' : '64px 0' }}>
+          <div style={wrap}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '40px', flexWrap: 'wrap' }}>
+              <div style={{ maxWidth: '440px' }}>
+                <div style={{ fontSize: '11px', fontWeight: '700', color: '#555', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Newsletter</div>
+                <div style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '800', color: '#fff', letterSpacing: '-.6px', marginBottom: '10px' }}>Suivez les variations de taux</div>
+                <div style={{ fontSize: '14px', color: '#888', lineHeight: '1.7' }}>
+                  Recevez un récapitulatif hebdomadaire des variations de taux sur les principales plateformes. Maximum 1 email par semaine.
+                </div>
               </div>
-              <div style={{ display: 'flex', gap: '8px', flexShrink: 0, width: isMobile ? '100%' : 'auto', flexDirection: isMobile ? 'column' : 'row' }}>
-                <input type="email" placeholder="votre@email.com" style={{ border: '1px solid #E0E0E0', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', outline: 'none', width: isMobile ? '100%' : '220px', color: '#111', boxSizing: 'border-box' }} />
-                <button style={{ background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>S'abonner</button>
+              <div style={{ display: 'flex', gap: '8px', width: isMobile ? '100%' : 'auto', flexDirection: isMobile ? 'column' : 'row', flexShrink: 0 }}>
+                <input
+                  type="email"
+                  placeholder="votre@email.com"
+                  style={{
+                    background: '#1E1E1E', border: '1px solid #333', borderRadius: '8px',
+                    padding: '12px 16px', fontSize: '13px', outline: 'none',
+                    width: isMobile ? '100%' : '230px', color: '#fff', boxSizing: 'border-box',
+                  }}
+                />
+                <button style={{
+                  background: '#fff', color: '#111', border: 'none', borderRadius: '8px',
+                  padding: '12px 22px', fontSize: '13px', fontWeight: '700', cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}>S'abonner</button>
               </div>
             </div>
           </div>
