@@ -241,7 +241,7 @@ export default function Home() {
         </section>
 
         {/* ── ONGLETS STABLECOIN ── */}
-        <div style={{ borderBottom: '1px solid #EBEBEB', borderTop: '1px solid #EBEBEB', background: '#fff' }}>
+        <div style={{ background: '#fff' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `0 ${PX}`, display: 'flex', alignItems: 'stretch' }}>
             {STABLECOINS.map(x => (
               <button key={x.id} onClick={() => { setStablecoin(x.id); setFilter('all') }} style={{
