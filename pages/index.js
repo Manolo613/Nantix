@@ -73,11 +73,13 @@ const PLATFORMS = {
 }
 
 const FAQ = [
-  { q: "Que se passe-t-il si le prix de ma crypto baisse ?", a: "Si le prix baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie de votre collatéral pour rembourser le prêt. Pour éviter cela : empruntez moins que le maximum (LTV faible = plus de sécurité) ou ajoutez du collatéral si le prix baisse." },
-  { q: "Quelle est la différence entre CeFi et DeFi ?", a: "CeFi (Nexo, Ledn) : plateforme centralisée, plus simple, support client, mais ils détiennent vos fonds. DeFi (Aave, Morpho) : smart contracts, vous gardez le contrôle de vos fonds. Plus technique, mais aucune entité ne peut geler vos actifs." },
-  { q: "Est-ce que je dois payer des impôts sur un prêt crypto ?", a: "En France, un prêt collatéralisé n'est pas un événement imposable car vous ne vendez pas votre crypto. Vous ne payez pas la flat tax de 30%. En revanche, si votre collatéral est liquidé, cette liquidation peut être considérée comme une vente imposable. Consultez un comptable." },
-  { q: "Quel est le montant minimum pour emprunter ?", a: "Sur CeFi (Nexo, Ledn), les minimums sont généralement autour de 500–1 000 €. Sur DeFi (Aave, Morpho), pas de minimum officiel, mais les frais de gas rendent les petits montants peu rentables en dessous de ~5 000 €." },
-  { q: "Nantix est-il indépendant ?", a: "Oui. Nantix ne reçoit aucune rémunération pour modifier les données affichées. Nous percevons une commission d'affiliation standard si vous vous inscrivez via nos liens — cela ne biaise pas notre comparaison." },
+  { q: "Que se passe-t-il si le prix de ma crypto baisse ?", a: "Si le prix baisse sous le seuil de liquidation, la plateforme vend automatiquement une partie de votre collatéral pour rembourser le prêt. Pour éviter cela : empruntez moins que le maximum (LTV faible = plus de sécurité), ou ajoutez du collatéral dès que le prix approche du seuil. Vous pouvez aussi rembourser partiellement votre prêt pour réduire le risque." },
+  { q: "Quelle est la différence entre CeFi et DeFi ?", a: "CeFi (Nexo, Ledn, YouHodler) : plateforme centralisée, interface simple, support client, KYC requis — mais la plateforme détient vos fonds. DeFi (Aave, Morpho) : smart contracts sur Ethereum, vous gardez le contrôle de vos actifs via un wallet. Plus technique, mais aucune entité ne peut geler ou saisir votre collatéral." },
+  { q: "Est-ce que je dois payer des impôts sur un prêt crypto ?", a: "En France, un prêt collatéralisé n'est pas un événement imposable : vous ne vendez pas votre crypto, donc pas de flat tax (30%). En revanche, si votre collatéral est liquidé de force, cette liquidation peut être considérée comme une cession imposable. Consultez un comptable spécialisé crypto pour votre situation." },
+  { q: "Quel est le montant minimum pour emprunter ?", a: "Sur CeFi (Nexo, Ledn, YouHodler), les minimums sont généralement autour de 500–1 000 €. Sur DeFi (Aave, Morpho), il n'y a pas de minimum officiel, mais les frais de gas Ethereum rendent les petits montants peu rentables en dessous de ~5 000–10 000 €." },
+  { q: "Combien de temps dure un prêt collatéralisé ?", a: "Cela dépend de la plateforme. YouHodler : durée fixe de 30 à 60 jours (renouvelable). Nexo et Ledn : durée flexible, vous remboursez quand vous voulez. Sur DeFi (Aave, Morpho) : pas de durée, le prêt reste ouvert jusqu'à ce que vous le remboursiez ou que votre position soit liquidée." },
+  { q: "Puis-je rembourser en avance sans pénalité ?", a: "Généralement oui. Sur Aave et Morpho, vous remboursez à tout moment sans frais. Sur Nexo et YouHodler, il peut y avoir des frais en cas de remboursement anticipé selon les conditions du moment. Vérifiez les CGU avant de signer." },
+  { q: "Nantix est-il indépendant ?", a: "Oui. Nantix est un comparateur indépendant. Nous ne recevons aucune rémunération pour modifier les données affichées. Des commissions d'affiliation standard peuvent être perçues si vous vous inscrivez via nos liens — elles ne biaisent pas notre classement, qui est basé uniquement sur le taux APR." },
 ]
 
 const BLOG = [
@@ -87,10 +89,12 @@ const BLOG = [
 ]
 
 const CONSEILS = [
-  { icon: '🎯', title: 'Ne dépassez pas 50% LTV', body: 'Même si certaines plateformes proposent jusqu\'à 97% LTV, emprunter au-delà de 50% est risqué. Une correction de 30% sur le BTC suffit à déclencher une liquidation à 70% LTV.' },
-  { icon: '🛡️', title: 'Gardez un coussin de sécurité', body: 'Conservez 20 à 30% de la valeur de votre prêt en crypto liquide, prêt à reconstituer votre collatéral si les prix chutent rapidement.' },
-  { icon: '📊', title: 'Surveillez votre position en période volatile', body: 'Vérifiez votre ratio LTV au moins une fois par jour lorsque les marchés sont agités. Activez les alertes de prix sur Nexo et YouHodler.' },
-  { icon: '⚖️', title: 'CeFi ou DeFi selon votre montant', body: 'Pour moins de 10 000€, CeFi est souvent plus économique — sans frais de gas. Au-delà, Aave et Morpho deviennent plus compétitifs.' },
+  { icon: '🎯', title: 'Ne dépassez pas 50% LTV', body: 'Même si certaines plateformes proposent jusqu\'à 97% LTV, emprunter au-delà de 50% est risqué. Une correction de 30% sur le BTC suffit à déclencher une liquidation à 70% LTV. Visez 40–50% pour dormir tranquille.' },
+  { icon: '🛡️', title: 'Gardez un coussin de sécurité', body: 'Conservez 20 à 30% de la valeur de votre prêt en crypto liquide, prêt à reconstituer votre collatéral si les prix chutent brutalement. Cela vous évite une liquidation forcée en pleine panique.' },
+  { icon: '📊', title: 'Activez les alertes de liquidation', body: 'Vérifiez votre ratio LTV au moins une fois par jour en période volatile. Nexo et YouHodler proposent des alertes par email. Sur DeFi, des outils comme DeFi Saver permettent de gérer automatiquement votre position Aave.' },
+  { icon: '⚖️', title: 'CeFi ou DeFi selon votre montant', body: 'Pour moins de 10 000 €, CeFi (Nexo, Ledn) est souvent plus économique — pas de frais de gas. Au-delà de 20 000 €, Aave et Morpho deviennent plus compétitifs grâce à des taux de marché plus bas.' },
+  { icon: '💸', title: 'Calculez le coût réel de votre prêt', body: 'Un prêt à 6% APR sur 3 mois ne coûte que 1,5% du montant emprunté. Comparez ce coût à la flat tax de 30% que vous évitez en ne vendant pas votre crypto. Dans la plupart des cas, emprunter est bien plus rentable.' },
+  { icon: '🔁', title: 'Préparez votre stratégie de sortie', body: 'Avant d\'emprunter, décidez à l\'avance comment vous rembourserez. Trois options : utiliser les fonds empruntés directement, vendre une petite partie de votre collatéral, ou attendre une hausse du prix. Sans plan, le stress monte dès la première baisse.' },
 ]
 
 const W    = '1320px'
@@ -263,9 +267,9 @@ export default function Home() {
         </div>
 
         {/* ── COLLATÉRAL + FILTRES ── */}
-        <div style={{ borderBottom: '1px solid #EBEBEB', background: '#FAFAFA' }}>
+        <div style={{ background: '#FAFAFA' }}>
           <div style={{ maxWidth: W, margin: '0 auto', padding: `8px ${PX}`, display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', background: '#fff', borderRadius: '8px', overflow: 'hidden' }}>
               {COLLATERALS.map(x => (
                 <button key={x.id} onClick={() => { setCollateral(x.id); setAmount(1); setOpenRow(null) }} style={{
                   display: 'flex', alignItems: 'center', gap: '5px', padding: '6px 12px',
@@ -279,7 +283,7 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #E0E0E0', borderRadius: '8px', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', alignItems: 'center', background: '#fff', borderRadius: '8px', overflow: 'hidden' }}>
               <input type="number" value={amount} onChange={e => setAmount(Math.max(0.001, parseFloat(e.target.value) || 0))} step="0.1"
                 style={{ border: 'none', padding: '6px 8px', fontSize: '14px', width: '70px', outline: 'none', color: '#111', background: 'transparent', fontWeight: '700' }} />
               <span style={{ padding: '0 10px', fontSize: '12px', fontWeight: '600', color: '#999' }}>{c.symbol}</span>
@@ -476,7 +480,7 @@ export default function Home() {
               Taux DeFi mis à jour le {new Date(updatedAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </div>
           )}
-          <div style={{ display: 'flex', gap: '10px', padding: '14px 0', borderTop: '1px solid #EBEBEB', marginTop: '4px' }}>
+          <div style={{ display: 'flex', gap: '10px', padding: '14px 0', marginTop: '4px' }}>
             <span>🔍</span>
             <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.6' }}>
               <strong style={{ color: '#444' }}>Indépendance éditoriale.</strong> Nantix est un comparateur indépendant. Des commissions d'affiliation peuvent être perçues via certains liens — elles ne modifient pas notre classement.
@@ -489,7 +493,7 @@ export default function Home() {
           <div style={wrap}>
             <div style={{ fontSize: '11px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Conseils</div>
             <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '32px' }}>Emprunter intelligemment</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: '16px' }}>
               {CONSEILS.map(tip => (
                 <div key={tip.title} className="hover-card" style={{ background: '#fff', borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
                   <div style={{ fontSize: '26px', marginBottom: '14px' }}>{tip.icon}</div>
