@@ -29,7 +29,7 @@ export default function ArticleLiquidation() {
             </p>
             <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: '#AAA', paddingBottom: '24px', borderBottom: '1px solid #F0F0F0' }}>
               <span>Risques · 6 min de lecture</span>
-              <span>Mis à jour mars 2025</span>
+              <span>Mis à jour avr. 2026</span>
             </div>
           </div>
 
@@ -87,7 +87,7 @@ export default function ArticleLiquidation() {
                 <div style={{ fontSize: '15px', fontWeight: '700', color: '#111', marginBottom: '4px' }}>Calculez votre seuil de liquidation</div>
                 <div style={{ fontSize: '13px', color: '#888' }}>Entrez votre montant et voyez le prix exact en temps réel.</div>
               </div>
-              <Link href="/" style={{ padding: '10px 20px', background: '#111', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              <Link href="/" style={{ padding: '10px 20px', background: '#2563EB', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
                 Voir le comparateur →
               </Link>
             </div>
