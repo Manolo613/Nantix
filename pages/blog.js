@@ -2,123 +2,112 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
- 
+
 const ARTICLES = [
   {
     slug: 'quest-ce-que-le-pret-bitcoin',
-    title: 'Qu\'est-ce qu\'un prêt adossé au Bitcoin ?',
-    excerpt: 'Comprendre le nantissement crypto : comment emprunter en euros sans vendre votre Bitcoin, et quels sont les risques.',
-    date: '12 mars 2025',
+    title: "Qu'est-ce qu'un prêt Bitcoin collatéralisé ?",
+    excerpt: 'Comprendre le nantissement crypto : comment emprunter sans vendre votre Bitcoin, et quels sont les risques.',
+    date: '10 avr. 2026',
     readTime: '5 min',
-    category: 'Guide',
+    tag: 'Guide',
+    bg: '#FFF8F0',
+    icon: '₿',
   },
   {
-    slug: 'ltv-liquidation-expliques',
-    title: 'LTV et liquidation : le guide complet',
-    excerpt: 'Tout savoir sur le Loan-to-Value ratio et comment éviter la liquidation de votre collatéral BTC.',
-    date: '8 mars 2025',
-    readTime: '7 min',
-    category: 'Éducation',
-  },
-  {
-    slug: 'defi-vs-cefi-prets-bitcoin',
-    title: 'DeFi vs CeFi : quelle plateforme choisir pour votre prêt BTC ?',
-    excerpt: 'Aave et Compound vs Nexo et Ledn — comparaison complète des avantages et risques de chaque approche.',
-    date: '3 mars 2025',
+    slug: 'cefi-vs-defi-pret-crypto',
+    title: 'CeFi vs DeFi : quel prêt choisir en 2026 ?',
+    excerpt: 'Nexo, Ledn vs Aave, Morpho — comparaison complète des avantages et risques de chaque approche.',
+    date: '8 avr. 2026',
     readTime: '8 min',
-    category: 'Comparatif',
+    tag: 'Analyse',
+    bg: '#F0FDF4',
+    icon: '📊',
   },
   {
-    slug: 'fiscalite-pret-bitcoin-france',
-    title: 'Fiscalité du prêt Bitcoin en France : ce qu\'il faut savoir',
-    excerpt: 'Emprunter sur son BTC est-il imposable ? Réponse claire sur le traitement fiscal en 2025.',
-    date: '25 fév 2025',
+    slug: 'eviter-liquidation-crypto',
+    title: 'Comment éviter la liquidation de son collatéral',
+    excerpt: 'Les bonnes pratiques pour gérer son LTV, surveiller ses positions et ne pas se faire liquider.',
+    date: '5 avr. 2026',
     readTime: '6 min',
-    category: 'Fiscalité',
+    tag: 'Risques',
+    bg: '#EFF6FF',
+    icon: '⚠️',
+  },
+  {
+    slug: 'pret-bitcoin-collateralise',
+    title: 'Prêt Bitcoin collatéralisé : le guide pratique',
+    excerpt: 'Étapes concrètes pour déposer du BTC, choisir sa plateforme et emprunter de l\'USDC ou USDT.',
+    date: '2 avr. 2026',
+    readTime: '7 min',
+    tag: 'Guide',
+    bg: '#FDF4FF',
+    icon: '📋',
   },
 ]
- 
-const CATEGORY_COLORS = {
-  'Guide': { bg: '#EEF4FF', text: '#2D5BE3' },
-  'Éducation': { bg: '#F0FAF4', text: '#1A7F4B' },
-  'Comparatif': { bg: '#FFF7ED', text: '#C05621' },
-  'Fiscalité': { bg: '#FFF5F5', text: '#C53030' },
+
+const TAG_COLORS = {
+  'Guide':   { bg: '#EEF4FF', color: '#2D5BE3' },
+  'Analyse': { bg: '#F0FAF4', color: '#1A7F4B' },
+  'Risques': { bg: '#FFF5F5', color: '#C53030' },
 }
- 
+
 export default function Blog() {
   return (
     <>
       <Head>
         <title>Blog — Nantix</title>
-        <meta name="description" content="Guides et ressources sur les prêts Bitcoin en France. LTV, liquidation, DeFi vs CeFi — tout ce qu'il faut savoir." />
+        <meta name="description" content="Guides et ressources sur les prêts crypto en France. LTV, liquidation, DeFi vs CeFi — tout ce qu'il faut savoir." />
+        <style>{`
+          .blog-row{transition:box-shadow .2s,transform .2s}
+          .blog-row:hover{box-shadow:0 6px 24px rgba(0,0,0,.08)!important;transform:translateY(-1px)}
+        `}</style>
       </Head>
- 
       <Navbar />
- 
-      <main style={{ paddingTop: '64px' }}>
-        <section style={{ background: 'var(--cream)', padding: '60px 40px 80px' }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <h1 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '48px',
-              fontWeight: '500',
-              color: 'var(--ink)',
-              letterSpacing: '-1px',
-              marginBottom: '12px',
-            }}>Blog & Guides</h1>
-            <p style={{ color: 'var(--ink-muted)', fontSize: '16px', marginBottom: '48px' }}>
-              Tout comprendre sur les prêts Bitcoin avant de vous lancer.
+
+      <main style={{ background: '#fff', minHeight: '100vh', paddingTop: '52px' }}>
+
+        {/* HERO */}
+        <section style={{ background: 'linear-gradient(160deg,#F8F9FA 0%,#fff 60%)', padding: '52px 0 40px' }}>
+          <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 32px' }}>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Ressources</div>
+            <h1 style={{ fontSize: '42px', fontWeight: '800', letterSpacing: '-1.5px', color: '#111', lineHeight: '1.1', marginBottom: '14px' }}>
+              Guides et analyses
+            </h1>
+            <p style={{ fontSize: '15px', color: '#888', lineHeight: '1.7' }}>
+              Tout comprendre sur les prêts crypto avant de vous lancer.
             </p>
- 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {ARTICLES.map(article => {
-                const catStyle = CATEGORY_COLORS[article.category] || { bg: '#F5F5F5', text: '#666' }
-                return (
-                  <Link key={article.slug} href={`/blog/${article.slug}`} style={{
-                    display: 'block',
-                    background: 'var(--white)',
-                    borderRadius: '16px',
-                    padding: '28px 32px',
-                    border: '1px solid var(--cream-border)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)' }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '12px' }}>
-                          <span style={{
-                            fontSize: '11px',
-                            fontWeight: '700',
-                            padding: '3px 8px',
-                            borderRadius: '4px',
-                            background: catStyle.bg,
-                            color: catStyle.text,
-                          }}>{article.category}</span>
-                          <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>{article.date}</span>
-                          <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>· {article.readTime} de lecture</span>
-                        </div>
-                        <h2 style={{
-                          fontFamily: 'var(--font-display)',
-                          fontSize: '22px',
-                          fontWeight: '500',
-                          color: 'var(--ink)',
-                          marginBottom: '10px',
-                          letterSpacing: '-0.3px',
-                        }}>{article.title}</h2>
-                        <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: '1.6' }}>{article.excerpt}</p>
-                      </div>
-                      <span style={{ color: 'var(--teal)', fontSize: '20px', marginLeft: '24px', marginTop: '4px' }}>→</span>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
           </div>
         </section>
+
+        {/* ARTICLES */}
+        <section style={{ padding: '40px 0 80px' }}>
+          <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 32px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {ARTICLES.map(a => {
+              const tagStyle = TAG_COLORS[a.tag] || { bg: '#F5F5F5', color: '#666' }
+              return (
+                <Link key={a.slug} href={`/blog/${a.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="blog-row" style={{ background: '#fff', borderRadius: '16px', padding: '24px 28px', boxShadow: '0 1px 4px rgba(0,0,0,.06)', display: 'flex', gap: '20px', alignItems: 'center' }}>
+                    <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: a.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', flexShrink: 0 }}>
+                      {a.icon}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '10px', fontWeight: '700', padding: '2px 7px', borderRadius: '4px', background: tagStyle.bg, color: tagStyle.color, textTransform: 'uppercase', letterSpacing: '.5px' }}>{a.tag}</span>
+                        <span style={{ fontSize: '11px', color: '#AAA' }}>{a.date} · {a.readTime} de lecture</span>
+                      </div>
+                      <div style={{ fontSize: '16px', fontWeight: '700', color: '#111', lineHeight: '1.35', marginBottom: '6px' }}>{a.title}</div>
+                      <div style={{ fontSize: '13px', color: '#888', lineHeight: '1.6' }}>{a.excerpt}</div>
+                    </div>
+                    <span style={{ fontSize: '18px', color: '#CCC', flexShrink: 0 }}>→</span>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+
       </main>
- 
       <Footer />
     </>
   )
