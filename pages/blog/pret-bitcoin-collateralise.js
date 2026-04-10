@@ -30,7 +30,7 @@ export default function ArticlePretBitcoin() {
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12px', color: '#AAA', paddingBottom: '24px', borderBottom: '1px solid #F0F0F0' }}>
               <span>Guide · 7 min de lecture</span>
-              <span>Mis à jour mars 2025</span>
+              <span>Mis à jour avr. 2026</span>
             </div>
           </div>
 
@@ -73,12 +73,12 @@ export default function ArticlePretBitcoin() {
               Sur les plateformes centralisées — Nexo, Ledn — vous confiez votre Bitcoin à une entreprise qui gère le prêt. C&apos;est plus simple, il y a un support client, et le processus ressemble à un service bancaire classique. En contrepartie, vos fonds sont détenus par un tiers. Le risque de contrepartie existe : si la plateforme fait faillite, vous pouvez perdre votre collatéral.
             </p>
             <p style={{ marginBottom: '16px' }}>
-              Sur les protocoles décentralisés — Aave, Compound — tout est géré par des smart contracts. Personne ne détient vos fonds : le code exécute les conditions automatiquement. Il n&apos;y a pas de KYC, pas d&apos;intermédiaire. En revanche, cela nécessite de maîtriser les wallets et de comprendre les frais de transaction, et une faille dans le code peut exposer les fonds déposés.
+              Sur les protocoles décentralisés — Aave, Morpho — tout est géré par des smart contracts. Personne ne détient vos fonds : le code exécute les conditions automatiquement. Il n&apos;y a pas de KYC, pas d&apos;intermédiaire. En revanche, cela nécessite de maîtriser les wallets et de comprendre les frais de transaction, et une faille dans le code peut exposer les fonds déposés.
             </p>
 
             <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#111', letterSpacing: '-0.5px', margin: '36px 0 14px' }}>Et fiscalement ?</h2>
             <p style={{ marginBottom: '16px' }}>
-              En France, recevoir des liquidités via un prêt collatéralisé n&apos;est pas un événement imposable. Vous ne vendez pas votre Bitcoin — vous l&apos;utilisez comme garantie. La flat tax de 30% ne s&apos;applique donc pas à cette opération.
+              En France, recevoir des liquidités via un prêt collatéralisé n&apos;est pas un événement imposable. Vous ne vendez pas votre Bitcoin — vous l&apos;utilisez comme garantie. La imposition de 30% ne s&apos;applique donc pas à cette opération.
             </p>
             <p style={{ marginBottom: '16px' }}>
               Attention cependant : si votre collatéral est liquidé par la plateforme suite à une baisse des prix, cette liquidation peut être assimilée à une cession et déclencher une imposition sur la plus-value réalisée. Ce point mérite l&apos;attention d&apos;un comptable spécialisé en actifs numériques.
@@ -98,7 +98,7 @@ export default function ArticlePretBitcoin() {
                 <div style={{ fontSize: '15px', fontWeight: '700', color: '#111', marginBottom: '4px' }}>Comparez les offres disponibles</div>
                 <div style={{ fontSize: '13px', color: '#888' }}>Taux, LTV et seuils de liquidation en temps réel.</div>
               </div>
-              <Link href="/" style={{ padding: '10px 20px', background: '#111', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              <Link href="/" style={{ padding: '10px 20px', background: '#2563EB', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
                 Voir le comparateur →
               </Link>
             </div>
