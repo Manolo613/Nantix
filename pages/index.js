@@ -82,9 +82,9 @@ const FAQ = [
 ]
 
 const BLOG = [
-  { tag: 'Guide',   title: "Qu'est-ce qu'un prêt Bitcoin collatéralisé ?", date: '12 mars 2025', read: '5 min', bg: '#FFF8F0', icon: '₿', href: '/blog/quest-ce-que-le-pret-bitcoin' },
-  { tag: 'Analyse', title: 'CeFi vs DeFi : quel prêt choisir en 2025 ?',   date: '5 mars 2025',  read: '8 min', bg: '#F0FDF4', icon: '📊', href: '/blog/cefi-vs-defi-pret-crypto' },
-  { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '28 fév 2025', read: '6 min', bg: '#EFF6FF', icon: '⚠️', href: '/blog/eviter-liquidation-crypto' },
+  { tag: 'Guide',   title: "Qu'est-ce qu'un prêt Bitcoin collatéralisé ?", date: '10 avr. 2026', read: '5 min', bg: '#FFF8F0', icon: '₿', href: '/blog/quest-ce-que-le-pret-bitcoin' },
+  { tag: 'Analyse', title: 'CeFi vs DeFi : quel prêt choisir en 2026 ?',   date: '8 avr. 2026',  read: '8 min', bg: '#F0FDF4', icon: '📊', href: '/blog/cefi-vs-defi-pret-crypto' },
+  { tag: 'Risques', title: 'Comment éviter la liquidation de son collatéral', date: '5 avr. 2026', read: '6 min', bg: '#EFF6FF', icon: '⚠️', href: '/blog/eviter-liquidation-crypto' },
 ]
 
 const CONSEILS = [
@@ -410,7 +410,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div style={{ padding: '12px 16px' }}>
-                      <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textAlign: 'center', padding: '11px', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', background: p.best ? '#111' : '#F5F5F5', color: p.best ? '#fff' : '#444' }}>Emprunter →</a>
+                      <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textAlign: 'center', padding: '11px', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', background: '#2563EB', color: '#fff' }}>Emprunter →</a>
                     </div>
                   </div>
                 ) : (
@@ -569,19 +569,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── NEWSLETTER ── */}
+        {/* ── CTA FINAL ── */}
         <section style={{ background: '#111', padding: isMobile ? '48px 0' : '64px 0' }}>
           <div style={wrap}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '40px', flexWrap: 'wrap' }}>
-              <div style={{ maxWidth: '440px' }}>
-                <div style={{ fontSize: '11px', fontWeight: '700', color: '#444', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Newsletter</div>
-                <div style={{ fontSize: isMobile ? '22px' : '24px', fontWeight: '800', color: '#fff', letterSpacing: '-.6px', marginBottom: '10px' }}>Suivez les variations de taux</div>
-                <div style={{ fontSize: '14px', color: '#666', lineHeight: '1.7' }}>Récapitulatif hebdomadaire des variations de taux. Maximum 1 email par semaine.</div>
+            <div style={{ textAlign: 'center', maxWidth: '560px', margin: '0 auto' }}>
+              <div style={{ fontSize: isMobile ? '26px' : '32px', fontWeight: '800', color: '#fff', letterSpacing: '-.8px', lineHeight: '1.2', marginBottom: '16px' }}>
+                Prêt à emprunter sans vendre ?
               </div>
-              <div style={{ display: 'flex', gap: '8px', width: isMobile ? '100%' : 'auto', flexDirection: isMobile ? 'column' : 'row', flexShrink: 0 }}>
-                <input type="email" placeholder="votre@email.com" style={{ background: '#1C1C1C', border: '1px solid #2D2D2D', borderRadius: '10px', padding: '12px 16px', fontSize: '13px', outline: 'none', width: isMobile ? '100%' : '230px', color: '#fff', boxSizing: 'border-box' }} />
-                <button style={{ background: '#fff', color: '#111', border: 'none', borderRadius: '10px', padding: '12px 22px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', whiteSpace: 'nowrap' }}>S'abonner</button>
+              <div style={{ fontSize: '14px', color: '#666', lineHeight: '1.7', marginBottom: '28px' }}>
+                Comparez les 6 plateformes, choisissez celle qui correspond à votre profil et démarrez en quelques minutes.
               </div>
+              <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                style={{ display: 'inline-block', background: '#2563EB', color: '#fff', fontWeight: '700', fontSize: '14px', padding: '14px 32px', borderRadius: '10px', textDecoration: 'none' }}>
+                Voir le comparateur
+              </a>
             </div>
           </div>
         </section>
