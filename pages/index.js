@@ -88,9 +88,9 @@ const BLOG = [
 ]
 
 const CONSEILS = [
-  { icon: '🎯', title: 'Ne dépassez pas 50% LTV', body: 'Même si certaines plateformes proposent jusqu\'à 97% LTV, emprunter au-delà de 50% est risqué. Une correction de 30% sur le BTC suffit à déclencher une liquidation à 70% LTV. Visez 40–50% pour dormir tranquille.' },
-  { icon: '🛡️', title: 'Gardez un coussin de sécurité', body: 'Conservez 20 à 30% de la valeur de votre prêt en crypto liquide, prêt à reconstituer votre collatéral si les prix chutent brutalement. Cela vous évite une liquidation forcée en pleine panique.' },
-  { icon: '⚖️', title: 'CeFi ou DeFi selon votre montant', body: 'Pour moins de 10 000 €, CeFi (Nexo, Ledn) est souvent plus économique — pas de frais de gas. Au-delà de 20 000 €, Aave et Morpho deviennent plus compétitifs grâce à des taux de marché plus bas.' },
+  { icon: '🎯', title: 'Choisissez un LTV raisonnable', body: 'Un LTV de 40 à 50% offre une bonne marge de sécurité. Cela laisse de la place en cas de baisse des marchés, sans trop limiter les fonds que vous pouvez emprunter.' },
+  { icon: '🛡️', title: 'Ayez un plan en cas de baisse', body: 'Avant d\'emprunter, réfléchissez à ce que vous feriez si votre crypto perdait 30%. Ajouter du collatéral, rembourser partiellement ou simplement surveiller : l\'important est d\'y avoir pensé.' },
+  { icon: '⚖️', title: 'CeFi ou DeFi selon votre profil', body: 'CeFi (Nexo, Ledn) est plus simple et adapté aux montants inférieurs à 10 000 €. DeFi (Aave, Morpho) convient mieux aux montants élevés et aux utilisateurs à l\'aise avec un wallet.' },
 ]
 
 const W    = '1320px'
@@ -234,7 +234,7 @@ export default function Home() {
                   Empruntez sans<br />vendre votre crypto.
                 </h1>
                 <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.75', maxWidth: '440px' }}>
-                  Déposez du BTC ou ETH et empruntez de l'USDC ou USDT. Comparez les taux, LTV et seuils de liquidation sur 6 plateformes.
+                  Déposez du BTC ou ETH et empruntez de l'USDC ou USDT.
                 </p>
             </div>
           </div>
@@ -459,9 +459,9 @@ export default function Home() {
                     </div>
                     <AccesBadges />
                     <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                      style={{ display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap', background: '#111', color: '#fff', border: 'none' }}
-                      onMouseEnter={e => { e.currentTarget.style.background = '#333' }}
-                      onMouseLeave={e => { e.currentTarget.style.background = '#111' }}
+                      style={{ display: 'block', textAlign: 'center', padding: '9px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap', background: '#2563EB', color: '#fff', border: 'none' }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#1D4ED8' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = '#2563EB' }}
                     >Emprunter →</a>
                   </div>
                 )}
@@ -524,18 +524,23 @@ export default function Home() {
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ background: '#F8F9FA', padding: isMobile ? '48px 0' : '64px 0' }}>
+        <section style={{ background: '#F8F9FA', padding: isMobile ? '48px 0' : '72px 0' }}>
           <div style={wrap}>
             <div style={{ fontSize: '11px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>FAQ</div>
-            <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '28px' }}>Questions fréquentes</h2>
-            <div style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
+            <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '800', letterSpacing: '-.7px', color: '#111', marginBottom: '36px' }}>Questions fréquentes</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)', gap: '12px' }}>
               {FAQ.map((item, i) => (
-                <div key={i} style={{ background: i % 2 === 0 ? '#fff' : '#FAFAFA' }}>
-                  <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding: '20px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: '16px' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600', color: '#111', lineHeight: '1.5' }}>{item.q}</span>
-                    <span style={{ fontSize: '22px', color: '#CCC', flexShrink: 0, fontWeight: '300', display: 'inline-block', transition: 'transform .2s', transform: openFaq === i ? 'rotate(45deg)' : 'none' }}>+</span>
+                <div key={i} className="hover-card" onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  style={{ background: '#fff', borderRadius: '14px', padding: '24px 28px', cursor: 'pointer', boxShadow: openFaq === i ? '0 4px 20px rgba(0,0,0,.08)' : '0 1px 4px rgba(0,0,0,.05)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '700', color: '#111', lineHeight: '1.5' }}>{item.q}</span>
+                    <span style={{ fontSize: '18px', color: openFaq === i ? '#2563EB' : '#CCC', flexShrink: 0, fontWeight: '400', display: 'inline-block', transition: 'transform .2s, color .2s', transform: openFaq === i ? 'rotate(45deg)' : 'none', marginTop: '2px' }}>+</span>
                   </div>
-                  {openFaq === i && <div style={{ padding: '0 28px 20px', fontSize: '13px', color: '#666', lineHeight: '1.8' }}>{item.a}</div>}
+                  {openFaq === i && (
+                    <div style={{ fontSize: '13px', color: '#666', lineHeight: '1.8', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #F0F0F0' }}>
+                      {item.a}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
