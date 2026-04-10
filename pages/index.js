@@ -229,29 +229,13 @@ export default function Home() {
         {/* ── HERO ── */}
         <section style={{ background: 'linear-gradient(160deg,#F8F9FA 0%,#fff 55%)', padding: isMobile ? '32px 0 28px' : '52px 0 40px' }}>
           <div style={wrap}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '40px', flexWrap: 'wrap' }}>
-              <div style={{ maxWidth: '540px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '20px', padding: '5px 12px', fontSize: '11px', fontWeight: '600', color: '#16A34A', marginBottom: '20px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', animation: 'pulse 2s infinite' }} />
-                  Taux Aave & Morpho en temps réel
-                </div>
+            <div>
                 <h1 style={{ fontSize: isMobile ? '34px' : '58px', fontWeight: '800', letterSpacing: isMobile ? '-1.5px' : '-2.5px', color: '#111', lineHeight: '1.1', marginBottom: '16px' }}>
                   Empruntez sans<br />vendre votre crypto.
                 </h1>
                 <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.75', maxWidth: '440px' }}>
                   Déposez du BTC ou ETH et empruntez de l'USDC ou USDT. Comparez les taux, LTV et seuils de liquidation sur 6 plateformes.
                 </p>
-              </div>
-              {!isMobile && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1px', background: '#EBEBEB', borderRadius: '14px', overflow: 'hidden', flexShrink: 0, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
-                  {[{ v: '6', l: 'Plateformes' }, { v: '2,56%', l: 'Meilleur taux' }, { v: '97%', l: 'LTV max' }].map(stat => (
-                    <div key={stat.l} style={{ background: '#fff', padding: '22px 28px', textAlign: 'center' }}>
-                      <div style={{ fontSize: '28px', fontWeight: '800', color: '#111', letterSpacing: '-1px' }}>{stat.v}</div>
-                      <div style={{ fontSize: '11px', color: '#888', marginTop: '4px', fontWeight: '500' }}>{stat.l}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </section>
