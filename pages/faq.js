@@ -18,7 +18,7 @@ const FAQS = [
   },
   {
     q: 'Quelle est la différence entre CeFi et DeFi ?',
-    a: 'CeFi (Finance Centralisée) : plateformes comme Nexo et Ledn, avec un service client, une interface simple et une régulation. Votre BTC est détenu par la société. DeFi (Finance Décentralisée) : protocoles comme Aave et Compound, entièrement automatisés par des smart contracts. Taux généralement plus bas, mais plus technique.',
+    a: 'CeFi (Finance Centralisée) : plateformes comme Nexo et Ledn, avec un service client, une interface simple et une régulation. Votre BTC est détenu par la société. DeFi (Finance Décentralisée) : protocoles comme Aave et Morpho, entièrement automatisés par des smart contracts. Taux généralement plus bas, mais plus technique.',
   },
   {
     q: 'Est-ce que Nantix est payant ?',
