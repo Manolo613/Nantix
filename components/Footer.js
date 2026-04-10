@@ -19,11 +19,9 @@ export default function Footer() {
         {[
           { label: 'Emprunter', href: '/' },
           { label: 'Prêter',    href: '/preter' },
-          { label: 'Staker',    href: '/staker' },
+          { label: 'Staking',   href: '/staking' },
           { label: 'Blog',      href: '/blog' },
           { label: 'FAQ',       href: '/faq' },
-          { label: 'Mentions légales', href: '/mentions-legales' },
-          { label: 'Affiliations',     href: '/affiliations' },
         ].map(item => (
           <Link key={item.label} href={item.href} style={{ fontSize: '12px', color: '#BBB', textDecoration: 'none' }}>
             {item.label}
@@ -31,7 +29,7 @@ export default function Footer() {
         ))}
       </div>
       <span style={{ fontSize: '12px', color: '#CCC' }}>
-        © 2025 Nantix · Comparateur indépendant · Pas un conseil financier
+        © 2026 Nantix · Comparateur indépendant · Pas un conseil financier
       </span>
     </footer>
   )
