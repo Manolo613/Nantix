@@ -55,7 +55,6 @@ export default function FAQPage() {
         {/* HERO */}
         <section style={{ background: 'linear-gradient(160deg,#F8F9FA 0%,#fff 60%)', padding: '52px 0 40px' }}>
           <div style={{ maxWidth: '780px', margin: '0 auto', padding: '0 32px' }}>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: '#999', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>FAQ</div>
             <h1 style={{ fontSize: '42px', fontWeight: '800', letterSpacing: '-1.5px', color: '#111', lineHeight: '1.1', marginBottom: '14px' }}>
               Questions fréquentes
             </h1>
